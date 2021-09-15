@@ -1,15 +1,192 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+	state: {
+		Warenkorb: [],
+		produkte: [
+			{
+				'ID': 1,
+				'Name': 'Holz-Tisch mit Stühlen',
+				'Preis': 499.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Tisch mit Stühlen',
+				'Kategorie': 'Tisch',
+				'Link3D': './3D_Files/Tisch_Sessel.gltf',
+			},
+			{
+				'ID': 2,
+				'Name': 'Holz-Tisch',
+				'Preis': 269.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Tisch',
+				'Kategorie': 'Tisch',
+				'Link3D': './3D_Files/Tisch_Holz.gltf',
+			},
+			{
+				'ID': 3,
+				'Name': 'Holz-Plastiksessel',
+				'Preis': 99.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Sessel',
+				'Kategorie': 'Sessel',
+				'Link3D': './3D_Files/sessel_weiss.gltf',
+			},
+			{
+				'ID': 4,
+				'Name': 'Holz-Sessel',
+				'Preis': 189.99,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Sessel',
+				'Kategorie': 'Sessel',
+				'Link3D': './3D_Files/Sessel_holz2.gltf',
+			},
+			{
+				'ID': 5,
+				'Name': 'Chill-Lederhocker',
+				'Preis': 499.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Lederhocker',
+				'Kategorie': 'Sessel',
+				'Link3D': './3D_Files/sessel_hocker.gltf',
+			},
+			{
+				'ID': 6,
+				'Name': 'Zweier Designer-Sessel Set',
+				'Preis': 399.99,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Designer-Sessel Set',
+				'Kategorie': 'Sessel',
+				'Link3D': './3D_Files/Sessel_2_Stack.gltf',
+			},
+			{
+				'ID': 7,
+				'Name': 'Schwarzer Lederhocker',
+				'Preis': 209.99,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Lederhocker',
+				'Kategorie': 'Sessel',
+				'Link3D': './3D_Files/Leder_Sessel.gltf',
+			},
+			{
+				'ID': 8,
+				'Name': 'Lederhocker 2er Set',
+				'Preis': 149.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Lederhocker 2er Set',
+				'Kategorie': 'Sessel',
+				'Link3D': './3D_Files/ZweiSessel/scene.gltf',
+			},
+			{
+				'ID': 9,
+				'Name': 'Gelbe Küche',
+				'Preis': 8499.99,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einer gelben Küche',
+				'Kategorie': 'Küche',
+				'Link3D': './3D_Files/Yellow-Kitchen/scene.gltf',
+			},
+			{
+				'ID': 10,
+				'Name': 'SwingChair',
+				'Preis': 499.99,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem SwingChair',
+				'Kategorie': 'Sessel',
+				'Link3D': './3D_Files/SwingChair/scene.gltf',
+			},
+			{
+				'ID': 11,
+				'Name': 'Spongebob-Bett',
+				'Preis': 495.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Spongebob-Bett',
+				'Kategorie': 'Bett',
+				'Link3D': './3D_Files/Spongebob_bed/scene.gltf',
+			},
+			{
+				'ID': 12,
+				'Name': 'Einfcher-Tisch weiß',
+				'Preis': 419.99,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem einfachen weißen Tisch',
+				'Kategorie': 'Tisch',
+				'Link3D': './3D_Files/Simple_Dining_table/scene.gltf',
+			},
+			{
+				'ID': 13,
+				'Name': 'Orangene Couch',
+				'Preis': 899.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einer orangenen Couch ',
+				'Kategorie': 'Couch',
+				'Link3D': './3D_Files/Orange_Couch/scene.gltf',
+			},
+			{
+				'ID': 14,
+				'Name': 'Büro-Stuhl Schwarz',
+				'Preis': 134.99,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Büro-Sessel',
+				'Kategorie': 'Sessel',
+				'Link3D': './3D_Files/OfficeChair/scene.gltf',
+			},
+			{
+				'ID': 15,
+				'Name': 'Moderne Küche',
+				'Preis': 9499.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einer modernen Küche',
+				'Kategorie': 'Küche',
+				'Link3D': './3D_Files/Modern_Kitchen/scene.gltf',
+			},
+			{
+				'ID': 16,
+				'Name': 'Moderne Couch',
+				'Preis': 1799.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einer modernen Couch',
+				'Kategorie': 'Couch',
+				'Link3D': './3D_Files/Modern_Couch/scene.gltf',
+			},
+			{
+				'ID': 17,
+				'Name': 'Liegestuhl',
+				'Preis': 1499.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Liegestuhl',
+				'Kategorie': 'Stuhl',
+				'Link3D': './3D_Files/LiegeStuhl/scene.gltf',
+			},
+			{
+				'ID': 18,
+				'Name': 'Klappstuhl',
+				'Preis': 39.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Klappstuhl',
+				'Kategorie': 'Stuhl',
+				'Link3D': './3D_Files/KlappStuhl/scene.gltf',
+			},
+			{
+				'ID': 19,
+				'Name': 'Krankenhaus-Bett Vintagelook',
+				'Preis': 1999.0,
+				'Kurzbeschreibung':
+					'Ich bin eine Kurzbeschreibung zu einem Krankenhaus-Bett im Vintagelook',
+				'Kategorie': 'Bett',
+				'Link3D': './3D_Files/HospitalBed/scene.gltf',
+			},
+			{
+				'ID': 20,
+				'Name': 'Graue einfache Küche',
+				'Preis': 1999.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einer einfachen Küche in Grau',
+				'Kategorie': 'Küche',
+				'Link3D': './3D_Files/Grey_Kitchen/scene.gltf',
+			},
+			{
+				'ID': 21,
+				'Name': 'Designer-Glasstisch',
+				'Preis': 495.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Glastisch',
+				'Kategorie': 'Tisch',
+				'Link3D': './3D_Files/Glastisch/scene.gltf',
+			},
+			{
+				'ID': 22,
+				'Name': 'Mädchenbett',
+				'Preis': 495.0,
+				'Kurzbeschreibung': 'Ich bin eine Kurzbeschreibung zu einem Mädchenbett',
+				'Kategorie': 'Bett',
+				'Link3D': './3D_Files/Girlbed/scene.gltf',
+			},
+		],
+	},
+	mutations: {},
+	actions: {},
+	modules: {},
+});
