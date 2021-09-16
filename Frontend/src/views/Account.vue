@@ -1,13 +1,8 @@
 <template>
-  <h1>Account</h1>
+	<h1 class="text-center pt-6">Account</h1>
 </template>
-
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

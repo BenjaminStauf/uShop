@@ -37,7 +37,7 @@
 		</div>
 	</div>
   <div v-else>
-    <h1>Es sind noch keine Produkte vorhanden</h1>
+    <h1 class="text-center pt-6">Es sind noch keine Produkte vorhanden</h1>
   </div>
 </template>
 
