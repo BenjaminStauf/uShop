@@ -1,9 +1,12 @@
 <template>
   <div>
+    <!--Überschrift-->
     <h1 class="black--text center text-center pt-4">
       <span class="black--text display-3">u</span
       ><span class="cyan--text accent-2 display-3 ">SHOP</span>
     </h1>
+
+    <!--Webseiten-Beschreibung-->
     <p class="black--text pl-6 pr-6 pt-6">
       Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt atque sequi, dignissimos veniam
       quo illo maxime, iste culpa non consectetur recusandae. Delectus fugit pariatur quasi
@@ -15,6 +18,7 @@
       eius accusamus. Nostrum, dolore, optio, nisi aspernatur quos porro rerum iure repellendus
       voluptate architecto eius illo ipsam.
     </p>
+
     <!-- Filter -->
     <v-icon class="black--text ml-6" @click="ToggleFilter()">mdi-filter</v-icon>
     <div v-if="filterShow">
@@ -133,9 +137,9 @@ export default {
     };
   },
   methods: {
-    ToggleFilter(){
-		this.filterShow = !this.filterShow;
-	}
+    ToggleFilter() {
+      this.filterShow = !this.filterShow;
+    },
   },
 };
 </script>

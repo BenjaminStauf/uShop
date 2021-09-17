@@ -4,6 +4,7 @@
       {{ ID }} | {{ Name }} | {{ Preis }}€ | {{ Kurzbeschreibung }} | {{ Kategorie }} |
       {{ Link3D }}
     </h1>
+    
     <router-link :to="{ name: 'Shop' }" class="text-decoration-none">
       <v-btn outlined text class="lime accent-3">Zurück zu den Produkten</v-btn>
     </router-link>

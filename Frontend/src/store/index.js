@@ -192,7 +192,16 @@ export default new Vuex.Store({
       },
     ],
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    LoadProducts(state) {
+      /*Ladet daten aus dem JSON in Produkte-Liste */
+    },
+  },
+  actions: {
+    LoadProducts(context) {
+      //Leitet zur mutation weiter
+      context.commit('LoadProducts');
+    },
+  },
   modules: {},
 });

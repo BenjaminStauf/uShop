@@ -1,8 +1,8 @@
 <template>
+  <!--Navbar-->
   <v-app>
     <v-app-bar color="cyan accent-2" app>
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
-
       <v-spacer></v-spacer>
 
       <v-btn icon>
@@ -33,5 +33,15 @@
 <script>
 export default {
   name: 'app',
+
+  created() {
+    //Vuex-Store holt sich alle Daten aus dem JSON
+    try {
+      this.$store.dispatch('LoadProducts');
+      console.log('Produkte erfolgreich geladen!');
+    } catch (err) {
+      console.log(`Beim laden der Produkte ist ein Fehler aufgetreten! Error: ${err}`);
+    }
+  },
 };
 </script>
