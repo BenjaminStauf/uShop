@@ -7,8 +7,8 @@
 
       <v-btn icon>
         <router-link :to="{ name: 'Shop' }" class="text-decoration-none">
-          <v-icon class="black--text">mdi-home</v-icon></router-link
-        >
+          <v-icon class="black--text">mdi-home</v-icon>
+        </router-link>
       </v-btn>
 
       <v-btn icon>
@@ -19,8 +19,8 @@
 
       <v-btn icon>
         <router-link :to="{ name: 'Basket' }" class="text-decoration-none"
-          ><v-icon class="black--text">mdi-cart-outline</v-icon></router-link
-        >
+          ><v-icon class="black--text">mdi-cart-outline</v-icon>
+        </router-link>
       </v-btn>
     </v-app-bar>
 
