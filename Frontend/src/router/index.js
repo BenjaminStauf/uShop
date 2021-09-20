@@ -5,6 +5,7 @@ import Account from '../views/Account.vue';
 import Basket from '../views/Basket.vue';
 import Product_Detail from '../views/Product_Detail.vue';
 import ErrorSite from '../views/Error404.vue';
+import testSite from '../views/test.vue';
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/Product_Detail',
     name: 'Product_Detail',
     component: Product_Detail,
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: testSite,
   },
   {
     path: '*',

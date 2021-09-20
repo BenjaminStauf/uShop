@@ -36,14 +36,13 @@ export default {
 
   created() {
     //Vuex-Store holt sich alle Daten aus dem JSON
-    this.$store.dispatch("PostWarenkorb", "Benni")
+    this.$store.dispatch('PostWarenkorb', 'Benni');
 
     try {
       this.$store.dispatch('LoadProducts');
-      console.log('Produkte erfolgreich geladen!');
     } catch (err) {
       console.log(`Beim laden der Produkte ist ein Fehler aufgetreten! Error: ${err}`);
-    }
+    } 
   },
 };
 </script>
