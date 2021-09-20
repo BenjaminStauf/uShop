@@ -41,6 +41,7 @@
         </v-card>
       </div>
     </v-container>
+    <h3>{{Summe_Warenkorb}}</h3>
   </div>
   <div v-else>
     <h1 class="text-center pt-6">Es sind noch keine Produkte vorhanden</h1>
@@ -49,9 +50,18 @@
 
 <script>
 export default {
+  data() {
+    return {
+      Summe_Warenkorb: 0
+    }
+  },
   created() {
     this.$store.state.Warenkorb = JSON.parse(localStorage.getItem('test') || '[]');
-	console.table(this.$store.state.Warenkorb);
+	  console.table(this.$store.state.Warenkorb);
+
+    this.$store.state.Warenkorb.forEach(element => {
+      this.Summe_Warenkorb += element.Preis
+    });
   },
   methods: {
     WarenkorbRemove(produktZuLöschen) {
