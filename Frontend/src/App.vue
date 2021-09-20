@@ -36,6 +36,8 @@ export default {
 
   created() {
     //Vuex-Store holt sich alle Daten aus dem JSON
+    this.$store.dispatch("PostWarenkorb", "Benni")
+
     try {
       this.$store.dispatch('LoadProducts');
       console.log('Produkte erfolgreich geladen!');

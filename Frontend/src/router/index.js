@@ -4,6 +4,7 @@ import Shop from '../views/Shop.vue';
 import Account from '../views/Account.vue';
 import Basket from '../views/Basket.vue';
 import Product_Detail from '../views/Product_Detail.vue';
+import ErrorSite from '../views/Error404.vue';
 
 Vue.use(VueRouter);
 
@@ -28,20 +29,15 @@ const routes = [
     name: 'Product_Detail',
     component: Product_Detail,
   },
+  {
+    path: '*',
+    name: 'Error',
+    component: ErrorSite,
+  },
 ];
 
 const router = new VueRouter({
   routes,
 });
-
-router.beforeEach((to, from, next) => {
-	routes.forEach(route => {
-		if(route.name == to.name){
-			console.log(`Du wirst mit "${to.name}" verbunden`)
-			//Weiterleitung wenn es die Route gab
-			next();
-		}
-	})
-})
 
 export default router;
