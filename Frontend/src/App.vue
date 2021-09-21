@@ -50,6 +50,12 @@ export default {
 			console.log(`Beim laden der Produkte ist ein Fehler aufgetreten! Error: ${err}`);
 		}
 
+		try {
+			this.$store.dispatch('LoadCategories');
+		} catch (err) {
+			console.log(`Beim laden der Kategorien ist ein Fehler aufgetreten! Error: ${err}`);
+		}
+
     eventBus.$on('UpdateLocalStorage', () => {
       this.AnzahlImWarenkorb = JSON.parse(localStorage.getItem('test')).length
     })

@@ -9,7 +9,6 @@
 </template>
 
 <script>
-name: 'test';
 import Card from '../components/Card_C.vue';
 
 export default {

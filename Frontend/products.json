@@ -1,4 +1,11 @@
 {
+  "kategorien": [
+    { "ID": 1, "Name": "Tisch" },
+    { "ID": 2, "Name": "Sessel" },
+    { "ID": 3, "Name": "Bett" },
+    { "ID": 4, "Name": "Couch" },
+    { "ID": 5, "Name": "Küche" }
+  ],
   "productList": [
     {
       "ProduktID": 1,
