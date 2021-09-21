@@ -60,7 +60,7 @@
                 :to="{
                   name: 'Product_Detail',
                   params: {
-                    ID: produkte.ID,
+                    ID: produkte.ProduktID,
                     Name: produkte.Name,
                     Preis: produkte.Preis,
                     Kurzbeschreibung: produkte.Kurzbeschreibung,

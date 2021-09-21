@@ -34,7 +34,7 @@
 								Zum produkt
 							</v-btn>
 						</router-link>
-						<v-btn outlined text class="red accent-3 ml-3" @click="WarenkorbRemove(produkte)">
+						<v-btn outlined text class="red accent-3 ml-3" @click="WarenkorbRemove(produkte.ID)">
 							Produkt löschen
 						</v-btn>
 					</v-card-actions>
@@ -53,27 +53,32 @@ export default {
 	data() {
 		return {
 			Summe_Warenkorb: 0,
+			test: [],
 		};
 	},
 	created() {
 		this.$store.state.Warenkorb = JSON.parse(localStorage.getItem('test') || '[]');
-		console.table(this.$store.state.Warenkorb);
 
 		this.$store.state.Warenkorb.forEach((element) => {
-		this.Summe_Warenkorb += element.Preis;
+			this.Summe_Warenkorb += element.Preis;
 		});
 	},
 	methods: {
 		WarenkorbRemove(produktZuLöschen) {
-			console.log('Funktion wurde aufgerufen');
+			alert(produktZuLöschen);
 			this.$store.state.Warenkorb = this.$store.state.Warenkorb.filter(
-				(produkt) => produkt.ID != produktZuLöschen.ID,
+				(produkt) => produkt.ID !== produktZuLöschen,
 			);
-			console.table(this.$store.state.Warenkorb);
 			//Local Storage Clearen
 			localStorage.clear();
 			//Local Storage neu befüllen
 			localStorage.setItem('test', JSON.stringify(this.$store.state.Warenkorb));
+
+			//Preis updaten:
+			this.Summe_Warenkorb = 0;
+			this.$store.state.Warenkorb.forEach((element) => {
+				this.Summe_Warenkorb += element.Preis;
+			});
 		},
 	},
 };
