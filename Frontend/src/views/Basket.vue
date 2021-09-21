@@ -41,24 +41,32 @@
 				</v-card>
 			</div>
 		</v-container>
-		<h3>Summe aller Produkte: {{ Summe_Warenkorb }}€</h3>
-		<h3>Anzahl im Warenkorb: {{AnzahlImWarenkorb}}</h3>
-		
+		<v-divider></v-divider>
+
+		<v-container class="d-flex flex-wrap justify-space-around pt-4">
+			<h3>Summe aller Produkte: {{ Summe_Warenkorb }}€</h3>
+			<v-btn @click="Bezahlen()" outlined text class="lime accent-3">
+				Bezahlen
+			</v-btn>
+		</v-container>
 	</div>
 	<div v-else>
 		<h1 class="text-center pt-6">Es sind noch keine Produkte vorhanden</h1>
+		<v-snackbar v-model="snackbar" :timeout="timeout">{{ text }}</v-snackbar>
 	</div>
 </template>
 
 <script>
-
-import eventBus from '../eventbus'
+import eventBus from '../eventbus';
 export default {
 	data() {
 		return {
 			Summe_Warenkorb: 0,
 			test: [],
-			AnzahlImWarenkorb : this.$store.state.Warenkorb.length, 
+			AnzahlImWarenkorb: this.$store.state.Warenkorb.length,
+			snackbar: false,
+			text: `Der Artikel wurde erfolgreich gelöscht`,
+			timeout: 1000,
 		};
 	},
 	created() {
@@ -70,7 +78,6 @@ export default {
 	},
 	methods: {
 		WarenkorbRemove(produktZuLöschen) {
-			alert(produktZuLöschen);
 			this.$store.state.Warenkorb = this.$store.state.Warenkorb.filter(
 				(produkt) => produkt.ID !== produktZuLöschen,
 			);
@@ -86,7 +93,12 @@ export default {
 			});
 
 			//Update Badge
-			eventBus.$emit("UpdateLocalStorage")
+			eventBus.$emit('UpdateLocalStorage');
+
+			this.snackbar = true;
+		},
+		Bezahlen() {
+			alert('Sie werden zum Bezahlen weitergeleitet');
 		},
 	},
 };
