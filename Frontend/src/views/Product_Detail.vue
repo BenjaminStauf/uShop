@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import eventBus from '../eventbus'
+
 export default {
 	data() {
 		return {
@@ -51,6 +53,8 @@ export default {
 			console.table(this.$store.state.Warenkorb);
 
 			this.snackbar = true;
+
+			eventBus.$emit("UpdateLocalStorage")
 		},
 	},
 };

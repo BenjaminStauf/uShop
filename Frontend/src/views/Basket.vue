@@ -41,7 +41,9 @@
 				</v-card>
 			</div>
 		</v-container>
-		<h3>{{ Summe_Warenkorb }}</h3>
+		<h3>Summe aller Produkte: {{ Summe_Warenkorb }}€</h3>
+		<h3>Anzahl im Warenkorb: {{AnzahlImWarenkorb}}</h3>
+		
 	</div>
 	<div v-else>
 		<h1 class="text-center pt-6">Es sind noch keine Produkte vorhanden</h1>
@@ -49,11 +51,14 @@
 </template>
 
 <script>
+
+import eventBus from '../eventbus'
 export default {
 	data() {
 		return {
 			Summe_Warenkorb: 0,
 			test: [],
+			AnzahlImWarenkorb : this.$store.state.Warenkorb.length, 
 		};
 	},
 	created() {
@@ -79,6 +84,9 @@ export default {
 			this.$store.state.Warenkorb.forEach((element) => {
 				this.Summe_Warenkorb += element.Preis;
 			});
+
+			//Update Badge
+			eventBus.$emit("UpdateLocalStorage")
 		},
 	},
 };
