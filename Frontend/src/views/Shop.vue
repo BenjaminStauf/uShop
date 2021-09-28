@@ -22,7 +22,7 @@
 		<!-- Filter -->
 		<v-icon class="black--text ml-6" @click="ToggleFilter()">mdi-filter</v-icon>
 		<v-container align="center" v-if="filterShow">
-			<v-row align="center">
+			<v-row justify="center">
 				<ul v-for="Kategorie in $store.state.Kategorien" :key="Kategorie.ID">
 					<v-checkbox
 						color="cyan darken-2 "
@@ -33,12 +33,11 @@
 				</ul>
 			</v-row>
 		</v-container>
-		<p>{{ filterPreis }}</p>
 		<!-- Produkte anzeigen: -->
 
 		<!-- Wenn kein Filter gesetzt ist, werden alle angezeigt -->
 		<div v-if="selected.length == 0">
-			<v-container class="d-flex flex-wrap justify-space-around">
+			<v-container class="d-flex flex-wrap justify-space-around justify-center align-center">
 				<div v-for="produkte in $store.state.produkte" :key="produkte.ID">
 					<!-- Filter -->
 
@@ -66,6 +65,7 @@
 										Kurzbeschreibung: produkte.Kurzbeschreibung,
 										Kategorie: produkte.Kategorie,
 										Link3D: produkte.Link3D,
+										Berwertung: produkte.Berwertung
 									},
 								}"
 								class="text-decoration-none"
@@ -83,7 +83,7 @@
 
 		<!-- Wenn ein Filter gesetzt ist, werden nur diese Angezeigt -->
 		<div v-else>
-			<v-container class="d-flex flex-wrap justify-space-around">
+			<v-container class="d-flex flex-wrap justify-space-around justify-center">
 				<div v-for="produkte in $store.state.produkte" :key="produkte.ID">
 					<!-- Filter -->
 					<div v-if="selected.includes(produkte.Kategorie)">
@@ -110,6 +110,8 @@
 											Kurzbeschreibung: produkte.Kurzbeschreibung,
 											Kategorie: produkte.Kategorie,
 											Link3D: produkte.Link3D,
+											Berwertung: produkte.Berwertung
+
 										},
 									}"
 									class="text-decoration-none"
@@ -135,7 +137,7 @@ export default {
 			name: 'Test',
 			selected: [],
 			filterShow: false,
-			filterPreis: null,
+
 		};
 	},
 	methods: {

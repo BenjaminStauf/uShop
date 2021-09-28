@@ -18,6 +18,12 @@
 			</v-btn>
 
 			<v-btn icon>
+				<router-link :to="{ name: 'AboutUs' }" class="text-decoration-none">
+					<v-icon class="black--text">mdi-account-group</v-icon>
+				</router-link>
+			</v-btn>
+
+			<v-btn icon>
 				<router-link :to="{ name: 'Basket' }" class="text-decoration-none">
 					<v-badge :value="AnzahlImWarenkorb" :content="AnzahlImWarenkorb">
             <v-icon class="black--text">mdi-cart-outline</v-icon>

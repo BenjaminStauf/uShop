@@ -6,6 +6,7 @@ import Basket from '../views/Basket.vue';
 import Product_Detail from '../views/Product_Detail.vue';
 import ErrorSite from '../views/Error404.vue';
 import testSite from '../views/test.vue';
+import aboutUs from '../views/AboutUs.vue'
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,11 @@ const routes = [
     path: '/test',
     name: 'Test',
     component: testSite,
+  },
+  {
+    path: '/aboutUs',
+    name: 'AboutUs',
+    component: aboutUs,
   },
   {
     path: '*',
