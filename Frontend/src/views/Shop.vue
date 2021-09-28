@@ -110,5 +110,9 @@ export default {
       this.filterShow = !this.filterShow;
     },
   },
+  created() {
+    //Local Storage löschen
+    localStorage.removeItem('LastObj');
+  },
 };
 </script>

@@ -13,7 +13,6 @@
       </v-col>
       <v-divider vertical></v-divider>
       <v-col cols="4">
-        ID: {{ ID }}
         <h2 class="text-center mt-6">{{ Name }}</h2>
         <br />
         <h3 class="ml-3">Kategorie: {{ Kategorie }}</h3>
@@ -99,51 +98,31 @@ export default {
     },
   },
   mounted() {
-    console.log('mounted');
-    let store = JSON.parse(localStorage.getItem('LastObj'))
-    if (store.Name != null) {
-      let erg = localStorage.getItem('LastObj');
+    if (localStorage.getItem('LastObj') == null) {
+      let aktuellObjekt = {
+        ID: this.ID,
+        Name: this.Name,
+        Preis: this.Preis,
+        Kurzbeschreibung: this.Kurzbeschreibung,
+        Kategorie: this.Kategorie,
+        Link3D: this.Link3D,
+        Berwertung: this.Berwertung,
+      };
 
-      this.Name = erg.Name;
-      this.Preis = erg.Preis;
+      //Objekt speichern
+      localStorage.setItem('LastObj', JSON.stringify(aktuellObjekt));
+    } else {
+    
+      let erg = JSON.parse(localStorage.getItem('LastObj'))
+      console.log(erg);
+      this.Name = erg.Name; 
+      this.Preis = erg.Preis; 
+      this.Kategorie = erg.Kategorie; 
       this.Kurzbeschreibung = erg.Kurzbeschreibung;
-      this.Kategorie = erg.Kategorie;
-      this.Link3D = erg.Link3D;
-      this.Berwertung = erg.Berwertung;
-      console.log("If");
+      this.Link3D = erg.Link3D
     }
-    else{
-      console.log("Else");
-    }
+
    
-    //Objekt erstellen
-    let aktuellObjekt = {
-      ID: this.ID,
-      Name: this.Name,
-      Preis: this.Preis,
-      Kurzbeschreibung: this.Kurzbeschreibung,
-      Kategorie: this.Kategorie,
-      Link3D: this.Link3D,
-      Berwertung: this.Berwertung,
-    };
-
-    //Objekt speichern
-    localStorage.setItem('LastObj', JSON.stringify(aktuellObjekt));
-
-    //Objekt laden
-
-    /*
-    let aktuell2 = JSON.stringify(aktuell);
-    let ergCompare = erg.localeCompare(aktuell2);
-    console.log(ergCompare);
-    console.log(`aktuell: ${aktuell2} | storage: ${erg}`);
-*/
-    //   this.Name = erg.Name;
-    //   this.Preis = erg.Preis;
-    //   this.Kurzbeschreibung = erg.Kurzbeschreibung;
-    //   this.Kategorie = erg.Kategorie;
-    //   this.Link3D = erg.Link3D;
-    //   this.Berwertung = erg.Berwertung
   },
 };
 </script>
