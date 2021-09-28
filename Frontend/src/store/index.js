@@ -9,6 +9,10 @@ export default new Vuex.Store({
     Kategorien: [],
     Warenkorb: [],
     produkte: [],
+    produkte_produkteDetail: {
+      warenkorb: [],
+      current_Detail: [],
+    },
   },
 
   mutations: {

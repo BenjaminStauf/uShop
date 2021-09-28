@@ -67,6 +67,7 @@ export default {
 			snackbar: false,
 			text: `Der Artikel wurde erfolgreich gelöscht`,
 			timeout: 1000,
+			
 		};
 	},
 	created() {
@@ -75,6 +76,9 @@ export default {
 		this.$store.state.Warenkorb.forEach((element) => {
 			this.Summe_Warenkorb += element.Preis;
 		});
+
+		
+		
 	},
 	methods: {
 		WarenkorbRemove(produktZuLöschen) {
