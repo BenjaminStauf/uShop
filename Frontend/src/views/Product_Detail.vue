@@ -35,13 +35,9 @@
         <br />
         <br />
 
-        <v-btn
-          outlined
-          text
-          class="lime accent-3"
-          @click="AddBasket"
-          >Zum Warenkorb hinzufügen<v-icon right>mdi-cart-outline</v-icon></v-btn
-        >
+        <v-btn outlined text class="lime accent-3" @click="AddBasket">
+          Zum Warenkorb hinzufügen<v-icon right>mdi-cart-outline</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
     <br />
@@ -77,18 +73,20 @@ export default {
   },
   methods: {
     AddBasket() {
-      this.$store.state.Warenkorb.push({
+      //Item dem Warenkorb hinzufügen
+      this.$store.state.warenkorb.push({
         ID: this.ID,
         Name: this.Name,
         Preis: this.Preis,
         Kurzbeschreibung: this.Kurzbeschreibung,
         Kategorie: this.Kategorie,
         Link3D: this.Link3D,
-        Bewertung: this.Bewertung,
+        Bewertung: this.Bewertung
       });
+      
+      //Warenkorb auch im LocalStorage speichern
+      localStorage.setItem('WarenkorbStorage', JSON.stringify(this.$store.state.warenkorb));
 
-
-      localStorage.setItem('WarenkorbLocalStorage', JSON.stringify(this.$store.state.Warenkorb));
       //Warenkorb Bestätigungsnachricht anzeigen
       this.snackbar = true;
       //Batch aktuallisieren
@@ -98,6 +96,7 @@ export default {
   mounted() {
     //Bei einem Seiten-Refresh wird das Letzte aufgerufene Objekt geladen
     if (localStorage.getItem('LastObj') == null) {
+      //Objekt Speichern
       let aktuellObjekt = {
         ID: this.ID,
         Name: this.Name,
@@ -107,12 +106,10 @@ export default {
         Link3D: this.Link3D,
         Bewertung: this.Bewertung,
       };
-      //Objekt speichern
       localStorage.setItem('LastObj', JSON.stringify(aktuellObjekt));
-    } 
-    else {
+    } else {
+      //Objekt Laden
       let erg = JSON.parse(localStorage.getItem('LastObj'));
-      console.log(erg);
       this.Name = erg.Name;
       this.Preis = erg.Preis;
       this.Kategorie = erg.Kategorie;

@@ -6,13 +6,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    warenkorb: [],
     Kategorien: [],
-    Warenkorb: [],
     produkte: [],
-    produkte_produkteDetail: {
-      warenkorb: [],
-      current_Detail: [],
-    },
   },
 
   mutations: {
@@ -38,5 +34,4 @@ export default new Vuex.Store({
       context.commit('LoadCategories');
     },
   },
-  modules: {},
 });
