@@ -27,7 +27,7 @@
           half-icon="$mdiStarHalfFull"
           length="5"
           size="32"
-          :value="Berwertung"
+          :value="Bewertung"
           readonly
           color="warning"
           background-color="grey"
@@ -39,7 +39,7 @@
           outlined
           text
           class="lime accent-3"
-          @click="AddBasket(ID, Name, Preis, Kurzbeschreibung, Kategorie, Link3D)"
+          @click="AddBasket"
           >Zum Warenkorb hinzufügen<v-icon right>mdi-cart-outline</v-icon></v-btn
         >
       </v-col>
@@ -69,35 +69,34 @@ export default {
       Kurzbeschreibung: this.$route.params.Kurzbeschreibung,
       Kategorie: this.$route.params.Kategorie,
       Link3D: this.$route.params.Link3D,
-      Berwertung: this.$route.params.Berwertung,
+      Bewertung: this.$route.params.Bewertung,
       snackbar: false,
       text: `Der Artikel wurde zum Warenkorb hinzugefügt`,
       timeout: 1000,
     };
   },
   methods: {
-    AddBasket(ID, Name, Preis, Kurzbeschreibung, Kategorie, Link3D) {
+    AddBasket() {
       this.$store.state.Warenkorb.push({
-        ID: ID,
-        Name: Name,
-        Preis: Preis,
-        Kurzbeschreibung: Kurzbeschreibung,
-        Kategorie: Kategorie,
-        Link3D: Link3D,
+        ID: this.ID,
+        Name: this.Name,
+        Preis: this.Preis,
+        Kurzbeschreibung: this.Kurzbeschreibung,
+        Kategorie: this.Kategorie,
+        Link3D: this.Link3D,
+        Bewertung: this.Bewertung,
       });
 
-      localStorage.setItem('test', JSON.stringify(this.$store.state.Warenkorb));
 
-      //
-
-      console.table(this.$store.state.Warenkorb);
-
+      localStorage.setItem('WarenkorbLocalStorage', JSON.stringify(this.$store.state.Warenkorb));
+      //Warenkorb Bestätigungsnachricht anzeigen
       this.snackbar = true;
-
+      //Batch aktuallisieren
       eventBus.$emit('UpdateLocalStorage');
     },
   },
   mounted() {
+    //Bei einem Seiten-Refresh wird das Letzte aufgerufene Objekt geladen
     if (localStorage.getItem('LastObj') == null) {
       let aktuellObjekt = {
         ID: this.ID,
@@ -106,23 +105,21 @@ export default {
         Kurzbeschreibung: this.Kurzbeschreibung,
         Kategorie: this.Kategorie,
         Link3D: this.Link3D,
-        Berwertung: this.Berwertung,
+        Bewertung: this.Bewertung,
       };
-
       //Objekt speichern
       localStorage.setItem('LastObj', JSON.stringify(aktuellObjekt));
-    } else {
-    
-      let erg = JSON.parse(localStorage.getItem('LastObj'))
+    } 
+    else {
+      let erg = JSON.parse(localStorage.getItem('LastObj'));
       console.log(erg);
-      this.Name = erg.Name; 
-      this.Preis = erg.Preis; 
-      this.Kategorie = erg.Kategorie; 
+      this.Name = erg.Name;
+      this.Preis = erg.Preis;
+      this.Kategorie = erg.Kategorie;
       this.Kurzbeschreibung = erg.Kurzbeschreibung;
-      this.Link3D = erg.Link3D
+      this.Link3D = erg.Link3D;
+      this.Bewertung = erg.Bewertung;
     }
-
-   
   },
 };
 </script>
