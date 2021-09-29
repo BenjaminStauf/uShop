@@ -6,6 +6,7 @@ import Basket from '../views/Basket.vue';
 import Product_Detail from '../views/Product_Detail.vue';
 import ErrorSite from '../views/Error404.vue';
 import aboutUs from '../views/AboutUs.vue'
+import register from '../views/Register.vue';
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,11 @@ const routes = [
     name: 'AboutUs',
     component: aboutUs,
   },
+  {
+    path: '/register', 
+    name: "Register", 
+    component: register,
+  }, 
   {
     path: '*',
     name: 'Error',
