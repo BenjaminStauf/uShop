@@ -25,7 +25,7 @@
 
       <v-btn icon>
         <router-link :to="{ name: 'Basket' }" class="text-decoration-none">
-          <v-badge :value="WarenkorbAnzahl" :content="WarenkorbAnzahl">
+          <v-badge :value="WarenkorbAnzahl" :content="WarenkorbAnzahl" :v-if="WarenkorbAnzahl > 0">
             <v-icon class="black--text">mdi-cart-outline</v-icon>
           </v-badge>
         </router-link>
@@ -63,14 +63,10 @@ export default {
     }
 
     //Warenkorb aktuallisieren mit LocalStorage
-    try {
-      this.$store.state.warenkorb = JSON.parse(localStorage.getItem('WarenkorbStorage'));
-      this.WarenkorbAnzahl = this.$store.state.warenkorb.length;
-    } catch {
-      console.log('Fehler ist aufgetreten!');
-    }
+    this.$store.dispatch('ReloadWarenkorbFromLocalStorage');
 
     eventBus.$on('UpdateLocalStorage', () => {
+      console.log();
       this.WarenkorbAnzahl = this.$store.state.warenkorb.length;
     });
   },

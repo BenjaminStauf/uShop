@@ -74,23 +74,19 @@ export default {
   methods: {
     AddBasket() {
       //Item dem Warenkorb hinzufügen
-      this.$store.state.warenkorb.push({
+      let ThisProduct = {
         ID: this.ID,
         Name: this.Name,
         Preis: this.Preis,
         Kurzbeschreibung: this.Kurzbeschreibung,
         Kategorie: this.Kategorie,
         Link3D: this.Link3D,
-        Bewertung: this.Bewertung
-      });
-      
-      //Warenkorb auch im LocalStorage speichern
-      localStorage.setItem('WarenkorbStorage', JSON.stringify(this.$store.state.warenkorb));
+        Bewertung: this.Bewertung,
+      };
+      this.$store.dispatch('PushInWarenkorb', ThisProduct);
 
       //Warenkorb Bestätigungsnachricht anzeigen
       this.snackbar = true;
-      //Batch aktuallisieren
-      eventBus.$emit('UpdateLocalStorage');
     },
   },
   mounted() {
