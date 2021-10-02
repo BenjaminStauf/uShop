@@ -120,30 +120,32 @@ export default {
 			let array = this.$store.state.produkte;
 			let pattern = this.pattern;
 			let filter = new RegExp(pattern, 'i');
-			let newArray = [];
+			let nameArray = [];
 			let returnArray = [];
 			let echtesReturnArray = [];
 
 			if (pattern.length != 0) {
+				//Schreibt alle Produktnamen in ein Array
 				for (const iterator of array) {
-					newArray.push(iterator.Name);
+					nameArray.push(iterator.Name);
 				}
 
-				newArray.forEach((elem) => {
+				//Fügt alle Produktnamen die mit dem SearchString matchen in ein Array
+				nameArray.forEach((elem) => {
 					if (elem.match(filter)) {
 						returnArray.push(elem);
 					}
 				});
 
-				 array.filter((elem) => {
+				//Such zu den Namen in dem Array wo alle gematchten Namen drinstehen das passende Objekt und fügt es in ein Array welches dann returnt wird
+				array.filter((elem) => {
 					if (returnArray.includes(elem.Name)) {
-            console.log("True");
-            echtesReturnArray.push(elem)
-          }
+						console.log('True');
+						echtesReturnArray.push(elem);
+					}
 				});
-				console.log(returnArray);
-				console.log(echtesReturnArray);
-        return echtesReturnArray
+
+				return echtesReturnArray;
 			} else {
 				console.log('else');
 				return array;
