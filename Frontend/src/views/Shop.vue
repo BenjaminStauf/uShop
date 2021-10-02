@@ -47,7 +47,7 @@
 		<!--Produkte anzeigen-->
 		<div>
 			<v-container class="d-flex flex-wrap justify-space-around justify-center align-center">
-				<div v-for="produkt in filterProducts" :key="produkt.ProduktID">
+				<div v-for="produkt in setFilter" :key="produkt.ProduktID">
 					<router-link
 						:to="{
 							name: 'Product_Detail',
@@ -101,56 +101,116 @@ export default {
 		localStorage.removeItem('LastObj');
 	},
 	computed: {
-		changeProducts() {
+		setFilter() {
+			//Variablen für Kategorie Filter:
 			let selected = this.selected;
-			let returnArray;
-			if (selected.length == 0) {
-				returnArray = this.$store.state.produkte;
-			} else {
-				returnArray = this.$store.state.produkte.filter((element) => {
-					if (selected.includes(element.Kategorie)) {
-						return element;
-					}
-				});
-			}
+			let returnArrayKategorie;
 
-			return returnArray;
-		},
-		filterProducts() {
+			//Variablen für Search Filter
 			let array = this.$store.state.produkte;
 			let pattern = this.pattern;
 			let filter = new RegExp(pattern, 'i');
 			let nameArray = [];
 			let returnArray = [];
 			let echtesReturnArray = [];
-
-			if (pattern.length != 0) {
-				//Schreibt alle Produktnamen in ein Array
-				for (const iterator of array) {
-					nameArray.push(iterator.Name);
-				}
-
-				//Fügt alle Produktnamen die mit dem SearchString matchen in ein Array
-				nameArray.forEach((elem) => {
-					if (elem.match(filter)) {
-						returnArray.push(elem);
-					}
-				});
-
-				//Such zu den Namen in dem Array wo alle gematchten Namen drinstehen das passende Objekt und fügt es in ein Array welches dann returnt wird
-				array.filter((elem) => {
-					if (returnArray.includes(elem.Name)) {
-						console.log('True');
-						echtesReturnArray.push(elem);
-					}
-				});
-
-				return echtesReturnArray;
-			} else {
-				console.log('else');
+			//Wenn beide Filter nicht gesetzt sind gibt er das OriginalArray zurück
+			if (selected.length == 0 && pattern.length == 0) {
+				console.log('Kein Filter');
 				return array;
 			}
+			//Nimmt den Kategorie Filter
+			else if (selected.length > 0 && pattern.length == 0) {
+				if (selected.length == 0) {
+					returnArrayKategorie = this.$store.state.produkte;
+				} else {
+					returnArrayKategorie = this.$store.state.produkte.filter((element) => {
+						if (selected.includes(element.Kategorie)) {
+							return element;
+						}
+					});
+				}
+				console.log('Kategorie Filter');
+				return returnArrayKategorie;
+			}
+			//Nimmt den Kategorie Filter
+			else if (selected == 0 && pattern.length > 0) {
+				if (pattern.length != 0) {
+					//Schreibt alle Produktnamen in ein Array
+					for (const iterator of array) {
+						nameArray.push(iterator.Name);
+					}
+
+					//Fügt alle Produktnamen die mit dem SearchString matchen in ein Array
+					nameArray.forEach((elem) => {
+						if (elem.match(filter)) {
+							returnArray.push(elem);
+						}
+					});
+
+					//Such zu den Namen in dem Array wo alle gematchten Namen drinstehen das passende Objekt und fügt es in ein Array welches dann returnt wird
+					array.filter((elem) => {
+						if (returnArray.includes(elem.Name)) {
+							console.log('True');
+							echtesReturnArray.push(elem);
+						}
+					});
+
+					console.log('Search Filter');
+					return echtesReturnArray;
+				} else return array;
+			}
+			//Nimmt beide Filter
+			else {
+				//Todo:
+			}
 		},
+		// changeProducts() {
+		// 	let selected = this.selected;
+		// 	let returnArray;
+		// 	if (selected.length == 0) {
+		// 		returnArray = this.$store.state.produkte;
+		// 	} else {
+		// 		returnArray = this.$store.state.produkte.filter((element) => {
+		// 			if (selected.includes(element.Kategorie)) {
+		// 				return element;
+		// 			}
+		// 		});
+		// 	}
+
+		// 	return returnArray;
+		// },
+		// filterProducts() {
+		// 	let array = this.$store.state.produkte;
+		// 	let pattern = this.pattern;
+		// 	let filter = new RegExp(pattern, 'i');
+		// 	let nameArray = [];
+		// 	let returnArray = [];
+		// 	let echtesReturnArray = [];
+
+		// 	if (pattern.length != 0) {
+		// 		//Schreibt alle Produktnamen in ein Array
+		// 		for (const iterator of array) {
+		// 			nameArray.push(iterator.Name);
+		// 		}
+
+		// 		//Fügt alle Produktnamen die mit dem SearchString matchen in ein Array
+		// 		nameArray.forEach((elem) => {
+		// 			if (elem.match(filter)) {
+		// 				returnArray.push(elem);
+		// 			}
+		// 		});
+
+		// 		//Such zu den Namen in dem Array wo alle gematchten Namen drinstehen das passende Objekt und fügt es in ein Array welches dann returnt wird
+		// 		array.filter((elem) => {
+		// 			if (returnArray.includes(elem.Name)) {
+		// 				console.log('True');
+		// 				echtesReturnArray.push(elem);
+		// 			}
+		// 		});
+
+		// 		return echtesReturnArray;
+		// 	} else return array;
+		// },
 	},
 };
 </script>
