@@ -91,9 +91,11 @@ export default {
 	methods: {
 		ToggleFilter() {
 			this.filterShow = !this.filterShow;
+			if (this.searchShow == true) this.searchShow = false;
 		},
 		ToggleSearch() {
 			this.searchShow = !this.searchShow;
+			if (this.filterShow == true) this.filterShow = false;
 		},
 	},
 	created() {
@@ -164,53 +166,6 @@ export default {
 				//Todo:
 			}
 		},
-		// changeProducts() {
-		// 	let selected = this.selected;
-		// 	let returnArray;
-		// 	if (selected.length == 0) {
-		// 		returnArray = this.$store.state.produkte;
-		// 	} else {
-		// 		returnArray = this.$store.state.produkte.filter((element) => {
-		// 			if (selected.includes(element.Kategorie)) {
-		// 				return element;
-		// 			}
-		// 		});
-		// 	}
-
-		// 	return returnArray;
-		// },
-		// filterProducts() {
-		// 	let array = this.$store.state.produkte;
-		// 	let pattern = this.pattern;
-		// 	let filter = new RegExp(pattern, 'i');
-		// 	let nameArray = [];
-		// 	let returnArray = [];
-		// 	let echtesReturnArray = [];
-
-		// 	if (pattern.length != 0) {
-		// 		//Schreibt alle Produktnamen in ein Array
-		// 		for (const iterator of array) {
-		// 			nameArray.push(iterator.Name);
-		// 		}
-
-		// 		//Fügt alle Produktnamen die mit dem SearchString matchen in ein Array
-		// 		nameArray.forEach((elem) => {
-		// 			if (elem.match(filter)) {
-		// 				returnArray.push(elem);
-		// 			}
-		// 		});
-
-		// 		//Such zu den Namen in dem Array wo alle gematchten Namen drinstehen das passende Objekt und fügt es in ein Array welches dann returnt wird
-		// 		array.filter((elem) => {
-		// 			if (returnArray.includes(elem.Name)) {
-		// 				console.log('True');
-		// 				echtesReturnArray.push(elem);
-		// 			}
-		// 		});
-
-		// 		return echtesReturnArray;
-		// 	} else return array;
-		// },
 	},
 };
 </script>
