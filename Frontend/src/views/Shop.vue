@@ -91,11 +91,11 @@ export default {
 	methods: {
 		ToggleFilter() {
 			this.filterShow = !this.filterShow;
-			if (this.searchShow == true) this.searchShow = false;
+			// if (this.searchShow == true) this.searchShow = false;
 		},
 		ToggleSearch() {
 			this.searchShow = !this.searchShow;
-			if (this.filterShow == true) this.filterShow = false;
+			// if (this.filterShow == true) this.filterShow = false;
 		},
 	},
 	created() {
@@ -134,7 +134,7 @@ export default {
 				console.log('Kategorie Filter');
 				return returnArrayKategorie;
 			}
-			//Nimmt den Kategorie Filter
+			//Nimmt den Search Filter
 			else if (selected == 0 && pattern.length > 0) {
 				if (pattern.length != 0) {
 					//Schreibt alle Produktnamen in ein Array
@@ -163,7 +163,40 @@ export default {
 			}
 			//Nimmt beide Filter
 			else {
-				//Todo:
+				//Zuerst der Search Filter:
+
+				//Schreibt alle Produktnamen in ein Array
+				for (const iterator of array) {
+					nameArray.push(iterator.Name);
+				}
+
+				//Fügt alle Produktnamen die mit dem SearchString matchen in ein Array
+				nameArray.forEach((elem) => {
+					if (elem.match(filter)) {
+						returnArray.push(elem);
+					}
+				});
+
+				//Such zu den Namen in dem Array wo alle gematchten Namen drinstehen das passende Objekt und fügt es in ein Array welches dann returnt wird
+				array.filter((elem) => {
+					if (returnArray.includes(elem.Name)) {
+						console.log('True');
+						echtesReturnArray.push(elem);
+					}
+				});
+
+				//Danach übeberprüft der KategorieFilter ob in dem Returnarray die Kategorien stimmen
+				if (selected.length == 0) {
+					returnArrayKategorie = echtesReturnArray;
+				} else {
+					returnArrayKategorie = echtesReturnArray.filter((element) => {
+						if (selected.includes(element.Kategorie)) {
+							return element;
+						}
+					});
+				}
+
+				return returnArrayKategorie;
 			}
 		},
 	},
