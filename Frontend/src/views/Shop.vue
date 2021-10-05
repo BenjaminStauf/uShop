@@ -1,180 +1,136 @@
 <template>
-	<div>
-		<!--Überschrift-->
-		<h1 class="black--text center text-center pt-4">
-			<span class="black--text display-3">u</span
-			><span class="cyan--text accent-2 display-3 ">SHOP</span>
-		</h1>
+  <div>
+    <!--Überschrift-->
+    <h1 class="black--text center text-center pt-4">
+      <span class="black--text display-3">u</span
+      ><span class="cyan--text accent-2 display-3 ">SHOP</span>
+    </h1>
 
-		<!--Webseiten-Beschreibung-->
-		<p class="black--text pl-6 pr-6 pt-6">
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt atque sequi, dignissimos veniam
-			quo illo maxime, iste culpa non consectetur recusandae. Delectus fugit pariatur quasi
-			accusamus cupiditate ipsam nostrum autem laborum incidunt sed temporibus et vel odit eius
-			laboriosam quo mollitia, eaque laudantium officiis architecto voluptatibus recusandae? Nostrum
-			repellendus mollitia corrupti, esse maiores porro cum adipisci fugit perspiciatis consectetur.
-			Accusantium cupiditate voluptatum error debitis nostrum et ipsum quas sequi, animi numquam
-			optio culpa voluptate possimus impedit laborum minima molestias iusto vero tempora nesciunt
-			eius accusamus. Nostrum, dolore, optio, nisi aspernatur quos porro rerum iure repellendus
-			voluptate architecto eius illo ipsam.
-		</p>
+    <!--Webseiten-Beschreibung-->
+    <p class="black--text pl-6 pr-6 pt-6">
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt atque sequi, dignissimos veniam
+      quo illo maxime, iste culpa non consectetur recusandae. Delectus fugit pariatur quasi
+      accusamus cupiditate ipsam nostrum autem laborum incidunt sed temporibus et vel odit eius
+      laboriosam quo mollitia, eaque laudantium officiis architecto voluptatibus recusandae? Nostrum
+      repellendus mollitia corrupti, esse maiores porro cum adipisci fugit perspiciatis consectetur.
+      Accusantium cupiditate voluptatum error debitis nostrum et ipsum quas sequi, animi numquam
+      optio culpa voluptate possimus impedit laborum minima molestias iusto vero tempora nesciunt
+      eius accusamus. Nostrum, dolore, optio, nisi aspernatur quos porro rerum iure repellendus
+      voluptate architecto eius illo ipsam.
+    </p>
 
-		<!-- Filter Kategorie-->
-		<v-icon class="black--text ml-6" @click="filterShow = !filterShow">mdi-filter</v-icon>
-		<v-container align="center" v-if="filterShow">
-			<v-row justify="center">
-				<ul v-for="Kategorie in $store.state.Kategorien" :key="Kategorie.ID">
-					<v-checkbox
-						color="cyan darken-2 "
-						v-bind:label="Kategorie.Name"
-						v-bind:value="Kategorie.Name"
-						v-model="selected"
-					></v-checkbox>
-				</ul>
-			</v-row>
-		</v-container>
+    <!-- Filter Kategorie-->
+    <v-icon class="black--text ml-6" @click="filterShow = !filterShow">mdi-filter</v-icon>
+    <v-container align="center" v-if="filterShow">
+      <v-row justify="center">
+        <ul v-for="Kategorie in $store.state.Kategorien" :key="Kategorie.ID">
+          <v-checkbox
+            color="cyan darken-2 "
+            v-bind:label="Kategorie.Name"
+            v-bind:value="Kategorie.Name"
+            v-model="selected"
+          ></v-checkbox>
+        </ul>
+      </v-row>
+    </v-container>
 
-		<!-- Filter search -->
-		<v-icon class="black--text ml-6" @click="searchShow = !searchShow">mdi-magnify</v-icon>
-		<v-container class="justify-center" v-if="searchShow">
-			<v-col cols="4" class="pt-4 justify-center">
-				<v-row class="justify-center">
-					<v-text-field label="Suchen" solo v-model="pattern"></v-text-field>
-				</v-row>
-			</v-col>
-		</v-container>
+    <!-- Filter search -->
+    <v-icon class="black--text ml-6" @click="searchShow = !searchShow">mdi-magnify</v-icon>
+    <v-container class="justify-center" v-if="searchShow">
+      <v-col cols="4" class="pt-4 justify-center">
+        <v-row class="justify-center">
+          <v-text-field label="Suchen" solo v-model="pattern"></v-text-field>
+        </v-row>
+      </v-col>
+    </v-container>
 
-		<!--Produkte anzeigen-->
-		<div>
-			<v-container class="d-flex flex-wrap justify-space-around justify-center align-center">
-				<div v-for="produkt in setFilter" :key="produkt.ProduktID">
-					<router-link
-						:to="{
-							name: 'Product_Detail',
-							params: {
-								ID: produkt.ProduktID,
-								Name: produkt.Name,
-								Preis: produkt.Preis,
-								Kurzbeschreibung: produkt.Kurzbeschreibung,
-								Kategorie: produkt.Kategorie,
-								Link3D: produkt.Link3D,
-								Bewertung: produkt.Bewertung,
-							},
-						}"
-					>
-						<Card :_productObj="produkt" />
-					</router-link>
-				</div>
-			</v-container>
-		</div>
-	</div>
+    <!--Produkte anzeigen-->
+    <div>
+      <v-container class="d-flex flex-wrap justify-space-around justify-center align-center">
+        <div v-for="produkt in setFilter" :key="produkt.ProduktID">
+          <router-link
+            :to="{
+              name: 'Product_Detail',
+              params: {
+                ID: produkt.ProduktID,
+                Name: produkt.Name,
+                Preis: produkt.Preis,
+                Kurzbeschreibung: produkt.Kurzbeschreibung,
+                Kategorie: produkt.Kategorie,
+                Link3D: produkt.Link3D,
+                Bewertung: produkt.Bewertung,
+              },
+            }"
+          >
+            <Card :_productObj="produkt" />
+          </router-link>
+        </div>
+      </v-container>
+    </div>
+  </div>
 </template>
 
 <script>
 import Card from '../components/Card.vue';
 
 export default {
-	name: 'Shop',
+  name: 'Shop',
 
-	components: {
-		Card,
-	},
-	data() {
-		return {
-			name: 'Test',
-			selected: [],
-			filterShow: false,
-			searchShow: false,
-			pattern: '',
-		};
-	},
-	methods: {
-		searchFilter() {},
-		kategorieFilter() {},
-	},
-	created() {
-		//Letztes Item aus dem LocalStorage löschen
-		localStorage.removeItem('LastObj');
-	},
-	computed: {
-		setFilter() {
-			//Variablen für Kategorie Filter:
-			let selected = this.selected;
-			let returnArrayKategorie;
+  components: {
+    Card,
+  },
+  data() {
+    return {
+      name: 'Test',
+      selected: [],
+      filterShow: false,
+      searchShow: false,
+      pattern: '',
+    };
+  },
+  methods: {
+    searchFilter() {},
+    kategorieFilter() {},
+  },
+  created() {
+    //Letztes Item aus dem LocalStorage löschen
+    localStorage.removeItem('LastObj');
+  },
 
-			//Variablen für Search Filter
-			let array = this.$store.state.produkte;
-			let pattern = this.pattern;
-			let filter = new RegExp(pattern, 'i');
-			let nameArray = [];
-			let returnArray = [];
-			let echtesReturnArray = [];
-			//Wenn beide Filter nicht gesetzt sind gibt er das OriginalArray zurück
-			if (selected.length == 0 && pattern.length == 0) {
-				console.log('Kein Filter');
-				return array;
-			}
-			//Nimmt den Kategorie Filter
-			else if (selected.length > 0 && pattern.length == 0) {
-				if (selected.length == 0) {
-					returnArrayKategorie = this.$store.state.produkte;
-				} else {
-					returnArrayKategorie = this.$store.state.produkte.filter((element) => {
-						if (selected.includes(element.Kategorie)) {
-							return element;
-						}
-					});
-				}
-				console.log('Kategorie Filter');
-				return returnArrayKategorie;
-			}
-			//Nimmt den Search Filter
-			else if (selected == 0 && pattern.length > 0) {
-				console.log(array);
-				echtesReturnArray = array.filter((el) =>
-					el.Name.toLowerCase().includes(pattern.toLowerCase()),
-				);
-				console.log(echtesReturnArray);
-				return echtesReturnArray;
-			}
-			//Nimmt beide Filter
-			else {
-				//Zuerst der Search Filter:
+  computed: {
+    setFilter() {
+      //Variablen für Kategorie Filter:
+      let selected = this.selected;
+      //Variablen für Search Filter
+      let ProduktArray = this.$store.state.produkte;
+      let pattern = this.pattern;
 
-				//Schreibt alle Produktnamen in ein Array
-				for (const iterator of array) {
-					nameArray.push(iterator.Name);
-				}
+      //Filter-Vorgang
+      //   return ProduktArray.filter((Produkt) => {
+      //     //Wenn keine Kategorie gewählt wurde
+      //     if (selected.length == 0) {
+      //       return Produkt.Name.toLowerCase().includes(pattern.toLowerCase());
+      //     }
+      //     //Wenn eine Kategorie gewählt wurde
+      //     else {
+      //       if (
+      //         Produkt.Name.toLowerCase().includes(pattern.toLowerCase()) &&
+      //         selected.includes(Produkt.Kategorie)
+      //       ) {
+      //         return Produkt;
+      //       }
+      //     }
+      //   });
 
-				//Fügt alle Produktnamen die mit dem SearchString matchen in ein Array
-				nameArray.forEach((elem) => {
-					if (elem.match(filter)) {
-						returnArray.push(elem);
-					}
-				});
-
-				//Such zu den Namen in dem Array wo alle gematchten Namen drinstehen das passende Objekt und fügt es in ein Array welches dann returnt wird
-				array.filter((elem) => {
-					if (returnArray.includes(elem.Name)) {
-						console.log('True');
-						echtesReturnArray.push(elem);
-					}
-				});
-
-				//Danach übeberprüft der KategorieFilter ob in dem Returnarray die Kategorien stimmen
-				if (selected.length == 0) {
-					returnArrayKategorie = echtesReturnArray;
-				} else {
-					returnArrayKategorie = echtesReturnArray.filter((element) => {
-						if (selected.includes(element.Kategorie)) {
-							return element;
-						}
-					});
-				}
-
-				return returnArrayKategorie;
-			}
-		},
-	},
+      return ProduktArray.filter((Produkt) => 
+        selected.length == 0
+          ? Produkt.Name.toLowerCase().includes(pattern.toLowerCase())
+          : Produkt.Name.toLowerCase().includes(pattern.toLowerCase()) &&
+            selected.includes(Produkt.Kategorie)
+          ? Produkt
+          : console.log("Nix")
+      );
+    },
+  },
 };
 </script>
