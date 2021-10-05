@@ -105,7 +105,7 @@ export default {
       let ProduktArray = this.$store.state.produkte;
       let pattern = this.pattern;
 
-      //Filter-Vorgang
+      //Filter-Vorgang für Schaulustige(Lukas)
       //   return ProduktArray.filter((Produkt) => {
       //     //Wenn keine Kategorie gewählt wurde
       //     if (selected.length == 0) {
@@ -122,13 +122,14 @@ export default {
       //     }
       //   });
 
-      return ProduktArray.filter((Produkt) => 
+      //Filter-Vorgang
+      return ProduktArray.filter((Produkt) =>
         selected.length == 0
           ? Produkt.Name.toLowerCase().includes(pattern.toLowerCase())
           : Produkt.Name.toLowerCase().includes(pattern.toLowerCase()) &&
             selected.includes(Produkt.Kategorie)
           ? Produkt
-          : console.log("Nix")
+          : console.log('Nix'),
       );
     },
   },
