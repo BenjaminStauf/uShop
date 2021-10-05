@@ -20,7 +20,7 @@
 		</p>
 
 		<!-- Filter Kategorie-->
-		<v-icon class="black--text ml-6" @click="ToggleFilter()">mdi-filter</v-icon>
+		<v-icon class="black--text ml-6" @click="filterShow = !filterShow">mdi-filter</v-icon>
 		<v-container align="center" v-if="filterShow">
 			<v-row justify="center">
 				<ul v-for="Kategorie in $store.state.Kategorien" :key="Kategorie.ID">
@@ -35,7 +35,7 @@
 		</v-container>
 
 		<!-- Filter search -->
-		<v-icon class="black--text ml-6" @click="ToggleSearch()">mdi-magnify</v-icon>
+		<v-icon class="black--text ml-6" @click="searchShow = !searchShow">mdi-magnify</v-icon>
 		<v-container class="justify-center" v-if="searchShow">
 			<v-col cols="4" class="pt-4 justify-center">
 				<v-row class="justify-center">
@@ -89,14 +89,8 @@ export default {
 		};
 	},
 	methods: {
-		ToggleFilter() {
-			this.filterShow = !this.filterShow;
-			// if (this.searchShow == true) this.searchShow = false;
-		},
-		ToggleSearch() {
-			this.searchShow = !this.searchShow;
-			// if (this.filterShow == true) this.filterShow = false;
-		},
+		searchFilter() {},
+		kategorieFilter() {},
 	},
 	created() {
 		//Letztes Item aus dem LocalStorage löschen
@@ -136,30 +130,12 @@ export default {
 			}
 			//Nimmt den Search Filter
 			else if (selected == 0 && pattern.length > 0) {
-				if (pattern.length != 0) {
-					//Schreibt alle Produktnamen in ein Array
-					for (const iterator of array) {
-						nameArray.push(iterator.Name);
-					}
-
-					//Fügt alle Produktnamen die mit dem SearchString matchen in ein Array
-					nameArray.forEach((elem) => {
-						if (elem.match(filter)) {
-							returnArray.push(elem);
-						}
-					});
-
-					//Such zu den Namen in dem Array wo alle gematchten Namen drinstehen das passende Objekt und fügt es in ein Array welches dann returnt wird
-					array.filter((elem) => {
-						if (returnArray.includes(elem.Name)) {
-							console.log('True');
-							echtesReturnArray.push(elem);
-						}
-					});
-
-					console.log('Search Filter');
-					return echtesReturnArray;
-				} else return array;
+				console.log(array);
+				echtesReturnArray = array.filter((el) =>
+					el.Name.toLowerCase().includes(pattern.toLowerCase()),
+				);
+				console.log(echtesReturnArray);
+				return echtesReturnArray;
 			}
 			//Nimmt beide Filter
 			else {
