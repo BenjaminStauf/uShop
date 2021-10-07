@@ -13,7 +13,7 @@
 									label="Email"
 									clearable
 									required
-									:rules="[rules.email]"
+									:rules="rules.EmailRules"
 								></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="12">
@@ -29,8 +29,10 @@
 							</v-col>
 							<v-btn type="submit" @click="submit">Submit</v-btn>
 						</v-row>
-						<br>
-						<router-link class="black--text text-decoration-none" :to="{name: 'Register'}"><p>Zurück zum <span>Registrieren</span></p></router-link>
+						<br />
+						<router-link class="black--text text-decoration-none" :to="{ name: 'Register' }"
+							><p>Zurück zum <span>Registrieren</span></p></router-link
+						>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -47,23 +49,39 @@ export default {
 			show1: false,
 			rules: {
 				required: [(val) => (val || '').length > 0 || 'This field is required'],
-				email: (value) => {
-					const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<script>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-					return pattern.test(value) || 'Invalid e-mail.';
-				},
+				EmailRules: [
+					(value) => !!value || 'Required.',
+					(value) => {
+						const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+						return pattern.test(value) || 'Invalid e-mail.';
+					},
+				],
 			},
 		};
 	},
 	methods: {
 		submit() {
-			console.log('Submit');
+			let userArray = JSON.parse(localStorage.getItem('User'));
+			let inpuEmail = this.email;
+			let inputPasswort = this.password;
+			console.log(inpuEmail);
+			console.log(inputPasswort);
+
+			for (const iterator of userArray) {
+				console.log(iterator);
+				if (iterator.Email == inpuEmail && iterator.Passwort) {
+					this.$router.push('Account');
+				} else console.log('Fehler');
+			}
+			console.table(userArray);
 		},
 	},
+	mounted() {},
 };
 </script>
 
 <style>
-span{
+span {
 	color: rgb(9, 156, 9);
 	font-weight: bold;
 }
