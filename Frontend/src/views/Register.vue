@@ -1,58 +1,169 @@
 <template>
-	<div>
-		<h1 class="text-center">Register</h1>
-		<h3 class="text-center pt-6">
-			Willkommen, wenn Sie noch kein Konto haben können sie hier kostelos eines erstellen.
-		</h3>
-		<br />
-		<br />
-		<v-form>
-			<v-container class="d-flex flex-wrap justify-space-around">
-				<v-row class=" red justify-center">
-					<v-col cols="12" md="3">
-						<v-text-field
-							v-model="firstname"
-							:rules="nameRules"
-							label="Vorname"
-							required
-						></v-text-field>
-					</v-col>
-
-					<v-col cols="12" md="3">
-						<v-text-field
-							v-model="lastname"
-							:rules="nameRules"
-							label="Nachname"
-							required
-						></v-text-field>
-					</v-col>
-				</v-row>
-				<v-row class="lime justify-center">
-					<v-col cols="12" md="3">
-						<v-text-field v-model="email" :rules="emailRule" label="Email" required> </v-text-field>
-					</v-col>
-				</v-row>
-			</v-container>
-		</v-form>
-    <br>
-    <br>
-		<p class="black--text text-center">
-			Wenn sie bereits einen Account haben, können Sie sich hier anmelden:
-			<router-link :to="{ name: 'Login' }">Login</router-link>
-		</p>
-	</div>
+  <div>
+    <h1 class="text-center">Register</h1>
+    <h3 class="text-center pt-6">
+      Willkommen, wenn Sie noch kein Konto haben können sie hier kostelos eines erstellen.
+    </h3>
+    <br />
+    <br />
+    <v-form>
+      <v-container class="d-flex flex-wrap justify-space-around">
+        <!--Vor-Nachname- Inputs-->
+        <v-row>
+          <v-col md="1"></v-col>
+          <v-col md="10">
+            <!--MeinSpalte wo Inputs liegen-->
+            <v-row class="justify-center">
+              <v-col md="4">
+                <v-text-field
+                  label="Vorname"
+                  v-model="Vorname"
+                  :rules="rules.NormalRules"
+                  hide-details="auto"
+                />
+              </v-col>
+              <v-col md="1"></v-col>
+              <v-col md="4">
+                <v-text-field
+                  label="Nachname"
+                  v-model="Nachname"
+                  :rules="rules.NormalRules"
+                  hide-details="auto"
+                />
+              </v-col>
+            </v-row>
+            <!--Email Input-->
+            <v-row class="justify-center">
+              <v-col md="9">
+                <v-text-field
+                  label="E-Mail"
+                  v-model="Email"
+                  :rules="rules.EmailRules"
+                  hide-details="auto"
+                />
+              </v-col>
+            </v-row>
+            <!--Passwort-->
+            <v-row class="justify-center">
+              <v-col md="4">
+                <v-text-field
+                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                  :rules="rules.NormalRules"
+                  :type="show ? 'text' : 'password'"
+                  name="input-10-1"
+                  label="Passwort"
+                  v-model="Passwort1"
+                  @click:append="show = !show"
+                />
+              </v-col>
+              <v-col md="1"></v-col>
+              <v-col md="4"
+                ><v-text-field
+                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                  :rules="rules.NormalRules"
+                  :type="show ? 'text' : 'password'"
+                  name="input-10-1"
+                  label="Passwort"
+                  v-model="Passwort2"
+                  @click:append="show = !show"
+                />
+              </v-col>
+            </v-row>
+            <!--Adresse-->
+            <v-row class="justify-center">
+              <v-col md="4">
+                <v-text-field
+                  label="Straße + Hausnr"
+                  :rules="rules.NormalRules"
+                  hide-details="auto"
+                />
+              </v-col>
+              <v-col md="1">
+                <v-text-field
+                  label="PLZ"
+                  v-model="Plz"
+                  :rules="rules.NormalRules"
+                  hide-details="auto"
+                />
+              </v-col>
+              <v-col md="4">
+                <v-text-field
+                  label="Ort"
+                  v-model="Ort"
+                  :rules="rules.NormalRules"
+                  hide-details="auto"
+                />
+              </v-col>
+            </v-row>
+            <!--Submit-Bttn-->
+            <v-row>
+              <v-col md="5"></v-col>
+              <v-col md="2">
+                <v-btn @click="Submitted">
+                  Register
+                </v-btn>
+              </v-col>
+              <v-col md="5"></v-col>
+            </v-row>
+          </v-col>
+          <v-col md="1"></v-col>
+        </v-row>
+      </v-container>
+    </v-form>
+    <br />
+    <br />
+    <router-link class="black--text text-decoration-none" :to="{ name: 'Login' }"
+      ><p class="black--text text-center">
+        Wenn sie bereits einen Account haben, können Sie sich hier anmelden: <span>Login</span>
+      </p>
+    </router-link>
+  </div>
 </template>
 
 <script>
 export default {
-	data() {
-		return {
-			vorname: '',
-			nachname: '',
-			email: '',
-		};
-	},
+  data() {
+    return {
+      //Inputvariablen
+      Vorname: '',
+      Nachname: '',
+      Email: '',
+      Passwort1: '',
+      Passwort2: '',
+      Strasse: '',
+      Plz: '',
+      Ort: '',
+
+      //Variablen
+      show: false,
+      //Anorderungen an die Inputs
+      rules: {
+        NormalRules: [(value) => !!value || 'Required.'],
+        EmailRules: [
+          (value) => !!value || 'Required.',
+          (value) => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return pattern.test(value) || 'Invalid e-mail.';
+          },
+        ],
+      },
+    };
+  },
+
+  methods: {
+    Submitted() {
+      //Beide Passwörter vergleichen
+      if (Passwort1 == Passwort2) {
+        console.log('Submitted');
+      }
+    },
+  },
 };
 </script>
 
-<style></style>
+<style>
+span {
+  color: rgb(9, 156, 9);
+  font-weight: bold;
+}
+</style>

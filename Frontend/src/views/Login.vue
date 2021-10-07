@@ -30,7 +30,7 @@
 							<v-btn type="submit" @click="submit">Submit</v-btn>
 						</v-row>
 						<br>
-						<router-link class="black--text text-decoration-none" :to="{name: 'Register'}"><p>Zurück zum Registrieren</p></router-link>
+						<router-link class="black--text text-decoration-none" :to="{name: 'Register'}"><p>Zurück zum <span>Registrieren</span></p></router-link>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -54,7 +54,6 @@ export default {
 			},
 		};
 	},
-	computed: {},
 	methods: {
 		submit() {
 			console.log('Submit');
@@ -63,4 +62,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+span{
+	color: rgb(9, 156, 9);
+	font-weight: bold;
+}
+</style>
