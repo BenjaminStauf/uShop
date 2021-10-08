@@ -64,16 +64,18 @@ export default {
 			let userArray = JSON.parse(localStorage.getItem('User'));
 			let inpuEmail = this.email;
 			let inputPasswort = this.password;
-			console.log(inpuEmail);
-			console.log(inputPasswort);
 
 			for (const iterator of userArray) {
-				console.log(iterator);
+				// console.log(iterator);
 				if (iterator.Email == inpuEmail && iterator.Passwort == inputPasswort) {
+					iterator.bereitsAngemeldet = true;
+
+					localStorage.removeItem('User');
+					localStorage.setItem('User', JSON.stringify(userArray));
+
 					this.$router.push('Account');
 				} else console.log('Fehler');
 			}
-			console.table(userArray);
 		},
 	},
 	mounted() {},

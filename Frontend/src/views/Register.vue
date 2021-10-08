@@ -152,8 +152,10 @@ export default {
 		};
 	},
 	mounted() {
-		this.userArray = JSON.parse(localStorage.getItem('User'));
-		 console.log(this.userArray);
+		if (JSON.parse(localStorage.getItem('User')) != null) {
+			this.userArray = localStorage.getItem('User');
+			console.log(`User Array: ${this.userArray}`);
+		}
 	},
 	methods: {
 		Submitted() {
@@ -167,7 +169,7 @@ export default {
 					Strasse: this.Strasse,
 					Plz: this.Plz,
 					Ort: this.Ort,
-					bereitsAngemeldet: true,
+					bereitsAngemeldet: false,
 				};
 
 				this.Vorname = '';
@@ -183,6 +185,8 @@ export default {
 
 				localStorage.removeItem('User');
 				localStorage.setItem('User', JSON.stringify(this.userArray));
+
+				this.$router.push('Login');
 			}
 		},
 	},

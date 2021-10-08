@@ -1,34 +1,30 @@
 <template>
 	<div>
 		<h1 class="text-center pt-6">Account</h1>
+		<!-- <h2 class="text-center pt-6">{{aktiverUser.Vorname}}</h2> -->
 	</div>
 </template>
 <script>
 export default {
 	data() {
 		return {
-			bereitsAngemeldet: false,
+			// bereitsAngemeldet: false,
+			aktiverUser: '',
 		};
 	},
 	created() {
-		console.log('Created');
-		try {
-			let userListe = JSON.parse(localStorage.getItem('User'));
-
+		
+			let userListe = localStorage.getItem('User');
+			console.log(`Account userListe: ${userListe}`);
 			for (const iterator of userListe) {
-				// if (iterator.bereitsAngemeldet) {
-				// 	this.$router.push('Account');
-				// }
-				// this.$router.push('register');
+				if (iterator.bereitsAngemeldet == true) {
+					this.aktiverUser = iterator;
+					console.log(`Aktiver User: ${aktiverUser}`);
+				} else this.$router.push('register');
 			}
-		} catch (error) {
-			console.log('LS war leer');
-			if (!this.bereitsAngemeldet) {
-			this.$router.push("register")
-			}
-		}
-
-	}
+		
+		
+	},
 };
 </script>
 
