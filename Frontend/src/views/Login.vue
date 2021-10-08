@@ -69,7 +69,7 @@ export default {
 
 			for (const iterator of userArray) {
 				console.log(iterator);
-				if (iterator.Email == inpuEmail && iterator.Passwort) {
+				if (iterator.Email == inpuEmail && iterator.Passwort == inputPasswort) {
 					this.$router.push('Account');
 				} else console.log('Fehler');
 			}

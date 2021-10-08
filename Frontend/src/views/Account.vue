@@ -11,21 +11,24 @@ export default {
 		};
 	},
 	created() {
-		console.log("Created");
-		let userListe = JSON.parse(localStorage.getItem('User'));
+		console.log('Created');
+		try {
+			let userListe = JSON.parse(localStorage.getItem('User'));
 
-		for (const iterator of userListe) {
-			if (iterator.bereitsAngemeldet) {
-				this.bereitsAngemeldet = true;
-				this.$router.push('Account');
+			for (const iterator of userListe) {
+				// if (iterator.bereitsAngemeldet) {
+				// 	this.$router.push('Account');
+				// }
+				// this.$router.push('register');
 			}
-			this.$router.push('register');
+		} catch (error) {
+			console.log('LS war leer');
+			if (!this.bereitsAngemeldet) {
+			this.$router.push("register")
+			}
 		}
-		// if (!this.bereitsAngemeldet) {
-		// 	this.$router.push("register")
 
-		// }
-	},
+	}
 };
 </script>
 

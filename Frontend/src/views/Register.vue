@@ -153,7 +153,7 @@ export default {
 	},
 	mounted() {
 		this.userArray = JSON.parse(localStorage.getItem('User'));
-		console.log(this.userArray);
+		 console.log(this.userArray);
 	},
 	methods: {
 		Submitted() {
