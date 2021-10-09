@@ -153,7 +153,7 @@ export default {
 	},
 	mounted() {
 		if (JSON.parse(localStorage.getItem('User')) != null) {
-			this.userArray = localStorage.getItem('User');
+			this.userArray = JSON.parse(localStorage.getItem('User'));
 			console.log(`User Array: ${this.userArray}`);
 		}
 	},
@@ -181,6 +181,7 @@ export default {
 				this.Plz = '';
 				this.Ort = '';
 
+				console.table(`Neuer User: ${JSON.stringify(newUser)}`);
 				this.userArray.push(newUser);
 
 				localStorage.removeItem('User');
