@@ -33,12 +33,12 @@ export default new Vuex.Store({
   mutations: {
     /*Ladet daten aus dem JSON in Produkte-Liste */
     async loadProducts(state) {
-      const produclist = await axios.get('http://localhost:3000/productlist');
+      const produclist = await axios.get('http://localhost:2410/getProducts');
       state.produkte = produclist.data;
     },
     /*Ladet daten aus dem JSON in Produkte-Liste */
     async loadCategories(state) {
-      const categories = await axios.get('http://localhost:3000/kategorien');
+      const categories = await axios.get('http://localhost:2410/getCategories');
       state.Kategorien = categories.data;
     },
     //Pusht item in den Warenkorb

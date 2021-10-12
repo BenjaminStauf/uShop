@@ -10,7 +10,7 @@
 								{{ produkt.ProduktID }} {{ produkt.Name }} {{ produkt.Link3D }}
 							</v-list-item-title>
 							<v-list-item-subtitle>{{ produkt.Kurzbeschreibung }}</v-list-item-subtitle>
-              <br>
+							<br />
 							<v-rating
 								empty-icon="mdi-star-outline"
 								full-icon="mdi-star"

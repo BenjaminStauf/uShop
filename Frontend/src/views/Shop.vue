@@ -23,11 +23,11 @@
 		<v-icon class="black--text ml-6" @click="filterShow = !filterShow">mdi-filter</v-icon>
 		<v-container align="center" v-if="filterShow">
 			<v-row justify="center">
-				<ul v-for="Kategorie in $store.state.Kategorien" :key="Kategorie.ID">
+				<ul v-for="Kategorie in $store.state.Kategorien" :key="Kategorie.KategorieID">
 					<v-checkbox
 						color="cyan darken-2 "
-						v-bind:label="Kategorie.Name"
-						v-bind:value="Kategorie.Name"
+						v-bind:label="Kategorie.KategorieName"
+						v-bind:value="Kategorie.KategorieName"
 						v-model="selected"
 					></v-checkbox>
 				</ul>
