@@ -12,7 +12,7 @@ function DatenbankverbindungHerstellen() {
     port: 3306,
     user: 'root',
     password: '',
-    database: 'uShop',
+    database: 'ushop_neu',
   });
   DBconnection.connect((err) => {
     err == null ? console.log('Kein Fehler beim Verbinden ') : console.log('Fehler beim Verbinden');
