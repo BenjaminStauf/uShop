@@ -10,6 +10,18 @@
 								{{ produkt.ProduktID }} {{ produkt.Name }} {{ produkt.Link3D }}
 							</v-list-item-title>
 							<v-list-item-subtitle>{{ produkt.Kurzbeschreibung }}</v-list-item-subtitle>
+              <br>
+							<v-rating
+								empty-icon="mdi-star-outline"
+								full-icon="mdi-star"
+								half-icon="$mdiStarHalfFull"
+								length="5"
+								size="32"
+								:value="produkt.Bewertung"
+								readonly
+								color="warning"
+								background-color="grey"
+							></v-rating>
 							<v-col cols="4">
 								<v-select
 									v-model="produkt.Anzahl"
