@@ -29,14 +29,14 @@
 											<v-text-field v-model="editedItem.Preis" label="Preis"></v-text-field>
 										</v-col>
 										<v-col cols="12" sm="6" md="4">
-											<!-- <v-text-field v-model="editedItem.Kategorie" label="Kategorie"></v-text-field> -->
-											<v-select
+											<v-text-field v-model="editedItem.Kategorie" label="Kategorie"></v-text-field>
+											<!-- <v-select
 												:items="Kategorien"
 												label="Kategorie"
 												dense
 												solo
 												v-model="editedItem.Kategorie"
-											></v-select>
+											></v-select> -->
 										</v-col>
 										<v-col cols="12" sm="6" md="4">
 											<v-text-field v-model="editedItem.Bewertung" label="Bewertung"></v-text-field>
