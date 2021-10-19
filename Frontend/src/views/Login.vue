@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
 	data() {
 		return {
@@ -60,10 +62,15 @@ export default {
 		};
 	},
 	methods: {
-		submit() {
+		async submit() {
 			let userArray = JSON.parse(localStorage.getItem('User'));
 			let inpuEmail = this.email;
 			let inputPasswort = this.password;
+
+			// let axiosPost = await axios.post('http://localhost:2410/loginAdmin', {
+			// 	Email: inpuEmail,
+			// 	Password: inputPasswort,
+			// });
 
 			for (const iterator of userArray) {
 				// console.log(iterator);

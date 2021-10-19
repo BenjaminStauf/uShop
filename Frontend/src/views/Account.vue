@@ -4,6 +4,9 @@
 			<v-btn outlined text class="red accent-3 justify-right" @click="abmelden">
 				Abmelden
 			</v-btn>
+			<v-btn @click="adminPanel">
+				Zum Admin Panel
+			</v-btn>
 		</v-col>
 
 		<h1 class="text-center pt-6">Account</h1>
@@ -28,8 +31,7 @@ export default {
 					console.log(`Iterator: ${iterator}`);
 					this.aktiverUser = iterator;
 					console.log(`Aktiver User: ${this.aktiverUser}`);
-				}
-				else{
+				} else {
 					// this.$router.push("Login")
 				}
 			}
@@ -38,17 +40,20 @@ export default {
 		}
 	},
 	methods: {
-		abmelden(){
+		abmelden() {
 			for (const iterator of this.userListe) {
 				if (iterator.bereitsAngemeldet == true) {
-					iterator.bereitsAngemeldet = false
+					iterator.bereitsAngemeldet = false;
 				}
 			}
 			console.log(this.userListe);
-			localStorage.removeItem('User')
-			localStorage.setItem('User', JSON.stringify(this.userListe))
-			this.$router.push("Login")
-		}
+			localStorage.removeItem('User');
+			localStorage.setItem('User', JSON.stringify(this.userListe));
+			this.$router.push('Login');
+		},
+		adminPanel() {
+			this.$router.push('AdminPanel');
+		},
 	},
 };
 </script>

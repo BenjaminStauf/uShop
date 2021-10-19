@@ -7,7 +7,8 @@ import Product_Detail from '../views/Product_Detail.vue';
 import ErrorSite from '../views/Error404.vue';
 import aboutUs from '../views/AboutUs.vue';
 import register from '../views/Register.vue';
-import login from '../views/Login.vue'
+import login from '../views/Login.vue';
+import AdminPanel from '../views/AdminPanel.vue';
 
 Vue.use(VueRouter);
 
@@ -51,6 +52,11 @@ const routes = [
 		path: '*',
 		name: 'Error',
 		component: ErrorSite,
+	},
+	{
+		path: '/AdminPanel',
+		name: 'AdminPanel',
+		component: AdminPanel,
 	},
 ];
 
