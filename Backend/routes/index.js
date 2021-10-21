@@ -5,6 +5,7 @@ const router = express.Router();
 const app = express();
 
 let DBconnection;
+
 SelectAllElements = () => {
 	return new Promise((resolve, reject) => {
 		DBconnection.query('SELECT * FROM kategorie_tbl', (error, elements) => {
@@ -95,7 +96,8 @@ router.post('/UpdateProduct', async (req, res) => {
 	const ID = body.ProduktID;
 	const Name = body.Name;
 	const Preis = body.Preis;
-	const Bewertung = body.Preis;
+	const Bewertung = body.Bewertung;
+	const Kategorie = body.Kategorie;
 	const Kurzbeschreibung = body.Kurzbeschreibung;
 	let Kategorie_ID;
 	// const Link3D = body.Link3D
@@ -103,13 +105,16 @@ router.post('/UpdateProduct', async (req, res) => {
 	//Name ID match finden
 	const Kategories = await SelectAllElements();
 	Kategories.forEach((element) => {
-		// console.log(`ID: ${element.Kategorie_ID} | Name: ${element.KategorieName}`)
 		//Sucht zu dem Input die ID
-		if (element.KategorieName == ID) {
-			console.log(`Die Kategorie ist ${kategorieInput}, die ID ist ${element.Kategorie_ID}`);
+		if (element.KategorieName == Kategorie) {
+			console.log(`Die Kategorie ist ${Kategorie}, die ID ist ${element.Kategorie_ID}`);
 			Kategorie_ID = element.Kategorie_ID;
 		}
 	});
+
+	console.log(
+		`ID: ${ID} |  Name: ${Name} | Preis: ${Preis} | Bewertung: ${Bewertung} | Kurzbeschreibung: ${Kurzbeschreibung} | Kategorie ID:  ${Kategorie_ID}`,
+	);
 
 	let str = `UPDATE produkt_tbl SET Name = ?, Preis = ?, Bewertung = ?, Kurzbeschreibung = ?, Kategorie_FK = ? WHERE ProduktID = ?;`;
 	DBconnection.query(
