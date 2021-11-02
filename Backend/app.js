@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const path = require('path');
 const cors = require('cors');
 const routes = require('./routes');
+const expressSession = require('express-session');
 require('dotenv').config();
 
 //Express app
@@ -14,10 +15,25 @@ app.use(helmet());
 app.use(express.json());
 //Cors chillt in der Middleware
 app.use(cors());
+//Express-Session
+app.use(
+  expressSession({
+    secret: 'uShopSecretKey',
+    name: 'uShopSession',
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      maxAge: 2 * 1000 * 60 * 60,
+      httpOnly: false,
+      sameSite: true,
+    },  
+  }),
+);
 //Routen
 app.use('/', routes);
 
 //Port
 const PORT = 2410;
-console.log('Port: ' + PORT);
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Node-Server hört auf Port: ${PORT}`);
+});
