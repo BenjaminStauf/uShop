@@ -38,6 +38,7 @@
   </v-app>
 </template>
 
+
 <script>
 import eventBus from './eventbus';
 
