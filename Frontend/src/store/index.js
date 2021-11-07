@@ -10,6 +10,7 @@ export default new Vuex.Store({
     warenkorb: [],
     Kategorien: [],
     produkte: [],
+    aktiverUser: null
   },
 
   actions: {

@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const paypal = require('paypal-rest-sdk');
 const open = require('open');
+const nodemailer = require('nodemailer');
 
 const router = express.Router();
 const app = express();
@@ -243,20 +244,17 @@ router.post('/DeleteProduct', (req, res) => {
 	DatenbankverbindungTrennen(DBconnection);
 });
 
+//Item erstellen welches an Paypal uebergeben wird
+bezahlenItem = [];
+
+//Gesammtpreis aufsummieren
+let summe = 0;
+
 router.post('/pay', (req, res) => {
 	const body = req.body;
 	console.log(body);
 
-	//paypal konfigurieren
-	paypal.configure({
-		mode: 'sandbox',
-		client_id: 'AU4vIfPLLUwv8AQTXs1_rIHlVi3AR7Ky-ipawRjYVD9W2wZNO90og-B8Ie4_8woG8GLUxiY2q2eardpQ',
-		client_secret:
-			'EDGiZ5n_0212_yU84euuekxtqiri7Qmo_VSJAeoneADre6qBxGY5wRazjtaZo4pHiCgsI6OW06ilETqw',
-	});
-
-	//Item erstellen welches an Paypal uebergeben wird
-	bezahlenItem = [];
+	//zahlen objekjt erstellen
 	for (const iterator of body) {
 		let obj = {
 			name: iterator.Name,
@@ -269,11 +267,17 @@ router.post('/pay', (req, res) => {
 		bezahlenItem.push(obj);
 	}
 
-	//Gesammtpreis aufsummieren
-	let summe = 0;
+	//gesmatsumme rechnen
 	for (const iterator of bezahlenItem) {
 		summe += iterator.price * iterator.quantity;
 	}
+	//paypal konfigurieren
+	paypal.configure({
+		mode: 'sandbox',
+		client_id: 'AU4vIfPLLUwv8AQTXs1_rIHlVi3AR7Ky-ipawRjYVD9W2wZNO90og-B8Ie4_8woG8GLUxiY2q2eardpQ',
+		client_secret:
+			'EDGiZ5n_0212_yU84euuekxtqiri7Qmo_VSJAeoneADre6qBxGY5wRazjtaZo4pHiCgsI6OW06ilETqw',
+	});
 
 	//JSON zahlung erstellen
 	const create_payment_json = {
@@ -282,7 +286,7 @@ router.post('/pay', (req, res) => {
 			payment_method: 'paypal',
 		},
 		redirect_urls: {
-			return_url: 'http://localhost:8080/success',
+			return_url: 'http://localhost:2410/success',
 			cancel_url: 'http://localhost:8080/#/Basket',
 		},
 		transactions: [
@@ -312,6 +316,40 @@ router.post('/pay', (req, res) => {
 					open(payment.links[i].href);
 				}
 			}
+		}
+	});
+});
+
+router.get('/success', (req, res) => {
+	const payerId = req.query.PayerID;
+	const paymentId = req.query.paymentId;
+
+	console.log(req.body);
+
+	const execute_payment_json = {
+		payer_id: payerId,
+		transactions: [
+			{
+				amount: {
+					currency: 'EUR',
+					total: summe,
+				},
+			},
+		],
+	};
+
+	// Obtains the transaction details from paypal
+	paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+		//When error occurs when due to non-existent transaction, throw an error else log the transaction details in the console then send a Success string reposponse to the user.
+		if (error) {
+			console.log(error.response);
+			throw error;
+		} else {
+			console.log(JSON.stringify(payment));
+			open('http://localhost:8080')
+			res.send('Success');
+
+			//TODO send MAIL
 		}
 	});
 });

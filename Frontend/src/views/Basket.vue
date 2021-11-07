@@ -67,19 +67,9 @@
 		<v-container class="d-flex flex-wrap justify-space-around pt-4">
 			<h3>Summe aller Produkte: {{ Summe_warenkorb }}€</h3>
 
-			<v-btn @click="Bezahlen" outlined text class="lime accent-3">
+			<v-btn @click="Bezahlen" outlined text class="lime accent-3" :disabled="buttonZahlenDisabled">
 				Bezahlen
 			</v-btn>
-
-			<!-- <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-
-          <v-btn @click="Bezahlen" outlined text v-bind="attrs" v-on="on" class="lime accent-3">
-            Bezahlen
-          </v-btn>
-        </template>
-        <span>Du musst angemeldet sein, um zu Bezahlen!</span>
-      </v-tooltip> -->
 		</v-container>
 	</div>
 	<div v-else>
@@ -100,6 +90,7 @@ export default {
 			AnzahlImwarenkorb: this.$store.state.warenkorb.length,
 			snackbar: false,
 			selectAnzahl: [],
+			buttonZahlenDisabled: true,
 		};
 	},
 
@@ -110,6 +101,9 @@ export default {
 
 		//Preis updaten
 		this.UpdatePreis();
+
+		console.log(this.$store.state.aktiverUser);
+		if (this.$store.state.aktiverUser != null) this.buttonZahlenDisabled = false;
 	},
 
 	methods: {
@@ -148,7 +142,7 @@ export default {
 		async Bezahlen() {
 			const warenkorb = this.$store.state.warenkorb;
 
-      //Warenkorb an Backend schicken
+			//Warenkorb an Backend schicken
 			const res = await axios.post('http://localhost:2410/pay', warenkorb);
 		},
 	},
