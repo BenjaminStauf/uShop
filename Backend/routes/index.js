@@ -3,6 +3,8 @@ const mysql = require('mysql');
 const paypal = require('paypal-rest-sdk');
 const open = require('open');
 const nodemailer = require('nodemailer');
+const hbs = require('nodemailer-express-handlebars');
+const path = require('path');
 
 const router = express.Router();
 const app = express();
@@ -250,12 +252,16 @@ bezahlenItem = [];
 //Gesammtpreis aufsummieren
 let summe = 0;
 
+//Object welches bei aufrufen von pay mitgeschickt wird
+let bodyObject = null;
+
 router.post('/pay', (req, res) => {
-	const body = req.body;
-	console.log(body);
+	bodyObject = req.body;
+
+	const { warenkorb } = req.body;
 
 	//zahlen objekjt erstellen
-	for (const iterator of body) {
+	for (const iterator of warenkorb) {
 		let obj = {
 			name: iterator.Name,
 			//sku: iterator.ID,
@@ -345,11 +351,61 @@ router.get('/success', (req, res) => {
 			console.log(error.response);
 			throw error;
 		} else {
-			console.log(JSON.stringify(payment));
-			open('http://localhost:8080')
-			res.send('Success');
+			open('http://localhost:8080');
 
 			//TODO send MAIL
+			const { aktiveruser } = bodyObject;
+			const { warenkorb } = bodyObject;
+
+			console.log(warenkorb);
+
+			//Nodemailer Transporter erstellen
+			const transporter = nodemailer.createTransport({
+				service: 'gmail',
+				auth: {
+					user: 'uShop.HTLWW@gmail.com',
+					pass: 'uShop_HTLWW_16',
+				},
+			});
+
+			//Configure Handlebar
+			const handlebarOptions = {
+				viewEngine: {
+					extName: '.handlebars',
+					partialsDir: path.resolve(__dirname, 'templateViews'),
+					defaultLayout: false,
+				},
+				viewPath: path.resolve(__dirname, 'templateViews'),
+				extName: '.handlebars',
+			};
+
+			//transporter soll Handlebars verwenden
+			transporter.use('compile', hbs(handlebarOptions));
+
+			//Mail options
+			let mailoptions = {
+				from: 'uShop.HTLWW@gmail.com',
+				to: aktiveruser.Email,
+				subject: 'Ihre Rechnung2',
+				// text: `Hallo ${name}. Sie haben mir diese Nachricht geschickt: ${message}.`,
+				template: 'bestellung',
+				context: {
+					Name: aktiveruser.Name,
+					bestellung: warenkorb,
+					summe: summe,
+				},
+			};
+
+			//Email senden
+			transporter.sendMail(mailoptions, (err, info) => {
+				if (err) console.log(err);
+				//else console.log(info);
+			});
+
+			//Variablen clearen
+			bezahlenItem = [];
+			summe = null;
+			bodyObject = null;
 		}
 	});
 });

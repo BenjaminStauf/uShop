@@ -1,4 +1,5 @@
 <template>
+<!-- Umbauen auf User von LS -->
 	<div v-if="this.$store.state.warenkorb.length">
 		<h1 class="text-center pt-6 pb-6">Produkte im Warenkorb</h1>
 		<v-container class="d-flex flex-wrap justify-space-around">
@@ -140,10 +141,16 @@ export default {
 			this.snackbar = true;
 		},
 		async Bezahlen() {
-			const warenkorb = this.$store.state.warenkorb;
+			// const warenkorb = this.$store.state.warenkorb;
+			// warenkorb.aktiverUser = this.$store.state.aktiverUser;
+
+			const sendPay = {
+				warenkorb: this.$store.state.warenkorb,
+				aktiveruser: this.$store.state.aktiverUser,
+			};
 
 			//Warenkorb an Backend schicken
-			const res = await axios.post('http://localhost:2410/pay', warenkorb);
+			const res = await axios.post('http://localhost:2410/pay', sendPay);
 		},
 	},
 };
