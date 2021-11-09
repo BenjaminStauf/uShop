@@ -280,9 +280,9 @@ router.post('/pay', (req, res) => {
 	//paypal konfigurieren
 	paypal.configure({
 		mode: 'sandbox',
-		client_id: 'AU4vIfPLLUwv8AQTXs1_rIHlVi3AR7Ky-ipawRjYVD9W2wZNO90og-B8Ie4_8woG8GLUxiY2q2eardpQ',
+		client_id: 'AXBUXPEjJqkc43_sRs8Efyk9E0GH84pdoj07E9c6SiDfJrN0UySdArinRaOixnKC5Po7MRqAJXihLWGr',
 		client_secret:
-			'EDGiZ5n_0212_yU84euuekxtqiri7Qmo_VSJAeoneADre6qBxGY5wRazjtaZo4pHiCgsI6OW06ilETqw',
+			'EK1wYAgIvOtwIQQ1wip46dI7TjKTD_tvKmoj6oKJtgbN3unNOtlteA3ljO48lWYlyjHXxG9ztsmfg_jN',
 	});
 
 	//JSON zahlung erstellen
