@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!--LoginScreen-->
+
     <h1 class="black--text text-center">Login</h1>
 
     <v-form ref="submit" lazy-validation>
@@ -19,12 +21,12 @@
               <v-col cols="12" sm="12">
                 <v-text-field
                   v-model="password"
-                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
                   :rules="rules.required"
-                  :type="show1 ? 'text' : 'password'"
+                  :type="showPasswordInput ? 'text' : 'password'"
                   name="input-10-1"
                   label="Passwort"
-                  @click:append="show1 = !show1"
+                  @click:append="showPasswordInput = !showPasswordInput"
                 ></v-text-field>
               </v-col>
               <v-btn type="submit" @click="submit">Submit</v-btn>
@@ -48,7 +50,8 @@ export default {
     return {
       email: '',
       password: '',
-      show1: false,
+      showPasswordInput: false,
+
       rules: {
         required: [(val) => (val || '').length > 0 || 'This field is required'],
         EmailRules: [
@@ -66,6 +69,12 @@ export default {
       this.email = '';
       this.password = '';
     },
+
+    // authenticatorClicked() {
+
+    //   //Zur normalen ansicht wechseln wenn Code passt!
+    //   this.showAuthenticator = false;
+    // },
 
     async submit() {
       //Anfrage auf den Server, um sich einzuloggen

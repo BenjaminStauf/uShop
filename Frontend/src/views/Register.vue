@@ -1,123 +1,150 @@
 <template>
   <div>
-    <h1 class="text-center">Register</h1>
-    <h3 class="text-center pt-6">
-      Willkommen, wenn Sie noch kein Konto haben können sie hier kostelos eines erstellen.
-    </h3>
-    <br />
-    <br />
-    <v-form>
-      <v-container class="d-flex flex-wrap justify-space-around">
-        <!--Vor-Nachname- Inputs-->
-        <v-row>
-          <v-col md="1"></v-col>
-          <v-col md="10">
-            <!--MeinSpalte wo Inputs liegen-->
-            <v-row class="justify-center">
-              <v-col md="4">
-                <v-text-field
-                  label="Vorname"
-                  v-model="Vorname"
-                  :rules="rules.NormalRules"
-                  hide-details="auto"
-                />
-              </v-col>
-              <v-col md="1"></v-col>
-              <v-col md="4">
-                <v-text-field
-                  label="Nachname"
-                  v-model="Nachname"
-                  :rules="rules.NormalRules"
-                  hide-details="auto"
-                />
-              </v-col>
-            </v-row>
-            <!--Email Input-->
-            <v-row class="justify-center">
-              <v-col md="9">
-                <v-text-field
-                  label="E-Mail"
-                  v-model="Email"
-                  :rules="rules.EmailRules"
-                  hide-details="auto"
-                />
-              </v-col>
-            </v-row>
-            <!--Passwort-->
-            <v-row class="justify-center">
-              <v-col md="4">
-                <v-text-field
-                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                  :rules="rules.NormalRules"
-                  :type="show ? 'text' : 'password'"
-                  name="input-10-1"
-                  label="Passwort"
-                  v-model="Passwort1"
-                  @click:append="show = !show"
-                />
-              </v-col>
-              <v-col md="1"></v-col>
-              <v-col md="4"
-                ><v-text-field
-                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                  :rules="rules.NormalRules"
-                  :type="show ? 'text' : 'password'"
-                  name="input-10-1"
-                  label="Passwort"
-                  v-model="Passwort2"
-                  @click:append="show = !show"
-                />
-              </v-col>
-            </v-row>
-            <!--Adresse-->
-            <v-row class="justify-center">
-              <v-col md="4">
-                <v-text-field
-                  label="Straße + Hausnr"
-                  v-model="Strasse"
-                  :rules="rules.NormalRules"
-                  hide-details="auto"
-                />
-              </v-col>
-              <v-col md="1">
-                <v-text-field
-                  label="PLZ"
-                  v-model="Plz"
-                  :rules="rules.NormalRules"
-                  hide-details="auto"
-                />
-              </v-col>
-              <v-col md="4">
-                <v-text-field
-                  label="Ort"
-                  v-model="Ort"
-                  :rules="rules.NormalRules"
-                  hide-details="auto"
-                />
-              </v-col>
-            </v-row>
-            <!--Submit-Bttn-->
-            <v-row>
-              <v-col md="5"></v-col>
-              <v-col md="2">
-                <v-btn @click="Submitted">
-                  Register
-                </v-btn>
-              </v-col>
-              <v-col md="5"></v-col>
-            </v-row>
-          </v-col>
-          <v-col md="1"></v-col>
-        </v-row>
-      </v-container>
-    </v-form>
-    <br />
-    <br />
-    <router-link class="black--text text-decoration-none" :to="{ name: 'Login' }"
-      ><p class="black--text text-center">
-        Wenn sie bereits einen Account haben, können Sie sich hier anmelden: <span>Login</span>
-      </p>
-    </router-link>
+    <!--Authenticator-->
+    <div v-if="showAuthenticator" class="AuthenticatorDiv">
+      <h1 style="text-align:center;">Bitte gib deinen Authenticatorcode ein:</h1>
+      <v-form>
+        <v-container>
+          <v-row>
+            <v-col md="2"></v-col>
+            <v-col md="10"
+              ><v-text-field style="width: 80%" v-model="authenticator" type="text"></v-text-field>
+            </v-col>
+            <v-col></v-col>
+          </v-row>
+
+          <v-row>
+            <v-col></v-col>
+            <v-col>
+              <v-btn color="#424242" @click="authenticatorClicked" dark>
+                Bestätigen
+              </v-btn>
+            </v-col>
+            <v-col></v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+    </div>
+
+    <!--Register-->
+    <div v-bind:class="showAuthenticator ? 'BackgroundUnscharf' : 'BackgroundScharf'">
+      <h1 class="text-center">Register</h1>
+      <h3 class="text-center pt-6">
+        Willkommen, wenn Sie noch kein Konto haben können sie hier kostelos eines erstellen.
+      </h3>
+      <br />
+      <br />
+      <v-form>
+        <v-container class="d-flex flex-wrap justify-space-around">
+          <!--Vor-Nachname- Inputs-->
+          <v-row>
+            <v-col md="1"></v-col>
+            <v-col md="10">
+              <!--MeinSpalte wo Inputs liegen-->
+              <v-row class="justify-center">
+                <v-col md="4">
+                  <v-text-field
+                    label="Vorname"
+                    v-model="Vorname"
+                    :rules="rules.NormalRules"
+                    hide-details="auto"
+                  />
+                </v-col>
+                <v-col md="1"></v-col>
+                <v-col md="4">
+                  <v-text-field
+                    label="Nachname"
+                    v-model="Nachname"
+                    :rules="rules.NormalRules"
+                    hide-details="auto"
+                  />
+                </v-col>
+              </v-row>
+              <!--Email Input-->
+              <v-row class="justify-center">
+                <v-col md="9">
+                  <v-text-field
+                    label="E-Mail"
+                    v-model="Email"
+                    :rules="rules.EmailRules"
+                    hide-details="auto"
+                  />
+                </v-col>
+              </v-row>
+              <!--Passwort-->
+              <v-row class="justify-center">
+                <v-col md="4">
+                  <v-text-field
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="rules.NormalRules"
+                    :type="show ? 'text' : 'password'"
+                    label="Passwort"
+                    v-model="Passwort1"
+                    @click:append="show = !show"
+                  />
+                </v-col>
+                <v-col md="1"></v-col>
+                <v-col md="4"
+                  ><v-text-field
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="rules.NormalRules"
+                    :type="show ? 'text' : 'password'"
+                    label="Passwort"
+                    v-model="Passwort2"
+                    @click:append="show = !show"
+                  />
+                </v-col>
+              </v-row>
+              <!--Adresse-->
+              <v-row class="justify-center">
+                <v-col md="4">
+                  <v-text-field
+                    label="Straße + Hausnr"
+                    v-model="Strasse"
+                    :rules="rules.NormalRules"
+                    hide-details="auto"
+                  />
+                </v-col>
+                <v-col md="1">
+                  <v-text-field
+                    label="PLZ"
+                    v-model="Plz"
+                    :rules="rules.NormalRules"
+                    hide-details="auto"
+                  />
+                </v-col>
+                <v-col md="4">
+                  <v-text-field
+                    label="Ort"
+                    v-model="Ort"
+                    :rules="rules.NormalRules"
+                    hide-details="auto"
+                  />
+                </v-col>
+              </v-row>
+              <!--Submit-Bttn-->
+              <v-row>
+                <v-col md="5"></v-col>
+                <v-col md="2">
+                  <v-btn @click="Submitted">
+                    Register
+                  </v-btn>
+                </v-col>
+                <v-col md="5"></v-col>
+              </v-row>
+            </v-col>
+            <v-col md="1"></v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+      <br />
+      <br />
+      <router-link class="black--text text-decoration-none" :to="{ name: 'Login' }"
+        ><p class="black--text text-center">
+          Wenn sie bereits einen Account haben, können Sie sich hier anmelden: <span>Login</span>
+        </p>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -128,6 +155,8 @@ export default {
   data() {
     return {
       //Inputvariablen
+      authenticator: '',
+      realAutheticatorCode: '',
       Vorname: '',
       Nachname: '',
       Email: '',
@@ -140,6 +169,7 @@ export default {
 
       //Variablen
       show: false,
+      showAuthenticator: false,
       //Anorderungen an die Inputs
       rules: {
         NormalRules: [(value) => !!value || 'Required.'],
@@ -171,10 +201,9 @@ export default {
       this.Ort = '';
     },
 
-    async Submitted() {
-      //Beide Passwörter vergleichen
-      if (this.Passwort1 == this.Passwort2) {
-        //Kunden registrieren
+    async authenticatorClicked() {
+      if (this.realAutheticatorCode === this.authenticator) {
+        // Kunden registrieren
         const res = await axios.post('http://localhost:2410/KundeRegister', {
           Vorname: this.Vorname,
           Nachname: this.Nachname,
@@ -187,8 +216,29 @@ export default {
         });
         //Leert alle Inputs
         this.ClearInputs();
+
+        //Authenticator-Mode off
+        this.showAuthenticator = false;
+
         //Wenn fertig zur Login-Seite weiterleiten
         this.$router.push('Login');
+      }
+    },
+
+    async Submitted() {
+      //Beide Passwörter vergleichen
+      if (this.Passwort1 == this.Passwort2) {
+        //Auth-Code bekommen
+        const { data: code } = await axios.post('http://localhost:2410/SendCode', {
+          Vorname: this.Vorname,
+          Nachname: this.Nachname,
+          Email: this.Email,
+        });
+
+        this.realAutheticatorCode = code;
+
+        //Authentificator-Mode on
+        this.showAuthenticator = true;
       }
     },
   },
@@ -199,5 +249,24 @@ export default {
 span {
   color: rgb(9, 156, 9);
   font-weight: bold;
+}
+
+.AuthenticatorDiv {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 2;
+  width: 30%;
+  height: 15%;
+  background: white;
+  border-radius: 45px;
+  padding-top: 15%;
+}
+
+.BackgroundUnscharf {
+  filter: blur(10px);
+}
+.BackgroundScharf {
+  filter: none;
 }
 </style>
