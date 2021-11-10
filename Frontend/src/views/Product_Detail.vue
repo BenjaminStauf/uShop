@@ -24,7 +24,8 @@
         <h3 class="ml-3 mr-3">{{ Kurzbeschreibung }}</h3>
         <br />
         <v-col cols="4">
-          <v-select :items="anzahl" label="Anzahl" dense solo v-model="selectAnzahl"></v-select>
+          <label for="Anzahl" class="pl-1">Anzahl:</label>
+          <v-select :items="anzahl" label="Anzahl" class="pt-2" dense solo v-model="selectAnzahl" id="Anzahl"></v-select>
         </v-col>
         <v-rating
           empty-icon="mdi-star-outline"
@@ -72,12 +73,13 @@ export default {
       Link3D: this.$route.params.Link3D,
       Bewertung: this.$route.params.Bewertung,
       AnzahlBasket: this.$route.params.Anzahl,
+
       snackbar: false,
       text: `Der Artikel wurde zum Warenkorb hinzugefügt`,
       color: 'black',
       timeout: 1000,
       anzahl: [],
-      selectAnzahl: 0,
+      selectAnzahl: 1,
     };
   },
   methods: {

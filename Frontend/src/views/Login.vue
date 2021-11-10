@@ -1,7 +1,6 @@
 <template>
   <div>
     <!--LoginScreen-->
-
     <h1 class="black--text text-center">Login</h1>
 
     <v-form ref="submit" lazy-validation>
@@ -24,7 +23,6 @@
                   :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
                   :rules="rules.required"
                   :type="showPasswordInput ? 'text' : 'password'"
-                  name="input-10-1"
                   label="Passwort"
                   @click:append="showPasswordInput = !showPasswordInput"
                 ></v-text-field>
@@ -33,8 +31,8 @@
             </v-row>
             <br />
             <router-link class="black--text text-decoration-none" :to="{ name: 'Register' }"
-              ><p>Zurück zum <span>Registrieren</span></p></router-link
-            >
+              ><p>Zurück zum <span>Registrieren</span></p>
+            </router-link>
           </v-col>
         </v-row>
       </v-container>
@@ -70,12 +68,6 @@ export default {
       this.password = '';
     },
 
-    // authenticatorClicked() {
-
-    //   //Zur normalen ansicht wechseln wenn Code passt!
-    //   this.showAuthenticator = false;
-    // },
-
     async submit() {
       //Anfrage auf den Server, um sich einzuloggen
       let res = await axios.post('http://localhost:2410/KundenLogin', {
@@ -86,8 +78,8 @@ export default {
       //Inputs leeren
       this.ClearInputs();
       //Eingeloggten Kunden setzen
-      localStorage.setItem('LoggedInKunde', JSON.stringify(res.data.FoundUser));
-      localStorage.setItem('EverReg', true);
+      await localStorage.setItem('LoggedInKunde', JSON.stringify(res.data.FoundUser));
+      await localStorage.setItem('EverReg', true);
       //Zur Account seite weiterleiten, die alles dann Managed
       this.$router.push('account');
     },

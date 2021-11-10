@@ -10,7 +10,7 @@
       <!--Bild & Rating-->
       <div>
         <!--Bild-->
-        <img src="../assets/logo.png" :alt="this.Produkt.Name" />
+        <img src="../assets/logo.png" :alt="this.Produkt.Name">
 
         <!--Bewertung-->
         <v-rating
@@ -78,11 +78,10 @@ export default {
 }
 /*Name*/
 .PriceAndName > p:nth-child(2) {
-  font-size: 250%;
   color: black;
   font-family: 'Varela Round';
   font-weight: bold;
-  font-size: 180%;
+  font-size: 100%;
   float: right;
 }
 
@@ -91,7 +90,7 @@ img {
   float: left;
   width: 55%;
   height: auto;
-  position: relative;
+  position: absolute;
   z-index: 0;
 }
 </style>
