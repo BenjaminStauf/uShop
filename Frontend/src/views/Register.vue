@@ -46,7 +46,7 @@
     <!--Register-->
     <div v-bind:class="showAuthenticator ? 'BackgroundUnscharf' : 'BackgroundScharf'">
       <!--Fehlermeldung wenn Email schon vorhanden ist-->
-      <div>
+      <div v-if="showEmailInUse">
         <v-alert
           style="text-align:center;"
           v-model="showEmailInUse"
