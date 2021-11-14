@@ -4,7 +4,14 @@
     <div v-if="showAuthenticator" class="AuthenticatorDiv">
       <!--Fehlermeldung wenn Code falsch war!-->
       <div v-if="showAuthError">
-        <v-alert color="red" elevation="10" type="warning">
+        <v-alert
+          style="text-align: center;"
+          v-model="showAuthError"
+          dismissible
+          color="red"
+          elevation="10"
+          type="warning"
+        >
           Der Authentications-Code war ungültig!
         </v-alert>
         <br />
@@ -40,10 +47,16 @@
     <div v-bind:class="showAuthenticator ? 'BackgroundUnscharf' : 'BackgroundScharf'">
       <!--Fehlermeldung wenn Email schon vorhanden ist-->
       <div>
-        <v-alert style="text-align:center;" v-model="showEmailInUse" color="red" elevation="10" type="warning" dismissible>
+        <v-alert
+          style="text-align:center;"
+          v-model="showEmailInUse"
+          color="red"
+          elevation="10"
+          type="warning"
+          dismissible
+        >
           Die Email ist schon in Verwendung, bitte nimm eine andere :)
         </v-alert>
-        <br />
         <br />
       </div>
 
@@ -263,6 +276,9 @@ export default {
 
         //Wenn die Email (der Code in dem Fall) nicht vorhanden ist, wird man weitergeleitet
         if (code != 'vorhanden') {
+          //Falls EmailvorhandenMeldung kommt false setzen
+          this.showEmailInUse = false;
+          //Authcode übergeben
           this.realAutheticatorCode = code;
 
           //Authentificator-Mode on
