@@ -204,7 +204,7 @@ export default {
     async authenticatorClicked() {
       if (this.realAutheticatorCode === this.authenticator) {
         // Kunden registrieren
-        const res = await axios.post('http://localhost:2410/KundeRegister', {
+        const { data } = await axios.post('http://localhost:2410/KundeRegister', {
           Vorname: this.Vorname,
           Nachname: this.Nachname,
           Email: this.Email,
@@ -214,21 +214,27 @@ export default {
           Ort: this.Ort,
           IsAdmin: false,
         });
-        //Leert alle Inputs
-        this.ClearInputs();
 
-        //Authenticator-Mode off
-        this.showAuthenticator = false;
+        //Überprüft ob die Email bereits verwendet wurde
+        if (data == 'vorhanden') {
+          alert('Diese Email wurde bereits verwendet!');
+        } else {
+          //Leert alle Inputs
+          this.ClearInputs();
 
-        //Wenn fertig zur Login-Seite weiterleiten
-        this.$router.push('Login');
+          //Authenticator-Mode off
+          this.showAuthenticator = false;
+
+          //Wenn fertig zur Login-Seite weiterleiten
+          this.$router.push('Login');
+        }
       }
     },
 
     async Submitted() {
       //Beide Passwörter vergleichen
       if (this.Passwort1 == this.Passwort2) {
-        //Auth-Code bekommen
+        // Auth-Code bekommen
         const { data: code } = await axios.post('http://localhost:2410/SendCode', {
           Vorname: this.Vorname,
           Nachname: this.Nachname,

@@ -4,11 +4,14 @@
     <h1 class="black--text text-center">Login</h1>
 
     <v-form ref="submit" lazy-validation>
-      <v-container class="mt-12">
+      <v-container>
         <v-row class="justify-center">
-          <v-col cols="6">
-            <v-row class="justify-center">
-              <v-col cols="12" sm="12">
+          <v-col md="1"></v-col>
+          <v-col md="10">
+            <!--Email-->
+            <v-row>
+              <v-col sm="3"></v-col>
+              <v-col>
                 <v-text-field
                   v-model="email"
                   label="Email"
@@ -17,7 +20,12 @@
                   :rules="rules.EmailRules"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" sm="12">
+              <v-col sm="3"></v-col>
+            </v-row>
+            <!--Passwort-->
+            <v-row>
+              <v-col sm="3"></v-col>
+              <v-col>
                 <v-text-field
                   v-model="password"
                   :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
@@ -25,15 +33,34 @@
                   :type="showPasswordInput ? 'text' : 'password'"
                   label="Passwort"
                   @click:append="showPasswordInput = !showPasswordInput"
+                  :tabindex="-1"
                 ></v-text-field>
               </v-col>
-              <v-btn type="submit" @click="submit">Submit</v-btn>
+              <v-col sm="3"></v-col>
             </v-row>
+            <!--Submit-->
+            <v-row>
+              <v-col sm="5"></v-col>
+              <v-col sm="1">
+                <v-btn type="submit" @click="submit">Einloggen</v-btn>
+              </v-col>
+              <v-col sm="3"></v-col>
+            </v-row>
+
+            <!--Register weiterleiten-->
             <br />
-            <router-link class="black--text text-decoration-none" :to="{ name: 'Register' }"
-              ><p>Zurück zum <span>Registrieren</span></p>
-            </router-link>
+            <br />
+            <v-row>
+              <v-col md="3"></v-col>
+              <v-col md="3">
+                <router-link class="black--text text-decoration-none" :to="{ name: 'Register' }"
+                  ><p>Zurück zum <span>Registrieren</span></p>
+                </router-link>
+              </v-col>
+              <v-col md="10"></v-col>
+            </v-row>
           </v-col>
+          <v-col md="1"></v-col>
         </v-row>
       </v-container>
     </v-form>
