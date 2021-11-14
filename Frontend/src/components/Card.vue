@@ -4,29 +4,30 @@
       <!--Preis & Produkttitel-->
       <div class="PriceAndName">
         <p>{{ this.Produkt.Preis }}€</p>
-        <p>{{ this.Produkt.Name }}</p>
-      </div>
-
-      <!--Bild & Rating-->
-      <div>
-        <!--Bild-->
-        <img src="../assets/logo.png" :alt="this.Produkt.Name">
-
-        <!--Bewertung-->
-        <v-rating
-          background-color="warning"
-          color="warning"
-          empty-icon="mdi-star-outline"
-          full-icon="mdi-star"
-          readonly
-          half-increments
-          length="5"
-          size="25"
-          :value="this.Produkt.Bewertung"
-          style="float:right; z-index: 2; position: absolute; right: 0%; top: 2.3rem"
+        <p
+          id="ProduktTitle"
+          :style="this.Produkt.Name.length >= 16 ? 'fontSize: 120%' : 'fontSize: 160%'"
         >
-        </v-rating>
+          {{ this.Produkt.Name }}
+        </p>
       </div>
+
+      <!--Bild-->
+      <img src="../assets/logo.png" :alt="this.Produkt.Name" />
+
+      <!--Bewertung-->
+      <v-rating
+        background-color="warning"
+        color="warning"
+        empty-icon="mdi-star-outline"
+        full-icon="mdi-star"
+        readonly
+        half-increments
+        length="5"
+        size="23"
+        :value="this.Produkt.Bewertung"
+        style="float:right; z-index: 2; position: relative; right: 0%; top: -12.3rem"
+      ></v-rating>
     </div>
   </div>
 </template>
@@ -51,8 +52,6 @@ export default {
 .MainDiv {
   height: 250px;
   width: 350px;
-  min-width: 300px;
-  min-height: auto;
   border: solid black 2px;
   border-radius: 20px;
   background: white;
@@ -63,7 +62,8 @@ export default {
 
 .InnerDiv {
   margin: 1.5% 2%;
-  position: relative;
+  width: 95%;
+  height: 90%;
 }
 
 /*Preis*/
@@ -78,19 +78,24 @@ export default {
 }
 /*Name*/
 .PriceAndName > p:nth-child(2) {
+  text-align: right;
   color: black;
   font-family: 'Varela Round';
   font-weight: bold;
-  font-size: 100%;
+  font-size: 150%;
   float: right;
+  z-index: 2;
+  max-width: 80%;
 }
 
 img {
-  margin-bottom: 2px;
   float: left;
   width: 55%;
   height: auto;
-  position: absolute;
-  z-index: 0;
+  position: relative;
+  padding: 0%;
+  margin-left: 0px;
+  margin-bottom: 3px;
+  z-index: 1;
 }
 </style>
