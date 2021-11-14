@@ -215,19 +215,14 @@ export default {
           IsAdmin: false,
         });
 
-        //Überprüft ob die Email bereits verwendet wurde
-        if (data == 'vorhanden') {
-          alert('Diese Email wurde bereits verwendet!');
-        } else {
-          //Leert alle Inputs
-          this.ClearInputs();
+        //Leert alle Inputs
+        this.ClearInputs();
 
-          //Authenticator-Mode off
-          this.showAuthenticator = false;
+        //Authenticator-Mode off
+        this.showAuthenticator = false;
 
-          //Wenn fertig zur Login-Seite weiterleiten
-          this.$router.push('Login');
-        }
+        //Wenn fertig zur Login-Seite weiterleiten
+        this.$router.push('Login');
       }
     },
 
@@ -241,10 +236,14 @@ export default {
           Email: this.Email,
         });
 
-        this.realAutheticatorCode = code;
+        if (code != 'vorhanden') {
+          this.realAutheticatorCode = code;
 
-        //Authentificator-Mode on
-        this.showAuthenticator = true;
+          //Authentificator-Mode on
+          this.showAuthenticator = true;
+        } else {
+          alert('Diese Email ist schon vorhanden!');
+        }
       }
     },
   },

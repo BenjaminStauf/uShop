@@ -138,26 +138,43 @@ router.get('/getCategories', (req, res) => {
 
 //Authentifikationscode senden (Für Registrieren wichtig)
 router.post('/SendCode', (req, res) => {
+  DBconnection = DatenbankverbindungHerstellen();
+
   //Daten bekommen
   const { Vorname, Nachname, Email } = req.body;
 
-  //Arrow-Function erstellt den Key (5 Stellig)
-  let MakeKey = () => {
-    const auswahlStr = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let str = '';
-    for (let index = 0; index < 6; index++) {
-      str += auswahlStr[Math.floor(Math.random() * auswahlStr.length)];
-    }
-    return str;
-  };
-  //Key erstellen
-  const code = MakeKey();
+  //Sendet Auth-Code wenn die mail noch nicht vorhanden ist
+  DBconnection.query(
+    'SELECT Email FROM kunden_tbl WHERE Email LIKE ?',
+    [Email],
+    (error, elements) => {
+      if (!error) {
+        //Schauen ob die Email schon vorhanden ist
+        if (elements.length == 0) {
+          //Arrow-Function erstellt den Key (5 Stellig)
+          let MakeKey = () => {
+            const auswahlStr = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let str = '';
+            for (let index = 0; index < 6; index++) {
+              str += auswahlStr[Math.floor(Math.random() * auswahlStr.length)];
+            }
+            return str;
+          };
+          //Key erstellen
+          const code = MakeKey();
 
-  //Bestätigungsmail Senden
-  SendMailAuthCode(code, Vorname + ' ' + Nachname, Email);
+          //Bestätigungsmail Senden
+          SendMailAuthCode(code, Vorname + ' ' + Nachname, Email);
 
-  //Code ausgeben
-  res.send(code);
+          //Code ausgeben
+          res.send(code);
+        } else {
+          console.log('Vorhanden');
+          res.send('vorhanden');
+        }
+      } else console.log(error);
+    },
+  );
 });
 
 router.post('/KundeRegister', (req, res) => {
@@ -167,35 +184,20 @@ router.post('/KundeRegister', (req, res) => {
   //Sich mit der Datenbank verbinden
   DBconnection = DatenbankverbindungHerstellen();
 
+  console.log('Eintrag!');
   DBconnection.query(
-    'SELECT Email FROM kunden_tbl WHERE Email LIKE ?',
-    [Email],
-    (error, elements) => {
-      if (!error) {
-        //Schauen ob die Email schon vorhanden ist
-        if (elements.length == 0) {
-          console.log('Eintrag!');
-          DBconnection.query(
-            'INSERT INTO kunden_tbl (Vorname, Nachname, Email, Passwort, StrasseHsnr, Plz, Ort, IsAdmin) VALUES (?,?,?,?,?,?,?,?)',
-            [Vorname, Nachname, Email, Passwort, Strasse, Plz, Ort, IsAdmin],
-            (err) => {
-              if (err) {
-                console.log(err);
-              } else {
-                res.send('Hat geklappt!');
-              }
-            },
-          );
-        } else {
-          console.log('Vorhanden');
-          res.send('vorhanden');
-        }
-      } else console.log(error);
+    'INSERT INTO kunden_tbl (Vorname, Nachname, Email, Passwort, StrasseHsnr, Plz, Ort, IsAdmin) VALUES (?,?,?,?,?,?,?,?)',
+    [Vorname, Nachname, Email, Passwort, Strasse, Plz, Ort, IsAdmin],
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send('Hat geklappt!');
+      }
     },
   );
 
-  //Datenbankverbindung trennen braucht mir hier nicht, da es sonst nicht funktioniert!
-  //   DatenbankverbindungTrennen(DBconnection);
+  DatenbankverbindungTrennen(DBconnection);
 });
 
 router.post('/KundenLogin', (req, res) => {
