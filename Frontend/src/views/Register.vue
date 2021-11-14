@@ -2,6 +2,16 @@
   <div>
     <!--Authenticator-->
     <div v-if="showAuthenticator" class="AuthenticatorDiv">
+      <!--Fehlermeldung wenn Code falsch war!-->
+      <div v-if="showAuthError">
+        <v-alert color="red" elevation="10" type="warning">
+          Der Authentications-Code war ungültig!
+        </v-alert>
+        <br />
+        <br />
+      </div>
+
+      <!--Auth-Code überprüfung-->
       <h1 style="text-align:center;">Bitte gib deinen Authenticatorcode ein:</h1>
       <v-form>
         <v-container>
@@ -28,6 +38,16 @@
 
     <!--Register-->
     <div v-bind:class="showAuthenticator ? 'BackgroundUnscharf' : 'BackgroundScharf'">
+      <!--Fehlermeldung wenn Email schon vorhanden ist-->
+      <div>
+        <v-alert style="text-align:center;" v-model="showEmailInUse" color="red" elevation="10" type="warning" dismissible>
+          Die Email ist schon in Verwendung, bitte nimm eine andere :)
+        </v-alert>
+        <br />
+        <br />
+      </div>
+
+      <!--Register-Teil-->
       <h1 class="text-center">Register</h1>
       <h3 class="text-center pt-6">
         Willkommen, wenn Sie noch kein Konto haben können sie hier kostelos eines erstellen.
@@ -75,23 +95,23 @@
               <v-row class="justify-center">
                 <v-col md="4">
                   <v-text-field
-                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="rules.NormalRules"
-                    :type="show ? 'text' : 'password'"
+                    :type="showPasswordInput ? 'text' : 'password'"
                     label="Passwort"
                     v-model="Passwort1"
-                    @click:append="show = !show"
+                    @click:append="showPasswordInput = !showPasswordInput"
                   />
                 </v-col>
                 <v-col md="1"></v-col>
                 <v-col md="4"
                   ><v-text-field
-                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="rules.NormalRules"
-                    :type="show ? 'text' : 'password'"
+                    :type="showPasswordInput ? 'text' : 'password'"
                     label="Passwort"
                     v-model="Passwort2"
-                    @click:append="show = !show"
+                    @click:append="showPasswordInput = !showPasswordInput"
                   />
                 </v-col>
               </v-row>
@@ -168,8 +188,11 @@ export default {
       userArray: [],
 
       //Variablen
-      show: false,
+      showPasswordInput: false,
       showAuthenticator: false,
+      showAuthError: false,
+      showEmailInUse: false,
+
       //Anorderungen an die Inputs
       rules: {
         NormalRules: [(value) => !!value || 'Required.'],
@@ -223,6 +246,8 @@ export default {
 
         //Wenn fertig zur Login-Seite weiterleiten
         this.$router.push('Login');
+      } else {
+        this.showAuthError = true;
       }
     },
 
@@ -236,13 +261,17 @@ export default {
           Email: this.Email,
         });
 
+        //Wenn die Email (der Code in dem Fall) nicht vorhanden ist, wird man weitergeleitet
         if (code != 'vorhanden') {
           this.realAutheticatorCode = code;
 
           //Authentificator-Mode on
           this.showAuthenticator = true;
         } else {
-          alert('Diese Email ist schon vorhanden!');
+          //Zeigt die Fehlermeldung an
+          this.showEmailInUse = true;
+          //Email-Input leeren
+          this.Email = '';
         }
       }
     },
