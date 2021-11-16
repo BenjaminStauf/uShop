@@ -150,7 +150,8 @@ export default {
 			};
 
 			//Warenkorb an Backend schicken
-			const res = await axios.post('http://localhost:2410/pay', sendPay);
+			//const resPay = await axios.post('http://localhost:2410/pay', sendPay);
+			const resAddOrder = await axios.post('http://localhost:2410/addOrder', sendPay)
 		},
 	},
 };
