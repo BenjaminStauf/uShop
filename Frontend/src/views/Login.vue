@@ -1,69 +1,98 @@
 <template>
   <div>
+    <!--Passwort vergessen-->
+    <div v-if="showPasswortVergessen" class="PasswortVergessenDiv">
+      <!--Auth-Code überprüfung-->
+      <h1 style="text-align:center;">Bitte gib deinen Authenticatorcode ein:</h1>
+      <v-form :disable="showPasswortVergessen">
+        <v-container>
+          <v-row>
+            <v-col md="2"></v-col>
+            <v-col md="10"
+              ><v-text-field style="width: 80%"  type="text"></v-text-field>
+            </v-col>
+            <v-col></v-col>
+          </v-row>
+
+          <v-row>
+            <v-col></v-col>
+            <v-col>
+              <v-btn color="#424242"  dark>
+                Bestätigen
+              </v-btn>
+            </v-col>
+            <v-col></v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+    </div>
+
     <!--LoginScreen-->
-    <h1 class="black--text text-center">Login</h1>
+    <div v-bind:class="showPasswortVergessen ? 'BackgroundUnscharf' : 'BackgroundScharf'">
+      <h1 class="black--text text-center">Login</h1>
 
-    <v-form ref="submit" lazy-validation>
-      <v-container>
-        <v-row class="justify-center">
-          <v-col md="1"></v-col>
-          <v-col md="10">
-            <!--Email-->
-            <v-row>
-              <v-col sm="3"></v-col>
-              <v-col>
-                <v-text-field
-                  v-model="email"
-                  label="Email"
-                  clearable
-                  required
-                  :rules="rules.EmailRules"
-                ></v-text-field>
-              </v-col>
-              <v-col sm="3"></v-col>
-            </v-row>
-            <!--Passwort-->
-            <v-row>
-              <v-col sm="3"></v-col>
-              <v-col>
-                <v-text-field
-                  v-model="password"
-                  :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
-                  :rules="rules.required"
-                  :type="showPasswordInput ? 'text' : 'password'"
-                  label="Passwort"
-                  @click:append="showPasswordInput = !showPasswordInput"
-                  :tabindex="-1"
-                ></v-text-field>
-              </v-col>
-              <v-col sm="3"></v-col>
-            </v-row>
-            <!--Submit-->
-            <v-row>
-              <v-col sm="5"></v-col>
-              <v-col sm="1">
-                <v-btn type="submit" @click="submit">Einloggen</v-btn>
-              </v-col>
-              <v-col sm="3"></v-col>
-            </v-row>
+      <v-form ref="submit" lazy-validation :disabled="showPasswortVergessen">
+        <v-container>
+          <v-row class="justify-center">
+            <v-col md="1"></v-col>
+            <v-col md="10">
+              <!--Email-->
+              <v-row>
+                <v-col sm="3"></v-col>
+                <v-col>
+                  <v-text-field
+                    v-model="email"
+                    label="Email"
+                    clearable
+                    required
+                    :rules="rules.EmailRules"
+                  ></v-text-field>
+                </v-col>
+                <v-col sm="3"></v-col>
+              </v-row>
+              <!--Passwort-->
+              <v-row>
+                <v-col sm="3"></v-col>
+                <v-col>
+                  <v-text-field
+                    v-model="password"
+                    :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="rules.required"
+                    :type="showPasswordInput ? 'text' : 'password'"
+                    label="Passwort"
+                    @click:append="showPasswordInput = !showPasswordInput"
+                    :tabindex="-1"
+                  ></v-text-field>
+                </v-col>
+                <v-col sm="3"></v-col>
+              </v-row>
+              <!--Submit-->
+              <v-row>
+                <v-col sm="5"></v-col>
+                <v-col sm="1">
+                  <v-btn type="submit" @click="submit">Einloggen</v-btn>
+                </v-col>
+                <v-col sm="3"></v-col>
+              </v-row>
 
-            <!--Register weiterleiten-->
-            <br />
-            <br />
-            <v-row>
-              <v-col md="3"></v-col>
-              <v-col md="3">
-                <router-link class="black--text text-decoration-none" :to="{ name: 'Register' }"
-                  ><p>Zurück zum <span>Registrieren</span></p>
-                </router-link>
-              </v-col>
-              <v-col md="10"></v-col>
-            </v-row>
-          </v-col>
-          <v-col md="1"></v-col>
-        </v-row>
-      </v-container>
-    </v-form>
+              <!--Register weiterleiten-->
+              <br />
+              <br />
+              <v-row>
+                <v-col md="3"></v-col>
+                <v-col md="3">
+                  <router-link class="black--text text-decoration-none" :to="{ name: 'Register' }"
+                    ><p>Zurück zum <span>Registrieren</span></p>
+                  </router-link>
+                </v-col>
+                <v-col md="10"></v-col>
+              </v-row>
+            </v-col>
+            <v-col md="1"></v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+    </div>
   </div>
 </template>
 
@@ -76,6 +105,7 @@ export default {
       email: '',
       password: '',
       showPasswordInput: false,
+      showPasswortVergessen: true,
 
       rules: {
         required: [(val) => (val || '').length > 0 || 'This field is required'],
@@ -118,5 +148,24 @@ export default {
 span {
   color: rgb(9, 156, 9);
   font-weight: bold;
+}
+
+.PasswortVergessenDiv {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 2;
+  width: 30%;
+  height: 15%;
+  background: white;
+  border-radius: 45px;
+  padding-top: 15%;
+}
+
+.BackgroundUnscharf {
+  filter: blur(10px);
+}
+.BackgroundScharf {
+  filter: none;
 }
 </style>

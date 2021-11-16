@@ -44,7 +44,7 @@
     </div>
 
     <!--Register-->
-    <div v-bind:class="showAuthenticator ? 'BackgroundUnscharf' : 'BackgroundScharf'">
+    <div v-bind:class="showAuthenticator ? 'BackgroundUnscharf' : 'BackgroundScharf'" >
       <!--Fehlermeldung wenn Email schon vorhanden ist-->
       <div v-if="showEmailInUse">
         <v-alert
@@ -67,7 +67,7 @@
       </h3>
       <br />
       <br />
-      <v-form>
+      <v-form :disabled="showAuthenticator">
         <v-container class="d-flex flex-wrap justify-space-around">
           <!--Vor-Nachname- Inputs-->
           <v-row>
