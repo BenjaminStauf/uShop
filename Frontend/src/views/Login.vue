@@ -105,7 +105,7 @@ export default {
       email: '',
       password: '',
       showPasswordInput: false,
-      showPasswortVergessen: true,
+      showPasswortVergessen: false,
 
       rules: {
         required: [(val) => (val || '').length > 0 || 'This field is required'],
