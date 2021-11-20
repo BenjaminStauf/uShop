@@ -5,11 +5,13 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import * as VueGoogleMaps from 'vue2-google-maps';
 
+require('dotenv').config()
+
 Vue.config.productionTip = false;
 
 Vue.use(VueGoogleMaps, {
 	load: {
-		key: 'AIzaSyB8hs5rLPunP8I8M_NIhN579O6fFxHL8PE',
+		key: process.env.VUE_APP_APIKEY,
 		libraries: 'places',
 	},
 });

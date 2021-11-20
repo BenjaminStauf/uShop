@@ -10,6 +10,7 @@
 	"dependencies": {
 		"axios": "^0.21.4",
 		"core-js": "^3.6.5",
+		"dotenv": "^10.0.0",
 		"vue": "^2.6.11",
 		"vue-3d-model": "^1.4.0",
 		"vue-cookies": "^1.7.4",
