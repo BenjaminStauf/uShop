@@ -274,7 +274,7 @@ router.get('/getProducts', (req, res) => {
 
 	//Bekommene Produkte + weiterschicken zum Frontend
 	DBconnection.query(
-		`SELECT ProduktID, Name, Preis, Bewertung, Kurzbeschreibung, KategorieName AS 'Kategorie', Link3D FROM produkt_tbl
+		`SELECT ProduktID, Name, Preis, Bewertung, Kurzbeschreibung, KategorieName AS 'Kategorie', Link3D, LinkImage FROM produkt_tbl
   JOIN kategorie_tbl kt on kt.Kategorie_ID = produkt_tbl.Kategorie_FK;`,
 		(err, results, fields) => {
 			res.send(results);

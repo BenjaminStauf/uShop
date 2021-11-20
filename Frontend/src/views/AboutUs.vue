@@ -37,12 +37,24 @@
 					src="https://www.pspr.de/wp-content/uploads/2017/08/Avatar-Platzhalter.jpg"
 				></v-img>
 			</v-row>
+			<hr>
 		</v-container>
+		<br>
+		<v-container>
+			<GoogleMap />
+		</v-container>
+		
 	</div>
 </template>
 
 <script>
-export default {};
+import GoogleMap from '../components/GoogleMap.vue'
+
+export default {
+	components: {
+		GoogleMap
+	}
+};
 </script>
 
 <style></style>

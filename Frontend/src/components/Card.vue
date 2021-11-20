@@ -12,8 +12,9 @@
 				</span>
 			</div>
 			<!--Bild-->
-			<img src="../assets/logo.png" :alt="this.Produkt.Name" />
-
+			<!-- <img :src="Produkt.LinkItem" :alt="this.Produkt.Name" /> -->
+			<!-- <p>{{ this.Produkt.LinkImage }}</p> -->
+			<img src="../../Images/Produkt_Images/Tisch_Sessel1.jpg" :alt="this.Produkt.Name" /> 
 			<!--Bewertung-->
 			<v-rating
 				class="ratingClass"
@@ -24,7 +25,7 @@
 				readonly
 				half-increments
 				length="5"
-				size="23"
+				size="10"
 				:value="this.Produkt.Bewertung"
 			></v-rating>
 		</div>
@@ -36,6 +37,7 @@ export default {
 	data() {
 		return {
 			Produkt: this._productObj,
+			LinkImage: '../../Images/Produkt_Images/SchwarzesBett_28.jpg',
 		};
 	},
 
@@ -100,11 +102,12 @@ export default {
 	z-index: 2;
 	position: relative;
 	top: -90%;
+	background-color: lime;
 }
 
 img {
 	float: left;
-	width: 55%;
+	width: 60%;
 	height: auto;
 	padding-bottom: 5%;
 }
