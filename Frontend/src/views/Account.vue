@@ -15,9 +15,26 @@
 				Guten Tag {{ aktiverUser.Vorname }} {{ this.aktiverUser.Nachname }}
 			</h2>
 		</div>
-    <ul v-for="bestellung of bestellungen" :key='bestellung.Anzahl'>
-      <li>{{bestellung.Name}} | {{bestellung.Preis}}EUR | Anzahl: {{bestellung.Anzahl}}</li>
-    </ul>
+
+		<br />
+		<br />
+		<h4 class="text-center">Ihre bisherigen Bestellungen:</h4>
+		<v-container v-if="items.lenght != 0">
+			<v-data-table dark :headers="headers" :items="items" :items-per-page="5" class="elevation-1">
+				<!-- eslint-disable-next-line vue/valid-v-slot -->
+				<template v-slot:body.append="{ headers }">
+					<tr>
+						<td :colspan="headers.lenght"></td>
+						<td :colspan="headers.lenght">
+							<b>{{ summeAllerBestellungen }}</b>
+						</td>
+						<td :colspan="headers.lenght">
+							<b>{{ anzahlAllerProdukte }}</b>
+						</td>
+					</tr>
+				</template>
+			</v-data-table>
+		</v-container>
 	</div>
 </template>
 <script>
@@ -26,7 +43,14 @@ export default {
 	data() {
 		return {
 			aktiverUser: {},
-      bestellungen: [], 
+			headers: [
+				{ text: 'Name des Artikels', value: 'Name', class: 'cyan--text' },
+				{ text: 'Preis des Artikels (in EUR) ', value: 'Preis', class: 'cyan--text' },
+				{ text: 'Anzahl des Produkts', value: 'Anzahl', class: 'cyan--text' },
+				{ text: 'Bestell ID', value: 'bestell_ID', class: 'cyan--text' },
+			],
+			items: [],
+			summe: 0,
 		};
 	},
 	async mounted() {
@@ -43,10 +67,8 @@ export default {
 			const post = await axios.post('http://localhost:2410/getOrders', {
 				KundenID: this.aktiverUser.Kunden_ID,
 			});
-			console.log(post.data);
-      this.bestellungen = post.data
-
-      
+			console.table(post.data);
+			this.items = post.data;
 		} else {
 			console.log('Kein Kunde im Localstorage');
 			//Wenn kein Kunde angemeldet ist
@@ -56,6 +78,18 @@ export default {
 				this.$router.push('register');
 			}
 		}
+	},
+	computed: {
+		summeAllerBestellungen() {
+			let summe = 0;
+			this.items.forEach((element) => (summe += element.Preis * element.Anzahl));
+			return summe;
+		},
+		anzahlAllerProdukte() {
+			let anzahl = 0;
+			this.items.forEach((element) => (anzahl += element.Anzahl));
+			return anzahl;
+		},
 	},
 	methods: {
 		async abmelden() {
