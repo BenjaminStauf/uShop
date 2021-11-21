@@ -1,6 +1,8 @@
 <template>
-	<v-card class="mx-auto my-12" width="374">
-		<v-img contain height="auto" :src="Produkt.LinkImage"></v-img>
+	<v-card class="mx-auto my-12" max-width="350">
+		<div class="grey darken-1">
+			<v-img contain max-height="250" :src="Produkt.LinkImage"></v-img>
+		</div>
 
 		<v-card-title>{{ Produkt.Name }}</v-card-title>
 

@@ -1,11 +1,11 @@
 <template>
-	<div>
+	<div class="background">
 		<v-row>
 			<v-col cols="8">
 				<v-row class="justify-center mt-6">
-					<v-img class="" max-height="500px" max-width="500px" :src="LinkImage"></v-img>
+					<!-- <v-img class="" max-height="500px" max-width="500px" :src="LinkImage"></v-img> -->
 					<!--3D-MODELRENDERER-->
-					<!-- <model-gltf src="/Users/benjamin/Desktop/uShop/Frontend/OfficeChair/scene.gltf"></model-gltf> -->
+					<model-gltf :background-color="background3D" :src="Link3D"></model-gltf>
 				</v-row>
 			</v-col>
 			<v-divider vertical></v-divider>
@@ -59,12 +59,12 @@
 </template>
 
 <script>
-// import {ModelGltf}  from "vue-3d-model";
+import { ModelGltf } from 'vue-3d-model';
 
 export default {
-	// components: {
-	//   ModelGltf,
-	// },
+	components: {
+		ModelGltf,
+	},
 
 	data() {
 		return {
@@ -84,6 +84,8 @@ export default {
 			timeout: 1000,
 			anzahl: [],
 			selectAnzahl: 1,
+
+			background3D: '#EEEEEE',
 		};
 	},
 	methods: {
@@ -152,4 +154,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+/* .background{
+	background-color: #EEEEEE;
+} */
+</style>
