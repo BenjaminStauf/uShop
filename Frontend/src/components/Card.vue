@@ -1,6 +1,6 @@
 <template>
 	<v-card class="mx-auto my-12" width="374">
-		<v-img height="50%" src="../../Images/Produkt_Images/SpongeBobBed_11.jpg"></v-img>
+		<v-img contain height="auto" :src="Produkt.LinkImage"></v-img>
 
 		<v-card-title>{{ Produkt.Name }}</v-card-title>
 
@@ -44,6 +44,7 @@
 						Kategorie: Produkt.Kategorie,
 						Link3D: Produkt.Link3D,
 						Bewertung: Produkt.Bewertung,
+						LinkImage: Produkt.LinkImage,
 					},
 				}"
 			>

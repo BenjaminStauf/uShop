@@ -1,150 +1,154 @@
 <template>
-  <div>
-    <v-row>
-      <v-col cols="8">
-        <v-row class="justify-center mt-6">
-          <v-img
-            class=""
-            max-height="500px"
-            max-width="500px"
-            src="https://ctc-wenzel.de/wp-content/uploads/Foto-Platzhalter.jpg"
-          ></v-img>
-          <!--3D-MODELRENDERER-->
-          <!-- <model-gltf src="/Users/benjamin/Desktop/uShop/Frontend/OfficeChair/scene.gltf"></model-gltf> -->
-        </v-row>
-      </v-col>
-      <v-divider vertical></v-divider>
-      <v-col cols="4">
-        <h2 class="text-center mt-6">{{ Name }}</h2>
-        <br />
-        <h3 class="ml-3">Kategorie: {{ Kategorie }}</h3>
-        <br />
-        <h3 class="ml-3">{{ Preis }}€</h3>
-        <br />
-        <h3 class="ml-3 mr-3">{{ Kurzbeschreibung }}</h3>
-        <br />
-        <v-col cols="4">
-          <label for="Anzahl" class="pl-1">Anzahl:</label>
-          <v-select :items="anzahl" label="Anzahl" class="pt-2" dense solo v-model="selectAnzahl" id="Anzahl"></v-select>
-        </v-col>
-        <v-rating
-          empty-icon="mdi-star-outline"
-          full-icon="mdi-star"
-          half-icon="$mdiStarHalfFull"
-          length="5"
-          size="32"
-          :value="Bewertung"
-          readonly
-          color="warning"
-          background-color="grey"
-        ></v-rating>
-        <br />
-        <br />
-        <v-btn outlined text class="orange darken-2" @click="AddBasket">
-          Zum Warenkorb hinzufügen<v-icon right>mdi-cart-outline</v-icon>
-        </v-btn>
-      </v-col>
-    </v-row>
-    <br />
-    <br />
+	<div>
+		<v-row>
+			<v-col cols="8">
+				<v-row class="justify-center mt-6">
+					<v-img class="" max-height="500px" max-width="500px" :src="LinkImage"></v-img>
+					<!--3D-MODELRENDERER-->
+					<!-- <model-gltf src="/Users/benjamin/Desktop/uShop/Frontend/OfficeChair/scene.gltf"></model-gltf> -->
+				</v-row>
+			</v-col>
+			<v-divider vertical></v-divider>
+			<v-col cols="4">
+				<h2 class="text-center mt-6">{{ Name }}</h2>
+				<br />
+				<h3 class="ml-3">Kategorie: {{ Kategorie }}</h3>
+				<br />
+				<h3 class="ml-3">{{ Preis }}€</h3>
+				<br />
+				<h3 class="ml-3 mr-3">{{ Kurzbeschreibung }}</h3>
+				<br />
+				<v-col cols="4">
+					<label for="Anzahl" class="pl-1">Anzahl:</label>
+					<v-select
+						:items="anzahl"
+						label="Anzahl"
+						class="pt-2"
+						dense
+						solo
+						v-model="selectAnzahl"
+						id="Anzahl"
+					></v-select>
+				</v-col>
+				<v-rating
+					empty-icon="mdi-star-outline"
+					full-icon="mdi-star"
+					half-icon="$mdiStarHalfFull"
+					length="5"
+					size="32"
+					:value="Bewertung"
+					readonly
+					color="warning"
+					background-color="grey"
+				></v-rating>
+				<br />
+				<br />
+				<v-btn outlined text class="orange darken-2" @click="AddBasket">
+					Zum Warenkorb hinzufügen<v-icon right>mdi-cart-outline</v-icon>
+				</v-btn>
+			</v-col>
+		</v-row>
+		<br />
+		<br />
 
-    <v-divider></v-divider>
-    <br />
-    <br />
-    <v-snackbar v-model="snackbar" :timeout="timeout" :color="color">{{ text }}</v-snackbar>
-  </div>
+		<v-divider></v-divider>
+		<br />
+		<br />
+		<v-snackbar v-model="snackbar" :timeout="timeout" :color="color">{{ text }}</v-snackbar>
+	</div>
 </template>
 
 <script>
 // import {ModelGltf}  from "vue-3d-model";
 
 export default {
-  // components: {
-  //   ModelGltf,
-  // },
+	// components: {
+	//   ModelGltf,
+	// },
 
-  data() {
-    return {
-      ID: this.$route.params.ID,
-      Name: this.$route.params.Name,
-      Preis: this.$route.params.Preis,
-      Kurzbeschreibung: this.$route.params.Kurzbeschreibung,
-      Kategorie: this.$route.params.Kategorie,
-      Link3D: this.$route.params.Link3D,
-      Bewertung: this.$route.params.Bewertung,
-      AnzahlBasket: this.$route.params.Anzahl,
+	data() {
+		return {
+			ID: this.$route.params.ID,
+			Name: this.$route.params.Name,
+			Preis: this.$route.params.Preis,
+			Kurzbeschreibung: this.$route.params.Kurzbeschreibung,
+			Kategorie: this.$route.params.Kategorie,
+			Link3D: this.$route.params.Link3D,
+			LinkImage: this.$route.params.LinkImage,
+			Bewertung: this.$route.params.Bewertung,
+			AnzahlBasket: this.$route.params.Anzahl,
 
-      snackbar: false,
-      text: `Der Artikel wurde zum Warenkorb hinzugefügt`,
-      color: 'black',
-      timeout: 1000,
-      anzahl: [],
-      selectAnzahl: 1,
-    };
-  },
-  methods: {
-    AddBasket() {
-      if (this.selectAnzahl != 0) {
-        //Item dem Warenkorb hinzufügen
-        let ThisProduct = {
-          ID: this.ID,
-          Name: this.Name,
-          Preis: this.Preis,
-          Kurzbeschreibung: this.Kurzbeschreibung,
-          Kategorie: this.Kategorie,
-          Link3D: this.Link3D,
-          Bewertung: this.Bewertung,
-          Anzahl: this.selectAnzahl,
-        };
-        this.$store.dispatch('PushInWarenkorb', ThisProduct);
+			snackbar: false,
+			text: `Der Artikel wurde zum Warenkorb hinzugefügt`,
+			color: 'black',
+			timeout: 1000,
+			anzahl: [],
+			selectAnzahl: 1,
+		};
+	},
+	methods: {
+		AddBasket() {
+			if (this.selectAnzahl != 0) {
+				//Item dem Warenkorb hinzufügen
+				let ThisProduct = {
+					ID: this.ID,
+					Name: this.Name,
+					Preis: this.Preis,
+					Kurzbeschreibung: this.Kurzbeschreibung,
+					Kategorie: this.Kategorie,
+					Link3D: this.Link3D,
+					Bewertung: this.Bewertung,
+					Anzahl: this.selectAnzahl,
+				};
+				this.$store.dispatch('PushInWarenkorb', ThisProduct);
 
-        //Warenkorb Bestätigungsnachricht anzeigen
-        this.snackbar = true;
-        this.color = 'black';
-        this.text = 'Der Artikel wurde zum Warenkorb hinzugefügt';
-      } else {
-        this.text = 'Sie müssen eine Poduktanzahl auswählen';
-        this.color = 'red';
-        this.snackbar = true;
-      }
-    },
-  },
-  mounted() {
-    console.log(this.AnzahlBasket);
-    //Anzahl Select befüllen
-    for (let index = 1; index < 100; index++) {
-      this.anzahl.push(index);
-    }
+				//Warenkorb Bestätigungsnachricht anzeigen
+				this.snackbar = true;
+				this.color = 'black';
+				this.text = 'Der Artikel wurde zum Warenkorb hinzugefügt';
+			} else {
+				this.text = 'Sie müssen eine Poduktanzahl auswählen';
+				this.color = 'red';
+				this.snackbar = true;
+			}
+		},
+	},
+	mounted() {
+		console.log(this.AnzahlBasket);
+		//Anzahl Select befüllen
+		for (let index = 1; index < 100; index++) {
+			this.anzahl.push(index);
+		}
 
-    //Anzahl aus Warenkorb bekommen
-    if (this.AnzahlBasket > 0) {
-      this.selectAnzahl = this.AnzahlBasket;
-    }
+		//Anzahl aus Warenkorb bekommen
+		if (this.AnzahlBasket > 0) {
+			this.selectAnzahl = this.AnzahlBasket;
+		}
 
-    //Bei einem Seiten-Refresh wird das Letzte aufgerufene Objekt geladen
-    if (localStorage.getItem('LastObj') == null) {
-      //Objekt Speichern
-      let aktuellObjekt = {
-        ID: this.ID,
-        Name: this.Name,
-        Preis: this.Preis,
-        Kurzbeschreibung: this.Kurzbeschreibung,
-        Kategorie: this.Kategorie,
-        Link3D: this.Link3D,
-        Bewertung: this.Bewertung,
-      };
-      localStorage.setItem('LastObj', JSON.stringify(aktuellObjekt));
-    } else {
-      //Objekt Laden
-      let erg = JSON.parse(localStorage.getItem('LastObj'));
-      this.Name = erg.Name;
-      this.Preis = erg.Preis;
-      this.Kategorie = erg.Kategorie;
-      this.Kurzbeschreibung = erg.Kurzbeschreibung;
-      this.Link3D = erg.Link3D;
-      this.Bewertung = erg.Bewertung;
-    }
-  },
+		//Bei einem Seiten-Refresh wird das Letzte aufgerufene Objekt geladen
+		if (localStorage.getItem('LastObj') == null) {
+			//Objekt Speichern
+			let aktuellObjekt = {
+				ID: this.ID,
+				Name: this.Name,
+				Preis: this.Preis,
+				Kurzbeschreibung: this.Kurzbeschreibung,
+				Kategorie: this.Kategorie,
+				Link3D: this.Link3D,
+				Bewertung: this.Bewertung,
+			};
+			localStorage.setItem('LastObj', JSON.stringify(aktuellObjekt));
+		} else {
+			//Objekt Laden
+			let erg = JSON.parse(localStorage.getItem('LastObj'));
+			this.Name = erg.Name;
+			this.Preis = erg.Preis;
+			this.Kategorie = erg.Kategorie;
+			this.Kurzbeschreibung = erg.Kurzbeschreibung;
+			this.Link3D = erg.Link3D;
+			this.Bewertung = erg.Bewertung;
+		}
+	},
 };
 </script>
 
