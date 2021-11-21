@@ -3,7 +3,7 @@
 		<!--Überschrift-->
 		<h1 class="black--text center text-center pt-4">
 			<span class="black--text display-3">u</span
-			><span class="cyan--text accent-2 display-3 ">SHOP</span>
+			><span class="orange--text text--darken-2 display-3 ">SHOP</span>
 		</h1>
 
 		<!--Webseiten-Beschreibung-->
@@ -48,22 +48,7 @@
 		<div>
 			<v-container class="d-flex flex-wrap justify-space-around justify-center align-center">
 				<div v-for="produkt in setFilter" :key="produkt.ProduktID">
-					<router-link
-						:to="{
-							name: 'Product_Detail',
-							params: {
-								ID: produkt.ProduktID,
-								Name: produkt.Name,
-								Preis: produkt.Preis,
-								Kurzbeschreibung: produkt.Kurzbeschreibung,
-								Kategorie: produkt.Kategorie,
-								Link3D: produkt.Link3D,
-								Bewertung: produkt.Bewertung,
-							},
-						}"
-					>
-						<Card :_productObj="produkt" />
-					</router-link>
+					<Card :_productObj="produkt" />
 				</div>
 			</v-container>
 		</div>

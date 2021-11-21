@@ -40,7 +40,7 @@
         ></v-rating>
         <br />
         <br />
-        <v-btn outlined text class="lime accent-3" @click="AddBasket">
+        <v-btn outlined text class="orange darken-2" @click="AddBasket">
           Zum Warenkorb hinzufügen<v-icon right>mdi-cart-outline</v-icon>
         </v-btn>
       </v-col>
