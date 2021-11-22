@@ -174,7 +174,7 @@
       <br />
       <router-link class="black--text text-decoration-none" :to="{ name: 'Login' }"
         ><p class="black--text text-center">
-          Wenn sie bereits einen Account haben, können Sie sich hier anmelden: <span>Login</span>
+          Wenn sie bereits einen Account haben, können Sie sich hier anmelden: <span class="orange--text text--darken-2">Login</span>
         </p>
       </router-link>
     </div>

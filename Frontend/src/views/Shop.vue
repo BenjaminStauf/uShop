@@ -7,17 +7,16 @@
 		</h1>
 
 		<!--Webseiten-Beschreibung-->
-		<p class="black--text pl-6 pr-6 pt-6">
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt atque sequi, dignissimos veniam
-			quo illo maxime, iste culpa non consectetur recusandae. Delectus fugit pariatur quasi
-			accusamus cupiditate ipsam nostrum autem laborum incidunt sed temporibus et vel odit eius
-			laboriosam quo mollitia, eaque laudantium officiis architecto voluptatibus recusandae? Nostrum
-			repellendus mollitia corrupti, esse maiores porro cum adipisci fugit perspiciatis consectetur.
-			Accusantium cupiditate voluptatum error debitis nostrum et ipsum quas sequi, animi numquam
-			optio culpa voluptate possimus impedit laborum minima molestias iusto vero tempora nesciunt
-			eius accusamus. Nostrum, dolore, optio, nisi aspernatur quos porro rerum iure repellendus
-			voluptate architecto eius illo ipsam.
-		</p>
+		<v-container>
+			<h3 class="font-weight-light --text pl-6 pr-6 pt-6">
+				Die richtigen Möbel sind es, die ihrem Zuhause seinen einzigartigen Charakter verleihen und
+				die perfekte Wohlfühlumgebung für Sie schaffen. Und genau solche Möbel finden sie bei
+				unserem Webshop. Die dutzende Anzahl an Produkten, wird Sie mit hoher Sicherheit begeistern.
+				Unser Webshop führt nur hochwertige Produkte, um Ihnen die besten Erfahrungen mit diesen zu
+				garantieren. Außderdem bieten wir eine sichere, einfache und schnelle Zahlung mittels PayPal. 
+				Dadurch können wir Ihre Produkte noch am selben Tag der Bestellung für den Versand vorbereiten. 
+			</h3>
+		</v-container>
 
 		<!-- Filter Kategorie-->
 		<v-icon class="black--text ml-6" @click="filterShow = !filterShow">mdi-filter</v-icon>

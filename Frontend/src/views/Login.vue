@@ -72,7 +72,7 @@
 										:tabindex="-1"
 									></v-text-field>
 									<p
-										class="black--text text-decoration-underline"
+										class="orange--text text--darken-2 text-decoration-underline"
 										@click="showPasswortVergessen = true"
 									>
 										Passwort vergessen ?
@@ -96,7 +96,7 @@
 								<v-col md="3"></v-col>
 								<v-col md="3">
 									<router-link class="black--text text-decoration-none" :to="{ name: 'Register' }"
-										><p>Zurück zum <span>Registrieren</span></p>
+										><p>Zurück zum <span class="orange--text text--darken-2">Registrieren</span></p>
 									</router-link>
 								</v-col>
 								<v-col md="10"></v-col>

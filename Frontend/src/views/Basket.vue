@@ -4,7 +4,8 @@
 		<h1 class="text-center pt-6 pb-6">Produkte im Warenkorb</h1>
 		<v-container class="d-flex flex-wrap justify-space-around">
 			<div v-for="produkt in $store.state.warenkorb" :key="produkt.Name">
-				<v-card outlined max-width="500px" class="ma-4">
+				<CardBasket :_productObj="produkt" />
+				<!-- <v-card outlined max-width="500px" class="ma-4">
 					<v-list-item three-line>
 						<v-list-item-content>
 							<v-list-item-title class="text-h5 mb-1">
@@ -60,7 +61,7 @@
 							Produkt löschen
 						</v-btn>
 					</v-card-actions>
-				</v-card>
+				</v-card> -->
 			</div>
 		</v-container>
 		<v-divider></v-divider>
@@ -84,7 +85,11 @@
 <script>
 import eventBus from '../eventbus';
 import axios from 'axios';
+import CardBasket from '../components/CardBasket.vue'
 export default {
+	components: {
+		CardBasket
+	}, 
 	data() {
 		return {
 			Summe_warenkorb: 0,

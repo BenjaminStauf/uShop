@@ -99,6 +99,7 @@ export default {
 					Kurzbeschreibung: this.Kurzbeschreibung,
 					Kategorie: this.Kategorie,
 					Link3D: this.Link3D,
+					LinkImage: this.LinkImage,
 					Bewertung: this.Bewertung,
 					Anzahl: this.selectAnzahl,
 				};
@@ -137,7 +138,9 @@ export default {
 				Kurzbeschreibung: this.Kurzbeschreibung,
 				Kategorie: this.Kategorie,
 				Link3D: this.Link3D,
+				LinkImage: this.LinkImage,
 				Bewertung: this.Bewertung,
+				Anzahl: this.Anzahl,
 			};
 			localStorage.setItem('LastObj', JSON.stringify(aktuellObjekt));
 		} else {
@@ -148,8 +151,11 @@ export default {
 			this.Kategorie = erg.Kategorie;
 			this.Kurzbeschreibung = erg.Kurzbeschreibung;
 			this.Link3D = erg.Link3D;
+			this.LinkImage = erg.LinkImage;
 			this.Bewertung = erg.Bewertung;
+			this.Anzahl = erg.Anzahl;
 		}
+		console.log('Voll Geladen');
 	},
 };
 </script>

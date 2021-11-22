@@ -24,7 +24,7 @@
 				<!-- eslint-disable-next-line vue/valid-v-slot -->
 				<template v-slot:body.append="{ headers }">
 					<tr>
-						<td :colspan="headers.lenght"></td>
+						<td :colspan="headers.lenght">Summe:</td>
 						<td :colspan="headers.lenght">
 							<b>{{ summeAllerBestellungen }}</b>
 						</td>
