@@ -1,67 +1,14 @@
 <template>
-<!-- Umbauen auf User von LS -->
+	<!-- Umbauen auf User von LS -->
 	<div v-if="this.$store.state.warenkorb.length">
 		<h1 class="text-center pt-6 pb-6">Produkte im Warenkorb</h1>
 		<v-container class="d-flex flex-wrap justify-space-around">
 			<div v-for="produkt in $store.state.warenkorb" :key="produkt.Name">
-				<CardBasket :_productObj="produkt" />
-				<!-- <v-card outlined max-width="500px" class="ma-4">
-					<v-list-item three-line>
-						<v-list-item-content>
-							<v-list-item-title class="text-h5 mb-1">
-								{{ produkt.Name }}
-							</v-list-item-title>
-							<v-list-item-subtitle>{{ produkt.Kurzbeschreibung }}</v-list-item-subtitle>
-							<br />
-							<v-rating
-								empty-icon="mdi-star-outline"
-								full-icon="mdi-star"
-								half-icon="$mdiStarHalfFull"
-								length="5"
-								size="32"
-								:value="produkt.Bewertung"
-								readonly
-								color="warning"
-								background-color="grey"
-							></v-rating>
-							<v-col cols="4">
-								<v-select
-									v-model="produkt.Anzahl"
-									:items="selectAnzahl"
-									@change="UpdatePreis"
-								></v-select>
-							</v-col>
-						</v-list-item-content>
-
-						<v-list-item-avatar tile size="100" color="grey"></v-list-item-avatar>
-					</v-list-item>
-
-					<v-card-actions>
-						<router-link
-							:to="{
-								name: 'Product_Detail',
-								params: {
-									ID: produkt.ID,
-									Name: produkt.Name,
-									Preis: produkt.Preis,
-									Kurzbeschreibung: produkt.Kurzbeschreibung,
-									Kategorie: produkt.Kategorie,
-									Link3D: produkt.Link3D,
-									Bewertung: produkt.Bewertung,
-									Anzahl: produkt.Anzahl,
-								},
-							}"
-							class="text-decoration-none"
-						>
-							<v-btn outlined text class="lime accent-3">
-								Zum produkt
-							</v-btn>
-						</router-link>
-						<v-btn outlined text class="red accent-3 ml-3" @click="warenkorbRemove(produkt)">
-							Produkt löschen
-						</v-btn>
-					</v-card-actions>
-				</v-card> -->
+				<CardBasket
+					:_productObj="produkt"
+					@changePrice="UpdatePreis"
+					@delProdukt="warenkorbRemove"
+				/>
 			</div>
 		</v-container>
 		<v-divider></v-divider>
@@ -69,7 +16,13 @@
 		<v-container class="d-flex flex-wrap justify-space-around pt-4">
 			<h3>Summe aller Produkte: {{ Summe_warenkorb }}€</h3>
 
-			<v-btn @click="Bezahlen" outlined text class="lime accent-3" :disabled="buttonZahlenDisabled">
+			<v-btn
+				@click="Bezahlen"
+				outlined
+				text
+				class="orange darken-2"
+				:disabled="buttonZahlenDisabled"
+			>
 				Bezahlen
 			</v-btn>
 		</v-container>
@@ -85,11 +38,11 @@
 <script>
 import eventBus from '../eventbus';
 import axios from 'axios';
-import CardBasket from '../components/CardBasket.vue'
+import CardBasket from '../components/CardBasket.vue';
 export default {
 	components: {
-		CardBasket
-	}, 
+		CardBasket,
+	},
 	data() {
 		return {
 			Summe_warenkorb: 0,
@@ -114,7 +67,7 @@ export default {
 
 	methods: {
 		//Preisupdaten-Funktion
-		UpdatePreis: function() {
+		UpdatePreis() {
 			localStorage.removeItem('WarenkorbStorage');
 			localStorage.setItem('WarenkorbStorage', JSON.stringify(this.$store.state.warenkorb));
 
@@ -127,7 +80,7 @@ export default {
 			});
 		},
 		//Lösch-Funktion
-		warenkorbRemove: function(produktZuLöschen) {
+		warenkorbRemove(produktZuLöschen) {
 			this.$store.state.warenkorb = this.$store.state.warenkorb.filter((element) => {
 				if (element.ID != produktZuLöschen.ID) {
 					return true;
@@ -149,14 +102,16 @@ export default {
 			// const warenkorb = this.$store.state.warenkorb;
 			// warenkorb.aktiverUser = this.$store.state.aktiverUser;
 
+			this.buttonZahlenDisabled = true;
+
 			const sendPay = {
 				warenkorb: this.$store.state.warenkorb,
 				aktiveruser: this.$store.state.aktiverUser,
 			};
 
 			//Warenkorb an Backend schicken
-			//const resPay = await axios.post('http://localhost:2410/pay', sendPay);
-			const resAddOrder = await axios.post('http://localhost:2410/addOrder', sendPay)
+			const resPay = await axios.post('http://localhost:2410/pay', sendPay);
+			const resAddOrder = await axios.post('http://localhost:2410/addOrder', sendPay);
 		},
 	},
 };

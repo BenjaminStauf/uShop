@@ -20,7 +20,7 @@
 		<br />
 		<h4 class="text-center">Ihre bisherigen Bestellungen:</h4>
 		<v-container v-if="items.lenght != 0">
-			<v-data-table dark :headers="headers" :items="items" :items-per-page="5" class="elevation-1">
+			<v-data-table dark :headers="headers" :items="changeDaten" :items-per-page="5" class="elevation-1">
 				<!-- eslint-disable-next-line vue/valid-v-slot -->
 				<template v-slot:body.append="{ headers }">
 					<tr>
@@ -47,7 +47,8 @@ export default {
 				{ text: 'Name des Artikels', value: 'Name', class: 'cyan--text' },
 				{ text: 'Preis des Artikels (in EUR) ', value: 'Preis', class: 'cyan--text' },
 				{ text: 'Anzahl des Produkts', value: 'Anzahl', class: 'cyan--text' },
-				{ text: 'Bestell ID', value: 'bestell_ID', class: 'cyan--text' },
+				{ text: 'Bestell ID', value: 'bestell_ID', class: 'orange--text text--darken-2' },
+				{ text: 'Datum der Bestellung', value: 'Datum', class: 'orange--text text--darken-2' }
 			],
 			items: [],
 			summe: 0,
@@ -90,6 +91,13 @@ export default {
 			this.items.forEach((element) => (anzahl += element.Anzahl));
 			return anzahl;
 		},
+		changeDaten(){ 
+			let erg = this.items
+			for (const iterator of erg) {
+				iterator.Datum = new Date(iterator.Datum).toISOString().slice(0, 10)
+			}
+			return erg
+		}
 	},
 	methods: {
 		async abmelden() {

@@ -13,34 +13,38 @@
 				die perfekte Wohlfühlumgebung für Sie schaffen. Und genau solche Möbel finden sie bei
 				unserem Webshop. Die dutzende Anzahl an Produkten, wird Sie mit hoher Sicherheit begeistern.
 				Unser Webshop führt nur hochwertige Produkte, um Ihnen die besten Erfahrungen mit diesen zu
-				garantieren. Außderdem bieten wir eine sichere, einfache und schnelle Zahlung mittels PayPal. 
-				Dadurch können wir Ihre Produkte noch am selben Tag der Bestellung für den Versand vorbereiten. 
+				garantieren. Außderdem bieten wir eine sichere, einfache und schnelle Zahlung mittels
+				PayPal. Dadurch können wir Ihre Produkte noch am selben Tag der Bestellung für den Versand
+				vorbereiten.
 			</h3>
 		</v-container>
 
+		<br />
 		<!-- Filter Kategorie-->
-		<v-icon class="black--text ml-6" @click="filterShow = !filterShow">mdi-filter</v-icon>
-		<v-container align="center" v-if="filterShow">
-			<v-row justify="center">
-				<ul v-for="Kategorie in $store.state.Kategorien" :key="Kategorie.KategorieID">
-					<v-checkbox
-						color="cyan darken-2 "
-						v-bind:label="Kategorie.KategorieName"
-						v-bind:value="Kategorie.KategorieName"
-						v-model="selected"
-					></v-checkbox>
-				</ul>
-			</v-row>
-		</v-container>
-
-		<!-- Filter search -->
-		<v-icon class="black--text ml-6" @click="searchShow = !searchShow">mdi-magnify</v-icon>
-		<v-container class="justify-center" v-if="searchShow">
-			<v-col cols="4" class="pt-4 justify-center">
-				<v-row class="justify-center">
-					<v-text-field label="Suchen" solo v-model="pattern"></v-text-field>
+		<v-container>
+			<v-icon class="black--text ml-6" @click="filterShow = !filterShow">mdi-filter</v-icon>
+			<v-container align="center" v-if="filterShow">
+				<v-row justify="center">
+					<ul v-for="Kategorie in $store.state.Kategorien" :key="Kategorie.KategorieID">
+						<v-checkbox
+							color="cyan darken-2 "
+							v-bind:label="Kategorie.KategorieName"
+							v-bind:value="Kategorie.KategorieName"
+							v-model="selected"
+						></v-checkbox>
+					</ul>
 				</v-row>
-			</v-col>
+			</v-container>
+
+			<!-- Filter search -->
+			<v-icon class="black--text ml-6" @click="searchShow = !searchShow">mdi-magnify</v-icon>
+			<v-container class="justify-center" v-if="searchShow">
+				<v-col cols="4" class="pt-4 justify-center">
+					<v-row class="justify-center">
+						<v-text-field label="Suchen" solo v-model="pattern"></v-text-field>
+					</v-row>
+				</v-col>
+			</v-container>
 		</v-container>
 
 		<!--Produkte anzeigen-->

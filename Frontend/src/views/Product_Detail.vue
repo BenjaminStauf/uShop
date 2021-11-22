@@ -117,6 +117,7 @@ export default {
 		},
 	},
 	mounted() {
+		
 		console.log(this.AnzahlBasket);
 		//Anzahl Select befüllen
 		for (let index = 1; index < 100; index++) {

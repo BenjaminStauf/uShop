@@ -59,12 +59,16 @@
 </template>
 
 <script>
+import VueLoadImage from 'vue-load-image';
 export default {
 	name: 'Card',
+	components: {
+		VueLoadImage,
+	},
 	data() {
 		return {
 			Produkt: this._productObj,
-			LinkImage: '../../Images/Produkt_Images/SchwarzesBett_28.jpg',
+			isLoading: true,
 		};
 	},
 
