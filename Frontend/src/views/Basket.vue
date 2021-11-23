@@ -61,7 +61,7 @@ export default {
 		//Preis updaten
 		this.UpdatePreis();
 
-		console.log(this.$store.state.aktiverUser);
+		//console.log(this.$store.state.aktiverUser);
 		if (this.$store.state.aktiverUser != null) this.buttonZahlenDisabled = false;
 	},
 

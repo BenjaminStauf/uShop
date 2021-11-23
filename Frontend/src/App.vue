@@ -103,7 +103,6 @@ export default {
 		this.$store.dispatch('ReloadWarenkorbFromLocalStorage');
 
 		eventBus.$on('UpdateLocalStorage', () => {
-			console.log();
 			this.WarenkorbAnzahl = this.$store.state.warenkorb.length;
 		});
 

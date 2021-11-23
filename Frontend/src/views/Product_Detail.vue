@@ -101,7 +101,7 @@ export default {
 	methods: {
 		geladen() {
 			this.showSpinner = false;
-			console.log(this.showSpinner);
+			//console.log(this.showSpinner);
 		},
 		AddBasket() {
 			if (this.selectAnzahl != 0) {
@@ -131,7 +131,7 @@ export default {
 		},
 	},
 	mounted() {
-		console.log(this.showSpinner);
+		//console.log(this.showSpinner);
 
 		//Anzahl Select befüllen
 		for (let index = 1; index < 100; index++) {

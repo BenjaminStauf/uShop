@@ -36,7 +36,7 @@ export default new Vuex.Store({
     /*Ladet daten aus dem JSON in Produkte-Liste */
     async loadProducts(state) {
       const produclist = await axios.get('http://localhost:2410/getProducts');
-      console.log(produclist.data)
+      //console.log(produclist.data)
       state.produkte = produclist.data;
     },
     /*Ladet daten aus dem JSON in Produkte-Liste */

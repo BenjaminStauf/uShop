@@ -62,7 +62,7 @@ export default {
 			this.aktiverUser = JSON.parse(localStorage.getItem('LoggedInKunde'));
 			//Aktiven User im Store speichern
 			this.$store.state.aktiverUser = this.aktiverUser;
-			console.log(this.aktiverUser);
+			//console.log(this.aktiverUser);
 
 			//Daten von DB holen (Bestellhistorie)
 			const post = await axios.post('http://localhost:2410/getOrders', {
