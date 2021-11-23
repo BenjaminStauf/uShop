@@ -3,9 +3,16 @@
 		<v-row>
 			<v-col cols="8">
 				<v-row class="justify-center mt-6">
-					<!-- <v-img class="" max-height="500px" max-width="500px" :src="LinkImage"></v-img> -->
 					<!--3D-MODELRENDERER-->
-					<model-gltf :background-color="background3D" :src="Link3D"></model-gltf>
+					<model-gltf
+						@on-load="geladen"
+						:background-color="background3D"
+						:src="Link3D"
+					></model-gltf>
+
+					<vue-element-loading :active="showSpinner">
+						<img src="../../public/spinner.gif" width="55px" height="55px" />
+					</vue-element-loading>
 				</v-row>
 			</v-col>
 			<v-divider vertical></v-divider>
@@ -60,10 +67,11 @@
 
 <script>
 import { ModelGltf } from 'vue-3d-model';
-
+import VueElementLoading from 'vue-element-loading';
 export default {
 	components: {
 		ModelGltf,
+		VueElementLoading,
 	},
 
 	data() {
@@ -86,9 +94,15 @@ export default {
 			selectAnzahl: 1,
 
 			background3D: '#EEEEEE',
+			showSpinner: true,
+			label: 'Loading',
 		};
 	},
 	methods: {
+		geladen() {
+			this.showSpinner = false;
+			console.log(this.showSpinner);
+		},
 		AddBasket() {
 			if (this.selectAnzahl != 0) {
 				//Item dem Warenkorb hinzufügen
@@ -117,8 +131,8 @@ export default {
 		},
 	},
 	mounted() {
-		
-		console.log(this.AnzahlBasket);
+		console.log(this.showSpinner);
+
 		//Anzahl Select befüllen
 		for (let index = 1; index < 100; index++) {
 			this.anzahl.push(index);
@@ -157,6 +171,10 @@ export default {
 			this.Anzahl = erg.Anzahl;
 		}
 		console.log('Voll Geladen');
+
+		// this.$nextTick(() => {
+		// 	console.log('Alles Voll Geladen');
+		// });
 	},
 };
 </script>
@@ -164,5 +182,25 @@ export default {
 <style>
 /* .background{
 	background-color: #EEEEEE;
+} */
+.hideObject {
+	visibility: hidden;
+}
+.showObject {
+	visibility: visible;
+}
+
+.anordnen {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	background-color: lime;
+}
+
+/* .test{
+	background-color: pink;
+	height: 100%;
+	width: 100%;
+	display: flex;
 } */
 </style>
