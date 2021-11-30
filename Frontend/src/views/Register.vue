@@ -19,32 +19,24 @@
       </div>
 
       <!--Auth-Code überprüfung-->
-      <h1 style="text-align:center;">Bitte gib deinen Authenticatorcode ein:</h1>
+      <p style="text-align:center; width:auto; ">Bitte gib deinen Authenticatorcode ein:</p>
       <v-form>
         <v-container>
-          <v-row>
-            <v-col md="2"></v-col>
-            <v-col md="10"
-              ><v-text-field style="width: 80%" v-model="authenticator" type="text"></v-text-field>
-            </v-col>
-            <v-col></v-col>
+          <v-row class="justify-center">
+            <v-text-field style="width: 80%" v-model="authenticator" type="text"></v-text-field>
           </v-row>
 
-          <v-row>
-            <v-col></v-col>
-            <v-col>
-              <v-btn color="#424242" @click="authenticatorClicked" dark>
-                Bestätigen
-              </v-btn>
-            </v-col>
-            <v-col></v-col>
+          <v-row class="justify-center">
+            <v-btn color="#424242" @click="authenticatorClicked" dark>
+              Bestätigen
+            </v-btn>
           </v-row>
         </v-container>
       </v-form>
     </div>
 
     <!--Register-->
-    <div v-bind:class="showAuthenticator ? 'BackgroundUnscharf' : 'BackgroundScharf'" >
+    <div v-bind:class="showAuthenticator ? 'BackgroundUnscharf' : 'BackgroundScharf'">
       <!--Fehlermeldung wenn Email schon vorhanden ist-->
       <div v-if="showEmailInUse">
         <v-alert
@@ -65,116 +57,121 @@
       <h3 class="text-center pt-6">
         Willkommen, wenn Sie noch kein Konto haben können sie hier kostelos eines erstellen.
       </h3>
-      <br />
-      <br />
-      <v-form :disabled="showAuthenticator">
-        <v-container class="d-flex flex-wrap justify-space-around">
+      <v-form :disabled="showAuthenticator" ref="form">
+        <v-container class="d-flex flex-wrap justify-center">
           <!--Vor-Nachname- Inputs-->
-          <v-row>
-            <v-col md="1"></v-col>
-            <v-col md="10">
-              <!--MeinSpalte wo Inputs liegen-->
-              <v-row class="justify-center">
-                <v-col md="4">
-                  <v-text-field
-                    label="Vorname"
-                    v-model="Vorname"
-                    :rules="rules.NormalRules"
-                    hide-details="auto"
-                  />
-                </v-col>
-                <v-col md="1"></v-col>
-                <v-col md="4">
-                  <v-text-field
-                    label="Nachname"
-                    v-model="Nachname"
-                    :rules="rules.NormalRules"
-                    hide-details="auto"
-                  />
-                </v-col>
-              </v-row>
-              <!--Email Input-->
-              <v-row class="justify-center">
-                <v-col md="9">
-                  <v-text-field
-                    label="E-Mail"
-                    v-model="Email"
-                    :rules="rules.EmailRules"
-                    hide-details="auto"
-                  />
-                </v-col>
-              </v-row>
-              <!--Passwort-->
-              <v-row class="justify-center">
-                <v-col md="4">
-                  <v-text-field
-                    :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="rules.NormalRules"
-                    :type="showPasswordInput ? 'text' : 'password'"
-                    label="Passwort"
-                    v-model="Passwort1"
-                    @click:append="showPasswordInput = !showPasswordInput"
-                  />
-                </v-col>
-                <v-col md="1"></v-col>
-                <v-col md="4"
-                  ><v-text-field
-                    :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="rules.NormalRules"
-                    :type="showPasswordInput ? 'text' : 'password'"
-                    label="Passwort"
-                    v-model="Passwort2"
-                    @click:append="showPasswordInput = !showPasswordInput"
-                  />
-                </v-col>
-              </v-row>
-              <!--Adresse-->
-              <v-row class="justify-center">
-                <v-col md="4">
-                  <v-text-field
-                    label="Straße + Hausnr"
-                    v-model="Strasse"
-                    :rules="rules.NormalRules"
-                    hide-details="auto"
-                  />
-                </v-col>
-                <v-col md="1">
-                  <v-text-field
-                    label="PLZ"
-                    v-model="Plz"
-                    :rules="rules.NormalRules"
-                    hide-details="auto"
-                  />
-                </v-col>
-                <v-col md="4">
-                  <v-text-field
-                    label="Ort"
-                    v-model="Ort"
-                    :rules="rules.NormalRules"
-                    hide-details="auto"
-                  />
-                </v-col>
-              </v-row>
-              <!--Submit-Bttn-->
-              <v-row>
-                <v-col md="5"></v-col>
-                <v-col md="2">
-                  <v-btn @click="Submitted">
-                    Register
-                  </v-btn>
-                </v-col>
-                <v-col md="5"></v-col>
-              </v-row>
-            </v-col>
-            <v-col md="1"></v-col>
-          </v-row>
+
+          <v-col>
+            <!--MeinSpalte wo Inputs liegen-->
+            <v-row class="justify-center">
+              <v-col md="4">
+                <v-text-field
+                  label="Vorname"
+                  v-model="Vorname"
+                  :rules="rules.NormalRules"
+                  hide-details="auto"
+                  min="1"
+                  required
+                />
+              </v-col>
+
+              <v-col md="4">
+                <v-text-field
+                  label="Nachname"
+                  v-model="Nachname"
+                  :rules="rules.NormalRules"
+                  hide-details="auto"
+                  required
+                />
+              </v-col>
+            </v-row>
+            <!--Email Input-->
+            <v-row class="justify-center">
+              <v-col md="8">
+                <v-text-field
+                  label="E-Mail"
+                  v-model="Email"
+                  :rules="rules.EmailRules"
+                  hide-details="auto"
+                  required
+                />
+              </v-col>
+            </v-row>
+            <!--Passwort-->
+            <v-row class="justify-center">
+              <v-col md="4">
+                <v-text-field
+                  :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
+                  :rules="rules.NormalRules"
+                  :type="showPasswordInput ? 'text' : 'password'"
+                  label="Passwort"
+                  v-model="Passwort1"
+                  @click:append="showPasswordInput = !showPasswordInput"
+                  required
+                />
+              </v-col>
+
+              <v-col md="4"
+                ><v-text-field
+                  :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
+                  :rules="rules.NormalRules"
+                  :type="showPasswordInput ? 'text' : 'password'"
+                  label="Passwort"
+                  v-model="Passwort2"
+                  @click:append="showPasswordInput = !showPasswordInput"
+                  required
+                />
+              </v-col>
+            </v-row>
+            <!--Adresse-->
+            <v-row class="justify-center">
+              <v-col md="3">
+                <v-text-field
+                  label="Straße + Hausnr"
+                  v-model="Strasse"
+                  :rules="rules.NormalRules"
+                  hide-details="auto"
+                  required
+                />
+              </v-col>
+              <v-col md="2">
+                <v-text-field
+                  label="PLZ"
+                  v-model="Plz"
+                  :rules="rules.NormalRules"
+                  hide-details="auto"
+                  required
+                />
+              </v-col>
+              <v-col md="3">
+                <v-text-field
+                  label="Ort"
+                  v-model="Ort"
+                  :rules="rules.NormalRules"
+                  hide-details="auto"
+                  required
+                />
+              </v-col>
+            </v-row>
+            <!--Submit-Bttn-->
+            <v-row class="justify-center" style="margin-top:2rem">
+              <v-btn @click="Submitted">
+                Register
+              </v-btn>
+            </v-row>
+          </v-col>
         </v-container>
       </v-form>
+
+      <br />
+      <br />
+
       <br />
       <br />
       <router-link class="black--text text-decoration-none" :to="{ name: 'Login' }"
         ><p class="black--text text-center">
-          Wenn sie bereits einen Account haben, können Sie sich hier anmelden: <span class="orange--text text--darken-2">Login</span>
+          Wenn sie bereits einen Account haben, können Sie sich hier anmelden:
+          <span class="orange--text text--darken-2">Login</span>
         </p>
       </router-link>
     </div>
@@ -266,7 +263,7 @@ export default {
 
     async Submitted() {
       //Beide Passwörter vergleichen
-      if (this.Passwort1 == this.Passwort2) {
+      if (this.Passwort1 == this.Passwort2 && this.$refs.form.validate()) {
         // Auth-Code bekommen
         const { data: code } = await axios.post('http://localhost:2410/SendCode', {
           Vorname: this.Vorname,

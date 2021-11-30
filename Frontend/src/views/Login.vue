@@ -3,33 +3,25 @@
     <!--Passwort vergessen-->
     <div v-if="showPasswortVergessen" class="PasswortVergessenDiv">
       <!--Auth-Code überprüfung-->
-      <h1 style="text-align:center;">
+      <p style="text-align:center; font-size: 0.9rem;">
         Geben Sie Ihre Email von ihrem Account ein, damit wir Ihnen ein neues Passwort schicken
         können.
-      </h1>
+      </p>
       <v-form :disable="showPasswortVergessen">
         <v-container>
-          <v-row>
-            <v-col md="2"></v-col>
-            <v-col md="10"
-              ><v-text-field
-                style="width: 80%"
-                type="text"
-                v-model="inputPW"
-                :rules="rules.EmailRules"
-              ></v-text-field>
-            </v-col>
-            <v-col></v-col>
+          <v-row class="justify-center">
+            <v-text-field
+              style="width: 80%"
+              type="text"
+              v-model="inputPW"
+              :rules="rules.EmailRules"
+            ></v-text-field>
           </v-row>
 
-          <v-row>
-            <v-col></v-col>
-            <v-col>
-              <v-btn color="#424242" dark @click="sendNewPW">
-                Senden
-              </v-btn>
-            </v-col>
-            <v-col></v-col>
+          <v-row class="justify-center">
+            <v-btn color="#424242" dark @click="sendNewPW">
+              Senden
+            </v-btn>
           </v-row>
         </v-container>
       </v-form>
@@ -39,14 +31,12 @@
     <div v-bind:class="showPasswortVergessen ? 'BackgroundUnscharf' : 'BackgroundScharf'">
       <h1 class="black--text text-center">Login</h1>
 
-      <v-form ref="submit" lazy-validation :disabled="showPasswortVergessen">
+      <v-form ref="form" :disabled="showPasswortVergessen">
         <v-container>
           <v-row class="justify-center">
-            <v-col md="1"></v-col>
-            <v-col md="10">
+            <v-col xs="10" style="margin: 3% 20%;">
               <!--Email-->
               <v-row>
-                <v-col sm="3"></v-col>
                 <v-col>
                   <v-text-field
                     v-model="email"
@@ -56,18 +46,17 @@
                     :rules="rules.EmailRules"
                   ></v-text-field>
                 </v-col>
-                <v-col sm="3"></v-col>
               </v-row>
               <!--Passwort-->
               <v-row>
-                <v-col sm="3"></v-col>
                 <v-col>
                   <v-text-field
                     v-model="password"
-                    :append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="showPasswordInput ? 'xsi-eye' : 'xsi-eye-off'"
                     :rules="rules.required"
                     :type="showPasswordInput ? 'text' : 'password'"
                     label="Passwort"
+                    required
                     @click:append="showPasswordInput = !showPasswordInput"
                     :tabindex="-1"
                   ></v-text-field>
@@ -75,34 +64,28 @@
                     class="orange--text text--darken-2 text-decoration-underline"
                     @click="showPasswortVergessen = true"
                   >
-                    Passwort vergessen ?
+                    Passwort vergessen
                   </p>
                 </v-col>
-                <v-col sm="3"></v-col>
               </v-row>
               <!--Submit-->
-              <v-row>
-                <v-col sm="5"></v-col>
-                <v-col sm="1">
-                  <v-btn type="submit" @click="submit">Einloggen</v-btn>
-                </v-col>
-                <v-col sm="3"></v-col>
+              <v-row class="justify-center">
+                <v-btn type="submit" @click="submit">Einloggen</v-btn>
               </v-row>
 
               <!--Register weiterleiten-->
               <br />
               <br />
               <v-row>
-                <v-col md="3"></v-col>
-                <v-col md="3">
+                <v-col xs="3"></v-col>
+                <v-col xs="3">
                   <router-link class="black--text text-decoration-none" :to="{ name: 'Register' }"
                     ><p>Zurück zum <span class="orange--text text--darken-2">Registrieren</span></p>
                   </router-link>
                 </v-col>
-                <v-col md="10"></v-col>
+                <v-col xs="10"></v-col>
               </v-row>
             </v-col>
-            <v-col md="1"></v-col>
           </v-row>
         </v-container>
       </v-form>
@@ -147,20 +130,22 @@ export default {
     },
 
     async submit() {
-      //Anfrage auf den Server, um sich einzuloggen
-      let res = await axios.post('http://localhost:2410/KundenLogin', {
-        Email: this.email,
-        Passwort: this.password,
-      });
+      if (this.$refs.form.validate()) {
+        //Anfrage auf den Server, um sich einzuloggen
+        let res = await axios.post('http://localhost:2410/KundenLogin', {
+          Email: this.email,
+          Passwort: this.password,
+        });
 
-      //Inputs leeren
-      this.ClearInputs();
-      //Eingeloggten Kunden setzen (LocalStorage & Store)
-      await localStorage.setItem('LoggedInKunde', JSON.stringify(res.data.FoundUser));
-      await localStorage.setItem('EverReg', true);
-      this.$store.dispatch('LoginKunde', res.data.FoundUser);
-      //Zur Account seite weiterleiten, die alles dann Managed
-      this.$router.push('account');
+        //Inputs leeren
+        this.ClearInputs();
+        //Eingeloggten Kunden setzen (LocalStorage & Store)
+        await localStorage.setItem('LoggedInKunde', JSON.stringify(res.data.FoundUser));
+        await localStorage.setItem('EverReg', true);
+        this.$store.dispatch('LoginKunde', res.data.FoundUser);
+        //Zur Account seite weiterleiten, die alles dann Managed
+        this.$router.push('account');
+      }
     },
   },
 };

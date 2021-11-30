@@ -20,13 +20,7 @@
     <br />
     <h4 class="text-center">Ihre bisherigen Bestellungen:</h4>
     <v-container v-if="items.lenght != 0">
-      <v-data-table
-        dark
-        :headers="headers"
-        :items="changeDaten"
-        :items-per-page="5"
-        class="elevation-1"
-      >
+      <v-data-table :headers="headers" :items="changeDaten" :items-per-page="5" class="elevation-1">
         <!-- eslint-disable-next-line vue/valid-v-slot -->
         <template v-slot:body.append="{ headers }">
           <tr>
@@ -50,11 +44,11 @@ export default {
     return {
       aktiverUser: {},
       headers: [
-        { text: 'Name des Artikels', value: 'Name', class: 'cyan--text' },
-        { text: 'Preis des Artikels (in EUR) ', value: 'Preis', class: 'cyan--text' },
-        { text: 'Anzahl des Produkts', value: 'Anzahl', class: 'cyan--text' },
-        { text: 'Bestell ID', value: 'bestell_ID', class: 'orange--text text--darken-2' },
-        { text: 'Datum der Bestellung', value: 'Datum', class: 'orange--text text--darken-2' },
+        { text: 'Name des Artikels', value: 'Name' },
+        { text: 'Preis des Artikels (in EUR) ', value: 'Preis' },
+        { text: 'Anzahl des Produkts', value: 'Anzahl' },
+        { text: 'Bestell ID', value: 'bestell_ID' },
+        { text: 'Datum der Bestellung', value: 'Datum' },
       ],
       items: [],
       summe: 0,
