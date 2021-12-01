@@ -20,7 +20,12 @@
     <br />
     <h4 class="text-center">Ihre bisherigen Bestellungen:</h4>
     <v-container v-if="items.lenght != 0">
-      <v-data-table :headers="headers" :items="changeDaten" :items-per-page="5" class="elevation-1">
+      <v-data-table
+        :headers="headers"
+        :items="changeDaten"
+        :items-per-page="5"
+        class="elevation-1"
+      >
         <!-- eslint-disable-next-line vue/valid-v-slot -->
         <template v-slot:body.append="{ headers }">
           <tr>
@@ -42,13 +47,14 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      serverAdress: process.env.VUE_APP_SERVER_ADRESS, 
       aktiverUser: {},
       headers: [
-        { text: 'Name des Artikels', value: 'Name' },
-        { text: 'Preis des Artikels (in EUR) ', value: 'Preis' },
-        { text: 'Anzahl des Produkts', value: 'Anzahl' },
-        { text: 'Bestell ID', value: 'bestell_ID' },
-        { text: 'Datum der Bestellung', value: 'Datum' },
+        { text: 'Name des Artikels', value: 'Name', class: 'cyan--text' },
+        { text: 'Preis des Artikels (in EUR) ', value: 'Preis', class: 'cyan--text' },
+        { text: 'Anzahl des Produkts', value: 'Anzahl', class: 'cyan--text' },
+        { text: 'Bestell ID', value: 'bestell_ID', class: 'orange--text text--darken-2' },
+        { text: 'Datum der Bestellung', value: 'Datum', class: 'orange--text text--darken-2' },
       ],
       items: [],
       summe: 0,
@@ -65,7 +71,7 @@ export default {
       console.log(this.aktiverUser);
 
       //Daten von DB holen (Bestellhistorie)
-      const post = await axios.post('http://localhost:2410/getOrders', {
+      const post = await axios.post(`${this.serverAdress}/getOrders`, {
         KundenID: this.aktiverUser.Kunden_ID,
       });
       this.items = post.data;
@@ -102,7 +108,7 @@ export default {
     async abmelden() {
       console.log('Abmelden clicked');
       //Server abmeldung holen
-      await axios.get('http://localhost:2410/KundeLogout');
+      await axios.get(`${this.serverAdress}/KundeLogout`);
       //Eingeloggten aus Localstorage & Store entfernen
       localStorage.removeItem('LoggedInKunde');
       this.$store.dispatch('LogoutKunde');

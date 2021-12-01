@@ -114,6 +114,7 @@ export default {
 	},
 	data() {
 		return {
+			serverAdress: process.env.VUE_APP_SERVER_ADRESS, 
 			produkte: [],
 			kategorien: this.$store.state.Kategorien, 
 			bewertung: [1, 2, 3, 4, 5], 
@@ -184,7 +185,7 @@ export default {
 				this.editedIndex = -1;
 			});
 
-			const res = await axios.post('http://localhost:2410/DeleteProduct', this.editedItem);
+			const res = await axios.post(`${this.serverAdress}/DeleteProduct`, this.editedItem);
 		},
 
 		async save() {
@@ -192,14 +193,14 @@ export default {
 				Object.assign(this.produkte[this.editedIndex], this.editedItem);
 				// Todo axios Update
 				const res = await axios.post(
-					'http://localhost:2410/UpdateProduct',
+					`${serverAdress}/UpdateProduct`,
 					this.produkte[this.editedIndex],
 				);
 			} else {
 				console.log('else');
 				this.produkte.push(this.editedItem);
 				//Todo Axios Add
-				const res = await axios.post('http://localhost:2410/AddProduct', this.editedItem);
+				const res = await axios.post(`${this.serverAdress}/AddProduct`, this.editedItem);
 			}
 			this.close();
 		},

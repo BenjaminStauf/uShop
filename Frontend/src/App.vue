@@ -52,6 +52,7 @@ export default {
       colorBasket: 'white--text',
     };
   },
+  
   methods: {
     clickHome() {
       if (this.colorHome == 'white--text') {

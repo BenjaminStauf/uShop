@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       Summe_warenkorb: 0,
-
+      serverAdress: process.env.VUE_APP_SERVER_ADRESS, 
       Basket: [],
 
       AnzahlImwarenkorb:
@@ -125,8 +125,8 @@ export default {
       };
 
       //Warenkorb an Backend schicken
-      const resPay = await axios.post('http://localhost:2410/pay', sendPay);
-      const resAddOrder = await axios.post('http://localhost:2410/addOrder', sendPay);
+      const resPay = await axios.post(`${this.serverAdress}/pay`, sendPay);
+      const resAddOrder = await axios.post(`${this.serverAdress}/addOrder`, sendPay);
     },
   },
 };
