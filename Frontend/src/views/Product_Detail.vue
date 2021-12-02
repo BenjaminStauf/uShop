@@ -4,11 +4,11 @@
 			<v-col cols="8">
 				<v-row class="justify-center mt-6">
 					<!--3D-MODELRENDERER-->
-					<model-gltf
+					<!-- <model-gltf
 						@on-load="geladen"
 						:background-color="background3D"
 						:src="Link3D"
-					></model-gltf>
+					></model-gltf> -->
 
 					<vue-element-loading :active="showSpinner">
 						<img src="../../public/spinner.gif" width="55px" height="55px" />
