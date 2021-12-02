@@ -193,7 +193,7 @@ export default {
 				Object.assign(this.produkte[this.editedIndex], this.editedItem);
 				// Todo axios Update
 				const res = await axios.post(
-					`${serverAdress}/UpdateProduct`,
+					`${this.serverAdress}/UpdateProduct`,
 					this.produkte[this.editedIndex],
 				);
 			} else {
