@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "json": "json-server --watch products.json", 
+    "json": "json-server --watch products.json",
     "start": "http-server ./dist"
   },
   "dependencies": {
