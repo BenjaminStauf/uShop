@@ -484,7 +484,7 @@ router.post('/pay', (req, res) => {
   });
 
   console.log(`Summe: ${summe.toFixed(2)}`);
-  console.log(bezahlenItem);
+  
   //JSON zahlung erstellen
   const create_payment_json = {
     intent: 'sale',

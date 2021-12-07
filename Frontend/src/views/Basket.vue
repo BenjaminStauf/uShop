@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       Summe_warenkorb: 0,
-      serverAdress: process.env.VUE_APP_SERVER_ADRESS, 
+      serverAdress: process.env.VUE_APP_SERVER_ADRESS,
       Basket: [],
 
       AnzahlImwarenkorb:
@@ -81,8 +81,8 @@ export default {
 
     //Bezahlenbutten setzen, wenn sich der User eingloggt hat
     this.$store.state.aktiverUser != null
-      ? this.buttonZahlenDisabled = false
-      : this.buttonZahlenDisabled = true
+      ? (this.buttonZahlenDisabled = false)
+      : (this.buttonZahlenDisabled = true);
   },
 
   methods: {
@@ -125,12 +125,21 @@ export default {
       };
 
       //Warenkorb an Backend schicken
-      const resPay = await axios.post(`${this.serverAdress}/pay`, sendPay);
-      const resAddOrder = await axios.post(`${this.serverAdress}/addOrder`, sendPay);
+      // const resPay = await axios.post(`${this.serverAdress}/pay`, sendPay);
+      // console.log('Sendpay-Res: ' + resPay.status);
 
-      //Wenn Bestellung erolgreich Warenkorb leeren
-      if(resAddOrder.status == 200){
-        
+      // const resAddOrder = await axios.post(`${this.serverAdress}/addOrder`, sendPay);
+      // console.log('ResAddOrder-Res: ' + resAddOrder.status);
+
+      //Wenn Bestellung erolgreich Warenkorb leeren --> WEGEN PAYPAL GEHT DAS NUR NICHT!!!!
+      if (resAddOrder.status == 200) {
+        //Löschmeldung
+        alert('Warenkorb wird nach dem Kaufen gelöscht');
+        //Warenkorb des Users löschen
+        this.$store.dispatch('ClearBasketAfterBuy');
+
+        //Fertig-Meldung
+        alert('Fertig den Warenkorb bearbeitet!');
       }
     },
   },
