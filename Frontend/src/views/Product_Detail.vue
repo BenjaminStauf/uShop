@@ -1,5 +1,5 @@
 <template>
-  <v-container style="background: yellow;">
+  <v-container>
     <v-row>
       <!--3D-Modellanzeige-->
       <v-col cols="12" xs="12" md="7">
