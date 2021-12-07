@@ -127,6 +127,11 @@ export default {
       //Warenkorb an Backend schicken
       const resPay = await axios.post(`${this.serverAdress}/pay`, sendPay);
       const resAddOrder = await axios.post(`${this.serverAdress}/addOrder`, sendPay);
+
+      //Wenn Bestellung erolgreich Warenkorb leeren
+      if(resAddOrder.status == 200){
+        
+      }
     },
   },
 };
