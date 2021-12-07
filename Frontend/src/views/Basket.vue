@@ -125,11 +125,11 @@ export default {
       };
 
       //Warenkorb an Backend schicken
-      // const resPay = await axios.post(`${this.serverAdress}/pay`, sendPay);
-      // console.log('Sendpay-Res: ' + resPay.status);
+      const resPay = await axios.post(`${this.serverAdress}/pay`, sendPay);
+      console.log('Sendpay-Res: ' + resPay.status);
 
-      // const resAddOrder = await axios.post(`${this.serverAdress}/addOrder`, sendPay);
-      // console.log('ResAddOrder-Res: ' + resAddOrder.status);
+      const resAddOrder = await axios.post(`${this.serverAdress}/addOrder`, sendPay);
+      console.log('ResAddOrder-Res: ' + resAddOrder.status);
 
       //Wenn Bestellung erolgreich Warenkorb leeren --> WEGEN PAYPAL GEHT DAS NUR NICHT!!!!
       if (resAddOrder.status == 200) {
