@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto my-12" max-width="350" height="530" >
+  <v-card class="mx-2 my-12 " max-width="350" height="530" >
     <div class="grey darken-1">
       <v-img contain max-height="250" height="250" width="auto" :src="Produkt.LinkImage"></v-img>
     </div>
