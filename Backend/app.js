@@ -16,8 +16,8 @@ app.use(helmet());
 app.use(express.json());
 //Cors chillt in der Middleware
 app.use(cors());
-app.use(express.urlencoded({extended: false}));
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 //Express-Session
 app.use(
 	expressSession({

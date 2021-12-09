@@ -265,14 +265,18 @@ router.post('/KundenLogin', (req, res) => {
 	//User vergleichen und Cookie setzen
 	let QueryStr =
 		'SELECT Kunden_ID, Vorname, Nachname, Email, Passwort, StrasseHsnr, Ort, Plz, IsAdmin FROM kunden_tbl WHERE Email LIKE ? && Passwort LIKE ? GROUP BY Kunden_ID, Vorname, Nachname, Email, Passwort, StrasseHsnr, Ort, Plz, IsAdmin;';
-	let Found = DBconnection.query(QueryStr, [Email, Passwort], (error, results) => {
+	DBconnection.query(QueryStr, [Email, Passwort], (error, results) => {
 		if (!error) {
-			let FoundUser = results[0];
+			if (results.length > 0) {
+				let FoundUser = results[0];
 
-			//   Cookie anlegen
-			req.session.User = FoundUser;
-			res.status(200).json({ FoundUser });
-			return FoundUser;
+				//   Cookie anlegen
+				req.session.User = FoundUser;
+				res.status(200).json({ FoundUser });
+				return FoundUser;
+			} else {
+				res.status(404).send("Der User ist nicht vorhanden")
+			}
 		}
 	});
 
