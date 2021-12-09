@@ -14,7 +14,7 @@
 							<v-text-field
 								style="width: 100%"
 								type="email"
-								v-model="inputPW"
+								v-model="inputEmail"
 								label="Email"
 								clearable
 								required
@@ -128,7 +128,7 @@ export default {
 			password: '',
 			showPasswordInput: false,
 			showPasswortVergessen: false,
-			inputPW: '',
+			inputEmail: '',
 			validLogin: true,
 			validSendPW: true,
       showUserCorrect: false,
@@ -150,8 +150,8 @@ export default {
 			if (this.$refs.form_PW.validate()) {
 				try {
 					//alert('Click');
-					const res = await axios.post(`${this.serverAdress}/newPW`, { email: this.inputPW });
-					alert(`Email wurde an: ${this.inputPW} gesendet`);
+					const res = await axios.post(`${this.serverAdress}/newPW`, { email: this.inputEmail.toLowerCase() });
+					alert(`Email wurde an: ${this.inputEmail.toLowerCase()} gesendet`);
 					setTimeout(() => (this.showPasswortVergessen = false), 2000);
 				} catch (error) {
 					alert('Leider ist etwas schief gelaufen');

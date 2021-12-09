@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.9e57328c66a822a404b403649261dd89.js"
+  "/precache-manifest.e75e0ee1ae40067b5723edcc4a0b55bc.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "u-shop"});

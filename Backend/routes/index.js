@@ -230,6 +230,7 @@ router.post('/SendCode', (req, res) => {
 			} else console.log(error);
 		},
 	);
+	DatenbankverbindungTrennen(DBconnection);
 });
 
 router.post('/KundeRegister', (req, res) => {
@@ -275,7 +276,7 @@ router.post('/KundenLogin', (req, res) => {
 				res.status(200).json({ FoundUser });
 				return FoundUser;
 			} else {
-				res.status(404).send("Der User ist nicht vorhanden")
+				res.status(404).send('Der User ist nicht vorhanden');
 			}
 		}
 	});
@@ -684,6 +685,7 @@ router.post('/getOrders', (req, res) => {
 			console.log(err);
 		}
 	});
+	DatenbankverbindungTrennen(DBconnection);
 });
 
 router.post('/addOrder', (req, res) => {
@@ -741,6 +743,7 @@ router.post('/addOrder', (req, res) => {
 			);
 		}
 	}, 2000);
+	DatenbankverbindungTrennen(DBconnection);
 });
 //#endregion
 

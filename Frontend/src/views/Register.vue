@@ -19,11 +19,17 @@
 			</div>
 
 			<!--Auth-Code überprüfung-->
-			<p style="text-align:center; width:auto; ">Bitte gib deinen Authenticatorcode ein:</p>
+			<h3 style="text-align:center; width:auto; ">Wir haben dir einen Code per Mail geschickt, gib diesen bitte ein</h3>
 			<v-form>
 				<v-container>
 					<v-row class="justify-center">
-						<v-text-field style="width: 80%" v-model="authenticator" type="text"></v-text-field>
+						<v-text-field
+							style="width: 80%"
+							v-model="authenticator"
+							type="text"
+							required
+							label='Code'
+						></v-text-field>
 					</v-row>
 
 					<v-row class="justify-center">
@@ -57,20 +63,20 @@
 			<h3 class="text-center pt-6">
 				Willkommen, wenn Sie noch kein Konto haben können sie hier kostelos eines erstellen.
 			</h3>
-			<v-form :disabled="showAuthenticator" ref="form">
+
+			<v-form :disabled="showAuthenticator" ref="form_Register" v-model="valid" lazy-validation>
 				<v-container class="d-flex flex-wrap justify-center">
 					<!--Vor-Nachname- Inputs-->
-
 					<v-col>
 						<!--MeinSpalte wo Inputs liegen-->
 						<v-row class="justify-center">
 							<v-col md="4">
 								<v-text-field
+									type="text"
 									label="Vorname"
 									v-model="Vorname"
-									:rules="rules.NormalRules"
-									hide-details="auto"
-									min="1"
+									:rules="rules.required"
+									clearable
 									required
 								/>
 							</v-col>
@@ -79,22 +85,16 @@
 								<v-text-field
 									label="Nachname"
 									v-model="Nachname"
-									:rules="rules.NormalRules"
-									hide-details="auto"
+									:rules="rules.required"
 									required
+									clearable
 								/>
 							</v-col>
 						</v-row>
 						<!--Email Input-->
 						<v-row class="justify-center">
 							<v-col md="8">
-								<v-text-field
-									label="E-Mail"
-									v-model="Email"
-									:rules="rules.EmailRules"
-									hide-details="auto"
-									required
-								/>
+								<v-text-field label="E-Mail" type='mail' v-model="Email" :rules="rules.EmailRules" required clearable/>
 							</v-col>
 						</v-row>
 						<!--Passwort-->
@@ -102,24 +102,26 @@
 							<v-col md="4">
 								<v-text-field
 									:append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
-									:rules="rules.NormalRules"
+									:rules="rules.required"
 									:type="showPasswordInput ? 'text' : 'password'"
 									label="Passwort"
 									v-model="Passwort1"
 									@click:append="showPasswordInput = !showPasswordInput"
 									required
+									clearable
 								/>
 							</v-col>
 
 							<v-col md="4"
 								><v-text-field
 									:append-icon="showPasswordInput ? 'mdi-eye' : 'mdi-eye-off'"
-									:rules="rules.NormalRules"
+									:rules="rules.required"
 									:type="showPasswordInput ? 'text' : 'password'"
 									label="Passwort"
 									v-model="Passwort2"
 									@click:append="showPasswordInput = !showPasswordInput"
 									required
+									clearable
 								/>
 							</v-col>
 						</v-row>
@@ -129,28 +131,16 @@
 								<v-text-field
 									label="Straße + Hausnr"
 									v-model="Strasse"
-									:rules="rules.NormalRules"
-									hide-details="auto"
+									:rules="rules.required"
 									required
+									clearable
 								/>
 							</v-col>
 							<v-col md="2">
-								<v-text-field
-									label="PLZ"
-									v-model="Plz"
-									:rules="rules.NormalRules"
-									hide-details="auto"
-									required
-								/>
+								<v-text-field label="PLZ" v-model="Plz" :rules="rules.PlzRules" required clearable />
 							</v-col>
 							<v-col md="3">
-								<v-text-field
-									label="Ort"
-									v-model="Ort"
-									:rules="rules.NormalRules"
-									hide-details="auto"
-									required
-								/>
+								<v-text-field label="Ort" v-model="Ort" :rules="rules.required" required clearable/>
 							</v-col>
 						</v-row>
 						<!--Submit-Bttn-->
@@ -203,10 +193,12 @@ export default {
 			showAuthenticator: false,
 			showAuthError: false,
 			showEmailInUse: false,
+			valid: true,
 
 			//Anorderungen an die Inputs
 			rules: {
-				NormalRules: [(value) => !!value || 'Required.'],
+				required: [(value) => !!value || 'Required.'],
+				required: [(val) => (val || '').length > 0 || 'This field is required'],
 				EmailRules: [
 					(value) => !!value || 'Required.',
 					(value) => {
@@ -214,6 +206,13 @@ export default {
 						return pattern.test(value) || 'Invalid e-mail.';
 					},
 				],
+				PlzRules: [
+					(value) => !!value || 'Required.',
+					(value) => {
+						const pattern = /^\d{4,5}$/ 
+						return pattern.test(value)
+					}
+				]
 			},
 		};
 	},
@@ -241,7 +240,7 @@ export default {
 				const { data } = await axios.post(`${this.serverAdress}/KundeRegister`, {
 					Vorname: this.Vorname,
 					Nachname: this.Nachname,
-					Email: this.Email,
+					Email: this.Email.toLowerCase(),
 					Passwort: this.Passwort1,
 					Strasse: this.Strasse,
 					Plz: this.Plz,
@@ -263,31 +262,33 @@ export default {
 		},
 
 		async Submitted() {
-			//Beide Passwörter vergleichen
-			if (this.Passwort1 == this.Passwort2) {
-				// Auth-Code bekommen
-				const { data: code } = await axios.post(`${this.serverAdress}/SendCode`, {
-					Vorname: this.Vorname,
-					Nachname: this.Nachname,
-					Email: this.Email,
-				});
+			if (this.$refs.form_Register.validate()) {
+				if (this.Passwort1 == this.Passwort2) {
+					// Auth-Code bekommen
+					const { data: code } = await axios.post(`${this.serverAdress}/SendCode`, {
+						Vorname: this.Vorname,
+						Nachname: this.Nachname,
+						Email: this.Email.toLowerCase(),
+					});
 
-				//Wenn die Email (der Code in dem Fall) nicht vorhanden ist, wird man weitergeleitet
-				if (code != 'vorhanden') {
-					//Falls EmailvorhandenMeldung kommt false setzen
-					this.showEmailInUse = false;
-					//Authcode übergeben
-					this.realAutheticatorCode = code;
+					//Wenn die Email (der Code in dem Fall) nicht vorhanden ist, wird man weitergeleitet
+					if (code != 'vorhanden') {
+						//Falls EmailvorhandenMeldung kommt false setzen
+						this.showEmailInUse = false;
+						//Authcode übergeben
+						this.realAutheticatorCode = code;
 
-					//Authentificator-Mode on
-					this.showAuthenticator = true;
-				} else {
-					//Zeigt die Fehlermeldung an
-					this.showEmailInUse = true;
-					//Email-Input leeren
-					this.Email = '';
+						//Authentificator-Mode on
+						this.showAuthenticator = true;
+					} else {
+						//Zeigt die Fehlermeldung an
+						this.showEmailInUse = true;
+						//Email-Input leeren
+						this.Email = '';
+					}
 				}
 			}
+			//Beide Passwörter vergleichen
 		},
 	},
 };
