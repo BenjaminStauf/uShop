@@ -13,13 +13,9 @@ const hbs = require('nodemailer-express-handlebars');
 const path = require('path');
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
-const stripe = require('stripe')(
-	'sk_test_51K5E05HJNHPOFaeP3zd9MjUjcreK0AeVhXyN4CMISAKp92Z3SpKjj017OTXTxQe9xa4ZFsDi8SNjGzchGvShBzmO00FVPIrcFy',
-);
-const clientSecret = "sk_test_51K5E05HJNHPOFaeP3zd9MjUjcreK0AeVhXyN4CMISAKp92Z3SpKjj017OTXTxQe9xa4ZFsDi8SNjGzchGvShBzmO00FVPIrcFy"
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 const router = express.Router();
-const app = express();
 
 //Nodemailer
 //#region
