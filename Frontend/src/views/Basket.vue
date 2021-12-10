@@ -61,7 +61,7 @@ export default {
 
 			snackbar: false,
 			buttonZahlenDisabled: true,
-			buttonZahlenDisabledImmer: true,
+			buttonZahlenDisabledImmer: false,
 		};
 	},
 
@@ -126,20 +126,21 @@ export default {
 			};
 
 			//Warenkorb an Backend schicken
-			const resPay = await axios.post(`${this.serverAdress}/pay`, sendPay);
-			console.log('Sendpay-Res: ' + resPay.status);
+			//const resPay = await axios.post(`${this.serverAdress}/pay`, sendPay);
+			const resPay = await axios.post(`${this.serverAdress}/payment`, sendPay);
+			console.log(resPay);
 
 			const resAddOrder = await axios.post(`${this.serverAdress}/addOrder`, sendPay);
 			console.log('ResAddOrder-Res: ' + resAddOrder.status);
 
-			//Wenn Bestellung erolgreich Warenkorb leeren --> WEGEN PAYPAL GEHT DAS NUR NICHT!!!!
-			if (resAddOrder.status == 200) {
+			//Wenn Bestellung erolgreich Warenkorb leeren 
+			if (resPay.status == 200) {
 				//Löschmeldung
 				alert('Warenkorb wird nach dem Kaufen gelöscht');
 				//Warenkorb des Users löschen
 				this.$store.dispatch('ClearBasketAfterBuy');
 
-				//Fertig-Meldung
+				// 	//Fertig-Meldung
 				alert('Fertig den Warenkorb bearbeitet!');
 			}
 		},

@@ -13,11 +13,16 @@ const hbs = require('nodemailer-express-handlebars');
 const path = require('path');
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
+const stripe = require('stripe')(
+	'sk_test_51K5E05HJNHPOFaeP3zd9MjUjcreK0AeVhXyN4CMISAKp92Z3SpKjj017OTXTxQe9xa4ZFsDi8SNjGzchGvShBzmO00FVPIrcFy',
+);
+const clientSecret = "sk_test_51K5E05HJNHPOFaeP3zd9MjUjcreK0AeVhXyN4CMISAKp92Z3SpKjj017OTXTxQe9xa4ZFsDi8SNjGzchGvShBzmO00FVPIrcFy"
 
 const router = express.Router();
 const app = express();
 
 //Nodemailer
+//#region
 const oauth2Client = new OAuth2(
 	'674951647718-soho8qm58h7verirgpkbr2rp6bj4ee3j.apps.googleusercontent.com',
 	'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',
@@ -45,6 +50,8 @@ const smtpTransport = nodemailer.createTransport({
 		rejectUnauthorized: false,
 	},
 });
+
+//#endregion
 
 //VARIABLEN:
 let DBconnection;
@@ -464,200 +471,112 @@ function passwortGenerieren() {
 
 //#region PAY
 
-//Item erstellen welches an Paypal uebergeben wird
-bezahlenItem = [];
-
-//Gesammtpreis aufsummieren
-let summe = 0;
-
-//Object welches bei aufrufen von pay mitgeschickt wird
-let bodyObject = null;
-
-router.post('/pay', (req, res) => {
-	bodyObject = req.body;
-
-	const { warenkorb } = req.body;
-
-	//zahlen objekjt erstellen
+router.post('/payment', async (req, res) => {
+	//get Data from the user
+	const { warenkorb, aktiveruser } = req.body;
+	let arr = [];
+	let summe = 0;
 	for (const iterator of warenkorb) {
-		let obj = {
-			name: iterator.Name,
-			//sku: iterator.ID,
-			price: iterator.Preis.toFixed(2),
-			currency: 'EUR',
+		summe += iterator.Preis * iterator.Anzahl;
+		let price_data = {
+			price_data: {
+				currency: 'EUR',
+				product_data: {
+					name: iterator.Name,
+				},
+				unit_amount: iterator.Preis * 100,
+			},
 			quantity: iterator.Anzahl,
 		};
 
-		bezahlenItem.push(obj);
+		arr.push(price_data);
 	}
-
-	//gesmatsumme rechnen
-	for (const iterator of bezahlenItem) {
-		summe += iterator.price * iterator.quantity;
-	}
-	//paypal konfigurieren
-	paypal.configure({
-		mode: 'sandbox',
-		client_id: 'AU4vIfPLLUwv8AQTXs1_rIHlVi3AR7Ky-ipawRjYVD9W2wZNO90og-B8Ie4_8woG8GLUxiY2q2eardpQ',
-		client_secret:
-			'EDGiZ5n_0212_yU84euuekxtqiri7Qmo_VSJAeoneADre6qBxGY5wRazjtaZo4pHiCgsI6OW06ilETqw',
+	//create session
+	const session = await stripe.checkout.sessions.create({
+		payment_method_types: ['card'],
+		line_items: arr,
+		mode: 'payment',
+		success_url: 'https://ushop-htlww.herokuapp.com',
+		cancel_url: 'https://ushop-htlww.herokuapp.com',
 	});
+	console.log(session);
+	open(session.url);
 
-	console.log(`Summe: ${summe.toFixed(2)}`);
-	console.log(bezahlenItem);
-	//JSON zahlung erstellen
-	const create_payment_json = {
-		intent: 'sale',
-		payer: {
-			payment_method: 'paypal',
+	//send MAIL
+	//Configure Handlebar
+	const handlebarOptions = {
+		viewEngine: {
+			extName: '.handlebars',
+			partialsDir: path.resolve(__dirname, 'templateViews'),
+			defaultLayout: false,
 		},
-		redirect_urls: {
-			return_url: 'http://localhost:2410/success',
-			cancel_url: 'http://localhost:8080/#/Basket',
-		},
-		transactions: [
-			{
-				item_list: {
-					items: bezahlenItem,
-				},
-				amount: {
-					currency: 'EUR',
-					total: summe.toFixed(2),
-				},
-				description: 'Zahlbeschreibung!',
-			},
-		],
+		viewPath: path.resolve(__dirname, 'templateViews'),
+		extName: '.handlebars',
 	};
 
-	//zahlung durchfuehren und weiterleiten zu Paypal
-	paypal.payment.create(create_payment_json, (error, payment) => {
-		if (error) {
-			throw error;
-		} else {
-			for (let i = 0; i < payment.links.length; i++) {
-				if (payment.links[i].rel === 'approval_url') {
-					//res.redirect(payment.links[i].href);
-					//res.writeHead(200, { Location: payment.links[i].href + '/' });
-					//res.redirect(200, 'https://www.orf.at');
-					console.log(payment.links[i].href);
-					open(payment.links[i].href);
-				}
-			}
-		}
-	});
-});
+	//smtpTransport soll Handlebars verwenden
+	smtpTransport.use('compile', hbs(handlebarOptions));
 
-router.get('/success', (req, res) => {
-	const payerId = req.query.PayerID;
-	const paymentId = req.query.paymentId;
+	//String bauen
+	//#region
+	let stringAnfang = `<nav style="background-color: gray; height: auto">
+	<!-- <img src="./uShop_Logo.png" alt="Logo" /> -->
+	<!--<img src="./uShop_Logo.svg" alt="Logo" style="height: 15%; width: 15%" /> -->
+</nav>
+<h2 style="text-align: center; padding-top: 2%">Vielen Dank !</h2>
 
-	console.log(req.body);
+<h4 style="text-align: center">Hallo ${aktiveruser.Vorname}  ${aktiveruser.Nachname}</h4>
+<br />
+<p style="text-align: center">
+	Ihre Bestellung wurde soeben aufgenommen und wird schnellstmöglichen für den Versand an Ihre
+	Adresse vorbereitet.
+</p>
+<br />
+<p style="padding-left: 9%">Sie haben bestellt:</p>
+<br />
+<div>
+	<table style="border-collapse: collapse; width: 75%; margin-left: auto; margin-right: auto">
+		<tr>
+			<th style="border: 1px solid #dddddd; text-align: left; padding: 8px">Anzahl</th>
+			<th style="border: 1px solid #dddddd; text-align: left; padding: 8px">Produkt Name</th>
+			<th style="border: 1px solid #dddddd; text-align: left; padding: 8px">Preis</th>
+		</tr>`;
 
-	const execute_payment_json = {
-		payer_id: payerId,
-		transactions: [
-			{
-				amount: {
-					currency: 'EUR',
-					total: summe,
-				},
-			},
-		],
+	let stringDyn = '';
+
+	for (let i = 0; i < warenkorb.length; i++) {
+		stringDyn += `
+	<tr>
+		<td style="border: 1px solid #dddddd; text-align: left; padding: 8px">${warenkorb[i].Anzahl}</td>
+		<td style="border: 1px solid #dddddd; text-align: left; padding: 8px">${warenkorb[i].Name}</td>
+		<td style="border: 1px solid #dddddd; text-align: left; padding: 8px">${warenkorb[i].Preis}€</td>
+	</tr>`;
+	}
+
+	let stringEnd = `</table>
+	</div>
+	<p style="text-align: right; padding-right: 12.5%">GESAMT: ${summe}€</p>`;
+
+	//#endregion
+
+	let stringFertig = stringAnfang + stringDyn + stringEnd;
+
+	//Mail options
+	let mailoptions = {
+		from: 'uShop.HTLWW@gmail.com',
+		to: aktiveruser.Email,
+		subject: 'Ihre Rechnung von uShop',
+		// text: `Hallo ${name}. Sie haben mir diese Nachricht geschickt: ${message}.`,
+		html: stringFertig,
 	};
 
-	// Obtains the transaction details from paypal
-	paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
-		//When error occurs when due to non-existent transaction, throw an error else log the transaction details in the console then send a Success string reposponse to the user.
-		if (error) {
-			console.log(`Error: ${error.response}`);
-			throw error;
-		} else {
-			open('https://ushop-htlww.herokuapp.com/');
-
-			//send MAIL
-			const { aktiveruser, warenkorb } = bodyObject;
-
-			console.log(warenkorb);
-
-			//Configure Handlebar
-			const handlebarOptions = {
-				viewEngine: {
-					extName: '.handlebars',
-					partialsDir: path.resolve(__dirname, 'templateViews'),
-					defaultLayout: false,
-				},
-				viewPath: path.resolve(__dirname, 'templateViews'),
-				extName: '.handlebars',
-			};
-
-			//smtpTransport soll Handlebars verwenden
-			smtpTransport.use('compile', hbs(handlebarOptions));
-
-			//String bauen
-			//#region
-			let stringAnfang = `<nav style="background-color: gray; height: auto">
-			<!-- <img src="./uShop_Logo.png" alt="Logo" /> -->
-			<!--<img src="./uShop_Logo.svg" alt="Logo" style="height: 15%; width: 15%" /> -->
-		</nav>
-		<h2 style="text-align: center; padding-top: 2%">Vielen Dank !</h2>
-
-		<h4 style="text-align: center">Hallo ${aktiveruser.Vorname}  ${aktiveruser.Nachname}</h4>
-		<br />
-		<p style="text-align: center">
-			Ihre Bestellung wurde soeben aufgenommen und wird schnellstmöglichen für den Versand an Ihre
-			Adresse vorbereitet.
-		</p>
-		<br />
-		<p style="padding-left: 9%">Sie haben bestellt:</p>
-		<br />
-		<div>
-			<table style="border-collapse: collapse; width: 75%; margin-left: auto; margin-right: auto">
-				<tr>
-					<th style="border: 1px solid #dddddd; text-align: left; padding: 8px">Anzahl</th>
-					<th style="border: 1px solid #dddddd; text-align: left; padding: 8px">Produkt Name</th>
-					<th style="border: 1px solid #dddddd; text-align: left; padding: 8px">Preis</th>
-				</tr>`;
-
-			let stringDyn = '';
-
-			for (let i = 0; i < warenkorb.length; i++) {
-				stringDyn += `
-			<tr>
-				<td style="border: 1px solid #dddddd; text-align: left; padding: 8px">${warenkorb[i].Anzahl}</td>
-				<td style="border: 1px solid #dddddd; text-align: left; padding: 8px">${warenkorb[i].Name}</td>
-				<td style="border: 1px solid #dddddd; text-align: left; padding: 8px">${warenkorb[i].Preis}€</td>
-			</tr>`;
-			}
-
-			let stringEnd = `</table>
-			</div>
-			<p style="text-align: right; padding-right: 12.5%">GESAMT: ${summe}€</p>`;
-
-			//#endregion
-
-			let stringFertig = stringAnfang + stringDyn + stringEnd;
-
-			//Mail options
-			let mailoptions = {
-				from: 'uShop.HTLWW@gmail.com',
-				to: aktiveruser.Email,
-				subject: 'Ihre Rechnung von uShop',
-				// text: `Hallo ${name}. Sie haben mir diese Nachricht geschickt: ${message}.`,
-				html: stringFertig,
-			};
-
-			//Email senden
-			smtpTransport.sendMail(mailoptions, (error, response) => {
-				error ? console.log(error) : console.log(response);
-				smtpTransport.close();
-			});
-
-			//Variablen clearen
-			bezahlenItem = [];
-			summe = null;
-			bodyObject = null;
-		}
+	//Email senden
+	smtpTransport.sendMail(mailoptions, (error, response) => {
+		error ? console.log(error) : console.log(response);
+		smtpTransport.close();
 	});
+
+	res.status(200).send('Success');
 });
 
 //#endregion
