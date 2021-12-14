@@ -10,6 +10,8 @@ import register from '../views/Register.vue';
 import login from '../views/Login.vue';
 import AdminPanel from '../views/AdminPanel.vue';
 import store from '../store/index';
+import Success from '../views/Success.vue';
+import Cancle from '../views/cancle.vue';
 
 Vue.use(VueRouter);
 
@@ -63,6 +65,16 @@ const routes = [
 			if (store.getters.getAdmin) next();
 			else next('/account');
 		},
+	},
+	{
+		path: '/Success',
+		name: 'Success',
+		component: Success,
+	},
+	{
+		path: '/Cancle',
+		name: 'Cancle',
+		component: Cancle,
 	},
 ];
 
