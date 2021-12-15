@@ -283,7 +283,7 @@ router.post('/KundenLogin', (req, res) => {
 			//Wenn er einen registrierten User mit der Email findet
 			if (results.length > 0) {
 				let FoundUser = results[0];
-
+				console.log(FoundUser);
 				if (bcrypt.compareSync(Passwort, FoundUser.Passwort)) {
 					//   Cookie anlegen
 					req.session.User = FoundUser;
@@ -680,4 +680,30 @@ router.post('/addOrder', (req, res) => {
 });
 //#endregion
 
+//region CHANGE PW
+router.put('/changePW', (req, res) => {
+	const { newPassword, user } = req.body;
+
+	//Datenbankverbindung
+	DBconnection = DatenbankverbindungHerstellen();
+	const str = 'UPDATE kunden_tbl SET Passwort = ? WHERE Email = ?;';
+
+	DBconnection.query(
+		str,
+		[bcrypt.hashSync(newPassword, BcryptHashSalt), user.Email],
+		(err, result, fields) => {
+			if (!err) {
+				console.log('Success');
+				res.status(200).send('Success');
+			} else {
+				console.log(err);
+				res.status(500).send('error');
+			}
+		},
+	);
+
+	DatenbankverbindungTrennen(DBconnection);
+});
+
+// #endregion
 module.exports = router;

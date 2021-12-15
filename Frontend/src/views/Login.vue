@@ -166,6 +166,7 @@ export default {
     async submit() {
       if (this.$refs.form.validate()) {
         try {
+          alert(this.password);
           //Anfrage auf den Server, um sich einzuloggen
           let res = await axios.post(`${this.serverAdress}/KundenLogin`, {
             Email: this.email,
