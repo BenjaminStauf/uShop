@@ -19,17 +19,20 @@
 			</div>
 
 			<!--Auth-Code überprüfung-->
-			<h3 style="text-align:center; width:auto; ">Wir haben dir einen Code per Mail geschickt, gib diesen bitte ein</h3>
+			<h3 style="text-align:center; width:auto; ">
+				Wir haben dir einen Code per Mail geschickt, gib diesen bitte ein
+			</h3>
 			<v-form>
 				<v-container>
 					<v-row class="justify-center">
-						<v-text-field
+						<!-- <v-text-field
 							style="width: 80%"
 							v-model="authenticator"
 							type="text"
 							required
-							label='Code'
-						></v-text-field>
+							label="Code"
+						></v-text-field> -->
+						<v-otp-input length="6" v-model="authenticator" class="my-3"></v-otp-input>
 					</v-row>
 
 					<v-row class="justify-center">
@@ -59,7 +62,7 @@
 			</div>
 
 			<!--Register-Teil-->
-			<h1 class="text-center">Register</h1>
+			<h1 class="text-center mt-3">Register</h1>
 			<h3 class="text-center pt-6">
 				Willkommen, wenn Sie noch kein Konto haben können sie hier kostelos eines erstellen.
 			</h3>
@@ -94,7 +97,14 @@
 						<!--Email Input-->
 						<v-row class="justify-center">
 							<v-col md="8">
-								<v-text-field label="E-Mail" type='mail' v-model="Email" :rules="rules.EmailRules" required clearable/>
+								<v-text-field
+									label="E-Mail"
+									type="mail"
+									v-model="Email"
+									:rules="rules.EmailRules"
+									required
+									clearable
+								/>
 							</v-col>
 						</v-row>
 						<!--Passwort-->
@@ -137,10 +147,22 @@
 								/>
 							</v-col>
 							<v-col md="2">
-								<v-text-field label="PLZ" v-model="Plz" :rules="rules.PlzRules" required clearable />
+								<v-text-field
+									label="PLZ"
+									v-model="Plz"
+									:rules="rules.PlzRules"
+									required
+									clearable
+								/>
 							</v-col>
 							<v-col md="3">
-								<v-text-field label="Ort" v-model="Ort" :rules="rules.required" required clearable/>
+								<v-text-field
+									label="Ort"
+									v-model="Ort"
+									:rules="rules.required"
+									required
+									clearable
+								/>
 							</v-col>
 						</v-row>
 						<!--Submit-Bttn-->
@@ -209,10 +231,10 @@ export default {
 				PlzRules: [
 					(value) => !!value || 'Required.',
 					(value) => {
-						const pattern = /^\d{4,5}$/ 
-						return pattern.test(value)
-					}
-				]
+						const pattern = /^\d{4,5}$/;
+						return pattern.test(value);
+					},
+				],
 			},
 		};
 	},

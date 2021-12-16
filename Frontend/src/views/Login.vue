@@ -48,7 +48,7 @@
         Der User ist leider nicht vorhanden oder die Anmeldedaten sind inkorrekt
       </v-alert>
 
-      <h1 class="black--text text-center">Login</h1>
+      <h1 class="black--text text-center mt-3">Login</h1>
 
       <v-form ref="form" v-model="validLogin" lazy-validation :disabled="showPasswortVergessen">
         <v-container>

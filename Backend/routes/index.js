@@ -605,7 +605,7 @@ router.post('/getOrders', (req, res) => {
   //Datenbankverbindung herstellen
   DBconnection = DatenbankverbindungHerstellen();
 
-  let str = `SELECT Kunden_ID, Kunden_ID, Vorname, Nachname, bestell_ID, Name, Anzahl, Preis, Datum
+  let str = `SELECT Kunden_ID, Kunden_ID, Vorname, Nachname, bestell_ID, Name, Anzahl, Preis, Datum, ProduktID
 	from bestellung_detail
 			 JOIN bestellung b on b.bestell_ID = bestellung_detail.fk_bestell_ID
 			 JOIN kunden_tbl kt on kt.Kunden_ID = b.Kunden_FK
