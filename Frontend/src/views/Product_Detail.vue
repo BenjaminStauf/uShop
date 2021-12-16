@@ -1,5 +1,60 @@
 <template>
 	<v-container>
+		<!-- Bewertung schreiben -->
+		<div v-if="showWriteBewertung">
+			<h2 class="text-center">Schreiben Sie Ihre Bewertung</h2>
+			<v-form ref="form" lazy-validation v-model="valid">
+				<!-- ToDo Form -->
+				<v-container class="d-flex flex-wrap">
+					<v-col>
+						<!--MeinSpalte wo Inputs liegen-->
+						<v-row class="justify-center">
+							<v-col md="5">
+								<v-text-field
+									type="text"
+									label="Titel der Bewertung"
+									v-model="titel"
+									:rules="rules.required"
+									required
+								/>
+							</v-col>
+						</v-row>
+						<v-row class="justify-center">
+							<v-col cols="3">
+								<p class="mt-2 mb-0">Wie viele Sterne wuerden Sie dem Produkt geben ?</p>
+							</v-col>
+
+							<v-col cols="2">
+								<v-input :value="rating" :rules="rules.required">
+									<v-rating
+										v-model="rating"
+										background-color="orange darken-2"
+										color="orange darken-2"
+										:rules="rules.required"
+									></v-rating>
+								</v-input>
+							</v-col>
+						</v-row>
+						<v-row class="justify-center">
+							<v-col cols="5">
+								<v-textarea
+									:rules="rules.required"
+									filled
+									label="Schreiben Sie Ihre Meinung"
+									auto-grow
+									v-model="bewertungText"
+								></v-textarea>
+							</v-col>
+						</v-row>
+						<v-row class="justify-center">
+							<v-btn class="orange darken-2" @click="sendBewertung">Submit</v-btn>
+							<v-btn class="red ml-2" @click="showWriteBewertung = false">Cancle</v-btn>
+						</v-row>
+					</v-col>
+				</v-container>
+			</v-form>
+		</div>
+
 		<v-container v-bind:class="showWriteBewertung ? 'BackgroundUnscharf' : 'BackgroundScharf'">
 			<v-row>
 				<!--3D-Modellanzeige-->
@@ -63,24 +118,23 @@
 			<br />
 
 			<v-divider></v-divider>
-		</v-container>
 
-		<div v-if="showWriteBewertung" class="AuthenticatorDiv">
-			<v-form ref="form" lazy-validation>
-				<!-- ToDo Form -->
-			</v-form>
-		</div>
-
-		<v-container v-bind:class="showWriteBewertung ? 'BackgroundUnscharf' : 'BackgroundScharf'">
 			<!-- Bewertung -->
 			<h2 class="text-center mt-3">Bewertungen</h2>
 			<br />
 
-			<v-row justify="center"
-				><v-btn @click="writeBewertung">Schreiben Sie eine Bewertung</v-btn></v-row
-			>
+			<v-row justify="center">
+				<v-btn @click="writeBewertung">Schreiben Sie eine Bewertung</v-btn>
+			</v-row>
 			<br />
-			<Bewertung />
+			<v-container v-if="bewertungen.length > 0">
+				<v-container v-for="bewertung_DB in bewertungen" :key="bewertung_DB">
+					<Bewertung :bewertung="bewertung_DB" />
+				</v-container>
+			</v-container>
+			<v-container v-else>
+				<h3 class="text-center">Es sind leider noch keine Bewertungen vorhanden</h3>
+			</v-container>
 			<br />
 			<!--Hinweise, wenn man was dem Warenkorb hinzugefügt hat-->
 			<v-snackbar v-model="snackbar" :timeout="timeout" :color="color">{{ text }}</v-snackbar>
@@ -130,6 +184,16 @@ export default {
 			showWriteBewertung: false,
 
 			aktiverUser: {},
+			valid: true,
+
+			titel: '',
+			rating: 0,
+			bewertungText: '',
+			rules: {
+				required: [(value) => !!value || 'Required.'],
+			},
+
+			bewertungen: [],
 		};
 	},
 	methods: {
@@ -147,6 +211,8 @@ export default {
 					console.log(`ProduktID: ${iterator.ProduktID} | andereID: ${this.ID}`);
 					if (iterator.ProduktID == this.ID) {
 						berechtigung = true;
+						//ganz nach oben Scrollen
+						window.scrollTo(0, 0);
 					}
 				}
 
@@ -163,6 +229,27 @@ export default {
 				this.text = 'Sie müssen angemeldet sein um eine Rezension abgeben zu können';
 				this.color = 'red';
 				this.snackbar = true;
+			}
+		},
+		async sendBewertung() {
+			if (this.$refs.form.validate()) {
+				let date = new Date().toISOString().slice(0, 10);
+				let bewertung = {
+					titel: this.titel,
+					bewertung: this.rating,
+					datum: date,
+					text: this.bewertungText,
+					produkt_ID: this.ID,
+				};
+				console.log(bewertung);
+
+				//Daten ans Backend schicken
+				const res = await axios.post(`${this.serverAdress}/writeBewertung`, {
+					user: this.aktiverUser,
+					bewertung: bewertung,
+				});
+
+				this.showWriteBewertung = false;
 			}
 		},
 		geladen() {
@@ -195,7 +282,7 @@ export default {
 			}
 		},
 	},
-	mounted() {
+	async mounted() {
 		this.aktiverUser = JSON.parse(localStorage.getItem('LoggedInKunde'));
 		//console.log(this.showSpinner);
 
@@ -239,6 +326,12 @@ export default {
 		}
 		console.log('Voll Geladen');
 
+		//Bewertungen von dem produkt holen
+		const { data } = await axios.get(`${this.serverAdress}/getBewertung`);
+		this.bewertungen = data.filter((element) => element.fk_Produkt == this.ID);
+
+		console.table(this.bewertungen);
+
 		// this.$nextTick(() => {
 		// 	console.log('Alles Voll Geladen');
 		// });
@@ -252,24 +345,5 @@ export default {
 }
 .showObject {
 	visibility: visible;
-}
-
-.AuthenticatorDiv {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	z-index: 2;
-	width: 30%;
-	height: 15%;
-	background: white;
-	border-radius: 45px;
-	padding-top: 15%;
-}
-
-.BackgroundUnscharf {
-	filter: blur(10px);
-}
-.BackgroundScharf {
-	filter: none;
 }
 </style>
