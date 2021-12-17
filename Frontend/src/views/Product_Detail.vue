@@ -99,12 +99,11 @@
 					<v-rating
 						empty-icon="mdi-star-outline"
 						full-icon="mdi-star"
-						half-icon="$mdiStarHalfFull"
 						length="5"
 						size="32"
 						:value="Bewertung"
 						readonly
-						color="warning"
+						color="orange darken-2"
 						background-color="grey"
 					></v-rating>
 					<br />

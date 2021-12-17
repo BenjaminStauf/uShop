@@ -13,11 +13,12 @@
 					<h3 class="orange--text text--darken-2">{{ bewertung_Obj.bewertung_titel }}</h3>
 					<v-rating
 						:value="bewertung_Obj.bewertung_Sterne"
-						color="amber"
+						color="orange darken-2"
+						background-color="grey"
 						dense
-						half-increments
 						readonly
 						size="14"
+						class="orange--text text-darken-2"
 					></v-rating>
 				</v-card-subtitle>
 
