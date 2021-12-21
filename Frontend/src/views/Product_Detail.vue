@@ -127,7 +127,7 @@
       </v-row>
       <br />
       <v-container v-if="bewertungen.length > 0">
-        <v-container v-for="bewertung_DB in bewertungen" :key="bewertung_DB">
+        <v-container v-for="bewertung_DB in bewertungen" :key="bewertung_DB.ID">
           <Bewertung :bewertung="bewertung_DB" />
         </v-container>
       </v-container>
