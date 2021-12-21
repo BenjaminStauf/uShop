@@ -110,6 +110,7 @@
 <script>
 import axios from 'axios';
 export default {
+  name: "Account",
   data() {
     return {
       serverAdress: process.env.VUE_APP_SERVER_ADRESS,

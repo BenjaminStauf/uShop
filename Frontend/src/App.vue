@@ -5,28 +5,28 @@
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
       <v-spacer></v-spacer>
 
-      <router-link :to="{ name: 'Shop' }" class="text-decoration-none">
-        <v-btn icon @click="clickHome">
-          <v-icon :class="colorHome">mdi-home</v-icon>
+      <router-link :to="{ name: 'Shop' }" class="text-decoration-none" @click="menuClick">
+        <v-btn icon @click="menuClick">
+          <v-icon id="HomeIcon" @click="menuClick">mdi-home</v-icon>
         </v-btn>
       </router-link>
 
       <router-link :to="{ name: 'Account' }" class="text-decoration-none">
-        <v-btn icon>
-          <v-icon :class="colorAccount" @click="clickAccount">mdi-account</v-icon>
+        <v-btn icon @click="menuClick">
+          <v-icon id="AccountIcon" @click="menuClick">mdi-account</v-icon>
         </v-btn>
       </router-link>
 
       <router-link :to="{ name: 'AboutUs' }" class="text-decoration-none">
-        <v-btn icon>
-          <v-icon :class="colorAboutUs" @click="clickAboutUs">mdi-account-group</v-icon>
+        <v-btn icon @click="menuClick">
+          <v-icon id="AboutUsIcon" @click="menuClick">mdi-account-group</v-icon>
         </v-btn>
       </router-link>
 
       <router-link :to="{ name: 'Basket' }" class="text-decoration-none">
-        <v-btn icon>
+        <v-btn icon @click="menuClick">
           <v-badge :value="WarenkorbAnzahl" :content="WarenkorbAnzahl" :v-if="WarenkorbAnzahl > 0">
-            <v-icon :class="colorBasket" @click="clickBasket">mdi-cart-outline</v-icon>
+            <v-icon id="WarenkorbIcon" @click="menuClick">mdi-cart-outline</v-icon>
           </v-badge>
         </v-btn>
       </router-link>
@@ -46,48 +46,81 @@ export default {
   data() {
     return {
       WarenkorbAnzahl: 0,
-      colorHome: 'orange--text text--darken-2',
-      colorAccount: 'white--text',
-      colorAboutUs: 'white--text',
-      colorBasket: 'white--text',
+
+      iconIdListe: ['HomeIcon', 'AccountIcon', 'AboutUsIcon', 'WarenkorbIcon'],
     };
   },
-  
+
   methods: {
-    clickHome() {
-      if (this.colorHome == 'white--text') {
-        this.colorHome = 'orange--text text--darken-2';
-        this.colorAccount = 'white--text';
-        this.colorAboutUs = 'white--text';
-        this.colorBasket = 'white--text';
+    allToNormal() {
+      //Alle per id Umfärben
+      for (let index = 0; index < this.iconIdListe.length; index++) {
+        let el = document.querySelector(`#${this.iconIdListe[index]}`).classList;
+        el.remove('orange--text');
+        el.remove('text--darken-2');
+        el.add('white--text');
       }
     },
-    clickAccount() {
-      if (this.colorAccount == 'white--text') {
-        this.colorHome = 'white--text';
-        this.colorAccount = 'orange--text text--darken-2';
-        this.colorAboutUs = 'white--text';
-        this.colorBasket = 'white--text';
-      }
+
+    toSelected(id) {
+      let elCL = document.querySelector(`#${id}`).classList;
+      elCL.remove('white--text');
+      elCL.add('orange--text');
+      elCL.add('text--darken-2');
     },
-    clickAboutUs() {
-      if (this.colorAboutUs == 'white--text') {
-        this.colorHome = 'white--text';
-        this.colorAccount = 'white--text';
-        this.colorAboutUs = 'orange--text text--darken-2';
-        this.colorBasket = 'white--text';
-      }
-    },
-    clickBasket() {
-      if (this.colorBasket == 'white--text') {
-        this.colorHome = 'white--text';
-        this.colorAccount = 'white--text';
-        this.colorAboutUs = 'white--text';
-        this.colorBasket = 'orange--text text--darken-2';
+
+    menuClick({ target: { id } }) {
+      //Macht alle Knöpfe mal weiß bevor eine Änderung vorgeht
+      this.allToNormal();
+
+      switch (id) {
+        case 'HomeIcon':
+          this.toSelected(id);
+          break;
+        case 'AccountIcon':
+          this.toSelected(id);
+          break;
+        case 'AboutUsIcon':
+          this.toSelected(id);
+          break;
+        case 'WarenkorbIcon':
+          this.toSelected(id);
+          break;
       }
     },
   },
+  mounted() {
+    //WarenkorbBatch aktuallisieren
+    eventBus.$emit('UpdateLocalStorage');
+
+    //Setzt alle Menupunkte mal auf weiß
+    this.allToNormal();
+
+    //Setzt den Start-Menüpunkt
+    switch (this.$route.name) {
+      case 'Shop':
+        this.toSelected('HomeIcon');
+        break;
+      case 'Account':
+        this.toSelected('AccountIcon');
+        break;
+      case 'Login':
+        this.toSelected('AccountIcon');
+        break;
+      case 'Register':
+        this.toSelected('AccountIcon');
+        break;
+      case 'AboutUs':
+        this.toSelected('AboutUsIcon');
+        break;
+      case 'Basket':
+        this.toSelected('WarenkorbIcon');
+        break;
+    }
+  },
+
   created() {
+    //Versucht sich alle wichtigen Daten über den Store zu laden (Prdoukte & Kategorien)
     try {
       this.$store.dispatch('LoadProducts');
     } catch (err) {
@@ -103,17 +136,19 @@ export default {
     //Warenkorb aktuallisieren mit LocalStorage
     this.$store.dispatch('ReloadWarenkorbFromLocalStorage');
 
+    //Warenkorbatch-UpdateFunktion über Eventbus festlegen
     eventBus.$on('UpdateLocalStorage', () => {
-      //Warenkorbanzahl resetten
-      this.WarenkorbAnzahl = 0;
-
       this.WarenkorbAnzahl =
         this.$store.state.AktiverUser != null
           ? this.$store.state.KundeWarenkorb.length
           : this.$store.state.GuestWarenkorb.length;
     });
-
-    this.color = 'orange--text text--darken-2';
   },
 };
 </script>
+
+<style>
+.black {
+  color: orange;
+}
+</style>
