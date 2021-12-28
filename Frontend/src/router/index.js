@@ -16,70 +16,80 @@ import Cancle from '../views/cancle.vue';
 Vue.use(VueRouter);
 
 const routes = [
-	{
-		path: '/',
-		name: 'Shop',
-		component: Shop,
-	},
-	{
-		path: '/Account',
-		name: 'Account',
-		component: Account,
-	},
-	{
-		path: '/Basket',
-		name: 'Basket',
-		component: Basket,
-	},
-	{
-		path: '/Product_Detail',
-		name: 'Product_Detail',
-		component: Product_Detail,
-	},
-	{
-		path: '/aboutUs',
-		name: 'AboutUs',
-		component: aboutUs,
-	},
-	{
-		path: '/register',
-		name: 'Register',
-		component: register,
-	},
-	{
-		path: '/login',
-		name: 'Login',
-		component: login,
-	},
-	{
-		path: '*',
-		name: 'Error',
-		component: ErrorSite,
-	},
-	{
-		path: '/AdminPanel',
-		name: 'AdminPanel',
-		component: AdminPanel,
-		beforeEnter: (to, from, next) => {
-			//Wenn User ein Admin ist, darf er aufs adminpanel zugreifen
-			if (store.getters.getAdmin) next();
-			else next('/account');
-		},
-	},
-	{
-		path: '/Success',
-		name: 'Success',
-		component: Success,
-	},
-	{
-		path: '/Cancle',
-		name: 'Cancle',
-		component: Cancle,
-	},
+  {
+    path: '/',
+    name: 'Shop',
+    component: Shop,
+  },
+  {
+    path: '/Account',
+    name: 'Account',
+    component: Account,
+  },
+  {
+    path: '/Basket',
+    name: 'Basket',
+    component: Basket,
+  },
+  {
+    path: '/Product_Detail',
+    name: 'Product_Detail',
+    component: Product_Detail,
+  },
+  {
+    path: '/aboutUs',
+    name: 'AboutUs',
+    component: aboutUs,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: register,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: login,
+  },
+  {
+    path: '*',
+    name: 'Error',
+    component: ErrorSite,
+  },
+  {
+    path: '/AdminPanel',
+    name: 'AdminPanel',
+    component: AdminPanel,
+    beforeEnter: (to, from, next) => {
+      //Wenn User ein Admin ist, darf er aufs adminpanel zugreifen
+      if (store.getters.getAdmin) next();
+      else next('/account');
+    },
+  },
+  {
+    path: '/Success',
+    name: 'Success',
+    component: Success,
+
+    beforeEnter: (to, from, next) => {
+      if (to.query.allowed === 'true') next();
+      else next('Error');
+    },
+  },
+  {
+    path: '/Cancle',
+    name: 'Cancle',
+    component: Cancle,
+
+    beforeEnter: (to, from, next) => {
+      if (to.query.allowed === 'true') next();
+      else next('Error');
+    },
+  },
 ];
 
 const router = new VueRouter({
-	routes,
+  routes,
 });
 
 export default router;
