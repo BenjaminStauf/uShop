@@ -32,13 +32,7 @@
 							required
 							label="Code"
 						></v-text-field> -->
-            <v-otp-input length="6" v-model="authenticator" class="my-3"></v-otp-input>
-          </v-row>
-
-          <v-row class="justify-center">
-            <v-btn color="#424242" @click="authenticatorClicked" dark>
-              Bestätigen
-            </v-btn>
+            <v-otp-input length="6" class="my-3" @finish="authenticatorClicked"></v-otp-input>
           </v-row>
         </v-container>
       </v-form>
@@ -199,7 +193,6 @@ export default {
     return {
       serverAdress: process.env.VUE_APP_SERVER_ADRESS,
       //Inputvariablen
-      authenticator: '',
       realAutheticatorCode: '',
       Vorname: '',
       Nachname: '',
@@ -257,28 +250,30 @@ export default {
       this.Ort = '';
     },
 
-    async authenticatorClicked() {
-      if (this.realAutheticatorCode === this.authenticator) {
-        // Kunden registrieren
-        const { data } = await axios.post(`${this.serverAdress}/KundeRegister`, {
-          Vorname: this.Vorname,
-          Nachname: this.Nachname,
-          Email: this.Email.toLowerCase(),
-          Passwort: this.Passwort1,
-          Strasse: this.Strasse,
-          Plz: this.Plz,
-          Ort: this.Ort,
-          IsAdmin: false,
-        });
+    async authenticatorClicked(eingabeAuth) {
+      if (this.realAutheticatorCode === eingabeAuth) {
+        setTimeout(async () => {
+          // Kunden registrieren
+          const { data } = await axios.post(`${this.serverAdress}/KundeRegister`, {
+            Vorname: this.Vorname,
+            Nachname: this.Nachname,
+            Email: this.Email.toLowerCase(),
+            Passwort: this.Passwort1,
+            Strasse: this.Strasse,
+            Plz: this.Plz,
+            Ort: this.Ort,
+            IsAdmin: false,
+          });
 
-        //Leert alle Inputs
-        this.ClearInputs();
+          //Leert alle Inputs
+          this.ClearInputs();
 
-        //Authenticator-Mode off
-        this.showAuthenticator = false;
+          //Authenticator-Mode off
+          this.showAuthenticator = false;
 
-        //Wenn fertig zur Login-Seite weiterleiten
-        this.$router.push('Login');
+          //Wenn fertig zur Login-Seite weiterleiten
+          this.$router.push('Login');
+        }, 1000);
       } else {
         this.showAuthError = true;
       }

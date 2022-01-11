@@ -89,7 +89,7 @@
               </v-row>
               <!--Submit-->
               <v-row class="justify-center">
-                <v-btn type="submit" @click="submit">Einloggen</v-btn>
+                <v-btn @click="submit">Einloggen</v-btn>
               </v-row>
 
               <!--Register weiterleiten-->
