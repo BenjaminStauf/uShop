@@ -16,7 +16,7 @@
             bei unserem Webshop. Die dutzende Anzahl an Produkten, wird Sie mit hoher Sicherheit
             begeistern. Unser Webshop führt nur hochwertige Produkte, um Ihnen die besten
             Erfahrungen mit diesen zu garantieren. Außderdem bieten wir eine sichere, einfache und
-            schnelle Zahlung mittels PayPal. Dadurch können wir Ihre Produkte noch am selben Tag der
+            schnelle Zahlung mittels Stripe. Dadurch können wir Ihre Produkte noch am selben Tag der
             Bestellung für den Versand vorbereiten.
           </h3>
 
