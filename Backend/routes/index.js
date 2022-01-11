@@ -681,7 +681,7 @@ router.post('/addOrder', (req, res) => {
 //#endregion
 
 //#region CHANGE PW
-router.put('/changePW', (req, res) => {
+router.post('/changePW', (req, res) => {
   const { newPassword, user } = req.body;
 
   //Datenbankverbindung

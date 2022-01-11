@@ -197,10 +197,12 @@ export default {
       if (this.$refs.form.validate()) {
         //axios Put
         if (this.password == this.password_confirm) {
-          await axios.put(`${this.serverAdress}/changePW`, {
+          const res = await axios.post(`${this.serverAdress}/changePW`, {
             newPassword: this.password,
             user: this.aktiverUser,
           });
+
+          if(res.status == 200) this.show_reset_PW = false
         } else {
           this.showPWCorrect = true;
           this.password = '';
