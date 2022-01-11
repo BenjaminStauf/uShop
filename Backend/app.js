@@ -3,7 +3,7 @@ const morgan = require('morgan');
 // const helmet = require('helmet');
 const path = require('path');
 const cors = require('cors');
-const routes = require('./routes');
+const routes = require('./routes/index');
 const expressSession = require('express-session');
 
 require('dotenv').config();
