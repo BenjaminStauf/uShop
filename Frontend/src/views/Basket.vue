@@ -161,7 +161,6 @@ export default {
       };
 
       //Warenkorb an Backend schicken
-      //const resPay = await axios.post(`${this.serverAdress}/pay`, sendPay);
       const resPay = await axios.post(`${this.serverAdress}/payment`, sendPay);
       console.log(resPay);
 

@@ -214,7 +214,8 @@ const addOrder = (req, res) => {
 	let strGetOrderID = `SELECT bestell_ID from bestellung WHERE SUMME = ? AND Datum = ? AND Kunden_FK = ?; `;
 	DBconnection.query(strGetOrderID, [summe, date, aktiveruser.Kunden_ID], (err, result, fields) => {
 		if (!err) {
-			bestellID = result[0].bestell_ID;
+			let length = result.length;
+			bestellID = result[length - 1].bestell_ID;
 		} else {
 			console.log(err);
 		}
@@ -236,8 +237,11 @@ const addOrder = (req, res) => {
 				},
 			);
 		}
+
+		DatenbankverbindungTrennen(DBconnection);
 	}, 1000);
-	DatenbankverbindungTrennen(DBconnection);
+
+	
 };
 
 //#endregion
