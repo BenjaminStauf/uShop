@@ -137,7 +137,7 @@ export default {
     this.$store.dispatch('ReloadWarenkorbFromLocalStorage');
 
     //Warenkorbatch-UpdateFunktion über Eventbus festlegen
-    eventBus.$on('UpdateLocalStorage', function () {
+    eventBus.$on('UpdateLocalStorage',  () =>  {
       this.WarenkorbAnzahl =
         this.$store.state.AktiverUser != null
           ? this.$store.state.KundeWarenkorb.length
