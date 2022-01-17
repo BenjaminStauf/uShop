@@ -25,7 +25,7 @@
 
       <router-link :to="{ name: 'Basket' }" class="text-decoration-none">
         <v-btn icon @click="menuClick">
-          <v-badge :value="WarenkorbAnzahl" :content="WarenkorbAnzahl" :v-if="WarenkorbAnzahl > 0">
+          <v-badge color="orange darken-2" :value="WarenkorbAnzahl" :content="WarenkorbAnzahl" :v-if="WarenkorbAnzahl > 0">
             <v-icon id="WarenkorbIcon" @click="menuClick">mdi-cart-outline</v-icon>
           </v-badge>
         </v-btn>
