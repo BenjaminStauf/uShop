@@ -119,7 +119,7 @@ const oauth2Client = new OAuth2(
 
 oauth2Client.setCredentials({
 	refresh_token:
-		'1//047E2oS5MHPY-CgYIARAAGAQSNwF-L9IreZIDaYhJZNxHuw6faeiJGkgwCLOZDTO1ImoENkDCtPvtGuwMuEmJ1B7cRLV7ku3C7SM',
+		'1//04ovGHAJDtAogCgYIARAAGAQSNwF-L9IrCe0F1-nEJKDxVh-TZe1XPl-8ooCZh1uGtqJvgZvyqVbb23iDJlMX_Zpy_OWBjCTNnDA',
 });
 const accessToken = oauth2Client.getAccessToken();
 
@@ -131,7 +131,7 @@ const smtpTransport = nodemailer.createTransport({
 		clientId: '674951647718-soho8qm58h7verirgpkbr2rp6bj4ee3j.apps.googleusercontent.com',
 		clientSecret: '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',
 		refreshToken:
-			'1//047E2oS5MHPY-CgYIARAAGAQSNwF-L9IreZIDaYhJZNxHuw6faeiJGkgwCLOZDTO1ImoENkDCtPvtGuwMuEmJ1B7cRLV7ku3C7SM',
+			'1//04ovGHAJDtAogCgYIARAAGAQSNwF-L9IrCe0F1-nEJKDxVh-TZe1XPl-8ooCZh1uGtqJvgZvyqVbb23iDJlMX_Zpy_OWBjCTNnDA',
 		accessToken: accessToken,
 	},
 	tls: {
@@ -140,7 +140,6 @@ const smtpTransport = nodemailer.createTransport({
 });
 
 //#endregion
-
 
 //#region Funktionen
 
