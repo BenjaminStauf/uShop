@@ -143,7 +143,7 @@ export default {
       this.aktiverUser = JSON.parse(localStorage.getItem('LoggedInKunde'));
       //Aktiven User im Store speichern
       this.$store.state.aktiverUser = this.aktiverUser;
-      console.log(this.aktiverUser);
+      // console.log(this.aktiverUser);
 
       //Daten von DB holen (Bestellhistorie)
       const post = await axios.post(`${this.serverAdress}/getOrders`, {
@@ -151,7 +151,7 @@ export default {
       });
       this.items = post.data;
     } else {
-      console.log('Kein Kunde im Localstorage');
+      // console.log('Kein Kunde im Localstorage');
       //Wenn kein Kunde angemeldet ist
       if ((await localStorage.getItem('EverReg')) != undefined) {
         this.$router.push('login');
@@ -181,7 +181,6 @@ export default {
   },
   methods: {
     async abmelden() {
-      console.log('Abmelden clicked');
       //Server abmeldung holen
       await axios.get(`${this.serverAdress}/KundeLogout`);
       //Eingeloggten aus Localstorage & Store entfernen

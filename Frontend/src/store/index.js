@@ -19,7 +19,7 @@ export default new Vuex.Store({
 
     //Speichert Warenkorb im LS
     WarenkorbSpeichern() {
-      console.log('Daten im LocalStorage speichern!');
+      // console.log('Daten im LocalStorage speichern!');
 
       if (this.aktiverUser != null) {
         //Wenn ein Kunde eingeloggt ist
@@ -137,7 +137,7 @@ export default new Vuex.Store({
         state.WarenkorbSpeichern();
       } catch {
         //Wenn der Kunden noch nie was im Warenkorb hatte, und sein LS noch nicht angelegt wurde
-        console.log('LS ist leer');
+        // console.log('LS ist leer');
         //LS setzen
         localStorage.setItem(
           `${state.aktiverUser.Vorname + state.aktiverUser.Nachname}-Warenkorb`,
@@ -159,10 +159,20 @@ export default new Vuex.Store({
       //Wenn es einen User gibt
       if (state.aktiverUser != null) {
         //Wenn es einen eingeloggten User gibt
-        state.KundeWarenkorb.push(payload);
+        let foundItem = state.KundeWarenkorb.find((el) => el.id == payload.id);
+        if (foundItem) {
+          foundItem.Anzahl += payload.Anzahl;
+        } else {
+          state.KundeWarenkorb.push(payload);
+        }
       } else {
-        //Wenn es nur einen Guest gibt
-        state.GuestWarenkorb.push(payload);
+        //Wenn es nur einen Guest gibt & jeweilig in den Warenkorb hinzufügen
+        let foundItem = state.GuestWarenkorb.find((el) => el.id == payload.id);
+        if (foundItem) {
+          foundItem.Anzahl += payload.Anzahl;
+        } else {
+          state.GuestWarenkorb.push(payload);
+        }
       }
 
       //Batch aktuallisieren
@@ -185,7 +195,7 @@ export default new Vuex.Store({
       state.WarenkorbSpeichern();
     },
     reloadWarenkorbFromLocalStorage(state) {
-      console.log('Lade Daten aus dem LocalStorage');
+      // console.log('Lade Daten aus dem LocalStorage');
 
       //Eingeloggten User laden
       state.aktiverUser = JSON.parse(localStorage.getItem('LoggedInKunde'));
@@ -199,7 +209,7 @@ export default new Vuex.Store({
           ) != null
         ) {
           //Ausgabe
-          console.log('KundenwarenKorb aktualisiert');
+          // console.log('KundenwarenKorb aktualisiert');
           //Kundenwarenkorb mit Kundenwarenkorb aus dem LocalStorage befüllen
           state.KundeWarenkorb = JSON.parse(
             localStorage.getItem(
@@ -211,16 +221,14 @@ export default new Vuex.Store({
         //Wenn Kunde als Guest wird überprüft ob es das Item im LocalStorage überhaupt gibt
         if (localStorage.getItem(`Guest-Warenkorb`) != null) {
           //Ausgabe
-          console.log('GuestKorb aktualisiert');
+          // console.log('GuestKorb aktualisiert');
           //Guestwarenkorb mit Guestwarenkorb ausm LocalStorage befüllen
           state.GuestWarenkorb = JSON.parse(localStorage.getItem(`Guest-Warenkorb`));
         }
       }
-
-      console.log('Kundenwarenkorb-Länge: ' + state.KundeWarenkorb.length);
     },
     clearBasketAfterBuy(state) {
-      console.log('State LöschenFunktion');
+      // console.log('State LöschenFunktion');
       //Kundenwarenkorb löschen
       state.KundeWarenkorb = [];
 

@@ -169,17 +169,12 @@
         </v-container>
       </v-form>
 
-      <br />
-      <br />
-
-      <br />
-      <br />
-      <router-link class="black--text text-decoration-none" :to="{ name: 'Login' }"
-        ><p class="black--text text-center">
-          Wenn sie bereits einen Account haben, können Sie sich hier anmelden:
+      <p class="mt-13 black--text text-center">
+        Wenn sie bereits einen Account haben, können Sie sich hier anmelden:
+        <router-link class="black--text text-decoration-none" :to="{ name: 'Login' }">
           <span class="orange--text text--darken-2">Login</span>
-        </p>
-      </router-link>
+        </router-link>
+      </p>
     </div>
   </div>
 </template>

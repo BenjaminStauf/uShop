@@ -25,7 +25,12 @@
 
       <router-link :to="{ name: 'Basket' }" class="text-decoration-none">
         <v-btn icon @click="menuClick">
-          <v-badge color="orange darken-2" :value="WarenkorbAnzahl" :content="WarenkorbAnzahl" :v-if="WarenkorbAnzahl > 0">
+          <v-badge
+            color="orange darken-2"
+            :value="WarenkorbAnzahl"
+            :content="WarenkorbAnzahl"
+            :v-if="WarenkorbAnzahl > 0"
+          >
             <v-icon id="WarenkorbIcon" @click="menuClick">mdi-cart-outline</v-icon>
           </v-badge>
         </v-btn>
@@ -137,11 +142,11 @@ export default {
     this.$store.dispatch('ReloadWarenkorbFromLocalStorage');
 
     //Warenkorbatch-UpdateFunktion über Eventbus festlegen
-    eventBus.$on('UpdateLocalStorage',  () =>  {
+    eventBus.$on('UpdateLocalStorage', () => {
       this.WarenkorbAnzahl =
-        this.$store.state.AktiverUser != null
-          ? this.$store.state.KundeWarenkorb.length
-          : this.$store.state.GuestWarenkorb.length;
+        this.$store.state.aktiverUser == undefined
+          ? this.$store.state.GuestWarenkorb.length
+          : this.$store.state.KundeWarenkorb.length;
     });
   },
 };

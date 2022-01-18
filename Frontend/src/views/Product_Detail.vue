@@ -209,7 +209,7 @@ export default {
 
         //Schauen ob der Kunde das Produkt gekauft hat
         for (const iterator of orders) {
-          console.log(`ProduktID: ${iterator.ProduktID} | andereID: ${this.ID}`);
+          // console.log(`ProduktID: ${iterator.ProduktID} | andereID: ${this.ID}`);
           if (iterator.ProduktID == this.ID) {
             berechtigung = true;
             //ganz nach oben Scrollen
@@ -242,7 +242,7 @@ export default {
           text: this.bewertungText,
           produkt_ID: this.ID,
         };
-        console.log(bewertung);
+        // console.log(bewertung);
 
         //Daten ans Backend schicken
         const res = await axios.post(`${this.serverAdress}/writeBewertung`, {
@@ -325,13 +325,11 @@ export default {
       this.Bewertung = erg.Bewertung;
       this.Anzahl = erg.Anzahl;
     }
-    console.log('Voll Geladen');
+    // console.log('Voll Geladen');
 
     //Bewertungen von dem produkt holen
     const { data } = await axios.get(`${this.serverAdress}/getBewertung`);
     this.bewertungen = data.filter((element) => element.fk_Produkt == this.ID);
-
-    console.table(this.bewertungen);
 
     // this.$nextTick(() => {
     // 	console.log('Alles Voll Geladen');

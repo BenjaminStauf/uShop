@@ -118,8 +118,7 @@ const oauth2Client = new OAuth2(
 );
 
 oauth2Client.setCredentials({
-	refresh_token:
-		'1//04ovGHAJDtAogCgYIARAAGAQSNwF-L9IrCe0F1-nEJKDxVh-TZe1XPl-8ooCZh1uGtqJvgZvyqVbb23iDJlMX_Zpy_OWBjCTNnDA',
+	refresh_token: process.env.REFRESH_TOKEN,
 });
 const accessToken = oauth2Client.getAccessToken();
 
@@ -130,8 +129,7 @@ const smtpTransport = nodemailer.createTransport({
 		user: 'ushop.htlww@gmail.com',
 		clientId: '674951647718-soho8qm58h7verirgpkbr2rp6bj4ee3j.apps.googleusercontent.com',
 		clientSecret: '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',
-		refreshToken:
-			'1//04ovGHAJDtAogCgYIARAAGAQSNwF-L9IrCe0F1-nEJKDxVh-TZe1XPl-8ooCZh1uGtqJvgZvyqVbb23iDJlMX_Zpy_OWBjCTNnDA',
+		refreshToken: process.env.REFRESH_TOKEN,
 		accessToken: accessToken,
 	},
 	tls: {
