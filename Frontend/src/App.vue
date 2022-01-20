@@ -156,4 +156,10 @@ export default {
 .black {
   color: orange;
 }
+
+h1:hover{
+  text-decoration: underline;
+  text-decoration-color: rgb(229, 130, 49);
+  text-decoration-style: solid;
+}
 </style>
