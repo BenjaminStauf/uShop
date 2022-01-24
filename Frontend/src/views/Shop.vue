@@ -22,49 +22,58 @@
 
           <br />
 
-          <!-- Filter Kategorie-->
-          <v-icon class="black--text ml-6" id="kategorieFilter" @click="filterShow = !filterShow"
-            >mdi-filter</v-icon
-          >
-          <label for="kategorieFilter">Kategorie</label>
-          <div align="center" v-if="filterShow">
-            <v-row justify="center">
-              <p v-for="Kategorie in $store.state.Kategorien" :key="Kategorie.KategorieID">
-                <v-checkbox
-                  v-bind:label="Kategorie.KategorieName"
-                  v-bind:value="Kategorie.KategorieName"
-                  v-model="selected"
-                  class=" mx-4"
-                ></v-checkbox>
-              </p>
-            </v-row>
-          </div>
+          <!--Shop-Container-->
+          <div v-if="DatabaseIsWorking">
+            <!-- Filter Kategorie-->
+            <v-icon class="black--text ml-6" id="kategorieFilter" @click="filterShow = !filterShow"
+              >mdi-filter</v-icon
+            >
+            <label for="kategorieFilter">Kategorie</label>
+            <div align="center" v-if="filterShow">
+              <v-row justify="center">
+                <p v-for="Kategorie in $store.state.Kategorien" :key="Kategorie.KategorieID">
+                  <v-checkbox
+                    v-bind:label="Kategorie.KategorieName"
+                    v-bind:value="Kategorie.KategorieName"
+                    v-model="selected"
+                    class=" mx-4"
+                  ></v-checkbox>
+                </p>
+              </v-row>
+            </div>
 
-          <!-- Filter search -->
-          <v-icon class="black--text ml-6" id="nameFilter" @click="searchShow = !searchShow"
-            >mdi-magnify
-          </v-icon>
-          <label for="nameFilter">Name</label>
-          <div class="justify-center" v-if="searchShow">
-            <v-row class="justify-center">
-              <v-col md="6">
-                <v-text-field
-                  label="Suchen"
-                  solo
-                  v-model="pattern"
-                  style="margin-top: 0.4rem"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-          </div>
+            <!-- Filter search -->
+            <v-icon class="black--text ml-6" id="nameFilter" @click="searchShow = !searchShow"
+              >mdi-magnify
+            </v-icon>
+            <label for="nameFilter">Name</label>
+            <div class="justify-center" v-if="searchShow">
+              <v-row class="justify-center">
+                <v-col md="6">
+                  <v-text-field
+                    label="Suchen"
+                    solo
+                    v-model="pattern"
+                    style="margin-top: 0.4rem"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </div>
 
-          <!--Produkte anzeigen-->
-          <div>
-            <div class="d-flex flex-wrap justify-space-around justify-center align-center">
-              <div v-for="produkt in setFilter" :key="produkt.ProduktID">
-                <Card :_productObj="produkt" />
+            <!--Produkte anzeigen-->
+            <div>
+              <div class="d-flex flex-wrap justify-space-around justify-center align-center">
+                <div v-for="produkt in setFilter" :key="produkt.ProduktID">
+                  <Card :_productObj="produkt" />
+                </div>
               </div>
             </div>
+          </div>
+          <!--Container falls keine Datenbank-->
+          <div v-else>
+            <h3 class="text-center">
+              Schade, leider funktioniert etwas mit der Datenbank nicht :(
+            </h3>
           </div>
         </v-col>
       </v-row>
@@ -88,11 +97,8 @@ export default {
       filterShow: false,
       searchShow: false,
       pattern: '',
+      DatabaseIsWorking: true,
     };
-  },
-  methods: {
-    searchFilter() {},
-    kategorieFilter() {},
   },
   created() {
     //Letztes Item aus dem LocalStorage löschen
@@ -125,14 +131,18 @@ export default {
       //   });
 
       //Filter-Vorgang
-      return ProduktArray.filter((Produkt) =>
-        selected.length == 0
-          ? Produkt.Name.toLowerCase().includes(pattern.toLowerCase())
-          : Produkt.Name.toLowerCase().includes(pattern.toLowerCase()) &&
-            selected.includes(Produkt.Kategorie)
-          ? Produkt
-          : console.log('Nix'),
-      );
+      try {
+        return ProduktArray.filter((Produkt) =>
+          selected.length == 0
+            ? Produkt.Name.toLowerCase().includes(pattern.toLowerCase())
+            : Produkt.Name.toLowerCase().includes(pattern.toLowerCase()) &&
+              selected.includes(Produkt.Kategorie)
+            ? Produkt
+            : console.log('Nix'),
+        );
+      } catch {
+        this.DatabaseIsWorking = false;
+      }
     },
   },
 };
